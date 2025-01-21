@@ -1,0 +1,256 @@
+[gd_scene load_steps=8 format=3 uid="uid://brjjat6j8gvna"]
+
+[ext_resource type="Script" uid="uid://dhoqx8lfhmiro" path="res://addons/proton_control_animation/examples/basic_example.gd" id="1_vvvhn"]
+[ext_resource type="Script" uid="uid://b4hvmk8t0qkgu" path="res://addons/proton_control_animation/src/proton_control_animation.gd" id="2_kvx7x"]
+[ext_resource type="Script" uid="uid://bi4omyv2xson" path="res://addons/proton_control_animation/src/animations/scale.gd" id="3_qj711"]
+[ext_resource type="Script" uid="uid://bsufjcw4lsn2a" path="res://addons/proton_control_animation/src/animations/slide.gd" id="4_dkxil"]
+
+[sub_resource type="Resource" id="Resource_dkxil"]
+script = ExtResource("3_qj711")
+from = 2
+from_scale = Vector2(0, 0)
+to = 1
+to_scale = Vector2(0, 0)
+ease = 1
+trans = 10
+duration = 1.0
+metadata/_custom_type_script = ExtResource("3_qj711")
+
+[sub_resource type="Resource" id="Resource_unyg3"]
+script = ExtResource("4_dkxil")
+from = 0
+from_vector = Vector2(0, 0)
+to = 3
+to_vector = Vector2(20, 0)
+ease = 1
+trans = 4
+duration = 0.25
+metadata/_custom_type_script = ExtResource("4_dkxil")
+
+[sub_resource type="Resource" id="Resource_iue33"]
+script = ExtResource("4_dkxil")
+from = 0
+from_vector = Vector2(0, 0)
+to = 1
+to_vector = Vector2(0, 0)
+ease = 1
+trans = 4
+duration = 0.25
+metadata/_custom_type_script = ExtResource("4_dkxil")
+
+[node name="BasicExample" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vvvhn")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -82.5
+offset_right = 167.0
+offset_bottom = 82.5
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="ControlPanel" type="PanelContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/ControlPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ControlPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="MarginContainer/ControlPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Control panel"
+
+[node name="ToggleCenter" type="Button" parent="MarginContainer/ControlPanel/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Center panel"
+
+[node name="ToggleSide" type="Button" parent="MarginContainer/ControlPanel/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Side panel"
+
+[node name="CenterPanel" type="MarginContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -99.0
+offset_top = -171.0
+offset_right = 99.0
+offset_bottom = 171.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(97, 167)
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="ScaleInAnimation" type="Node" parent="CenterPanel" node_paths=PackedStringArray("targets", "sub_animations")]
+script = ExtResource("2_kvx7x")
+targets = [NodePath("..")]
+animation = SubResource("Resource_dkxil")
+sub_animations = [NodePath("../PanelContainer/MarginContainer/VBoxContainer/DummyButton/ScaleInAnimation"), NodePath("../PanelContainer/MarginContainer/VBoxContainer/DummyButton2/ScaleInAnimation"), NodePath("../PanelContainer/MarginContainer/VBoxContainer/DummyButton3/ScaleInAnimation"), NodePath("../PanelContainer/MarginContainer/VBoxContainer/DummyButton4/ScaleInAnimation")]
+run_in_parallel = false
+delay_before_run = 0.5
+delay_between_each = 0.25
+on_show = true
+
+[node name="ButtonsHoverStartAnimation" type="Node" parent="CenterPanel" node_paths=PackedStringArray("targets")]
+script = ExtResource("2_kvx7x")
+targets = [NodePath("../PanelContainer/MarginContainer/VBoxContainer/DummyButton"), NodePath("../PanelContainer/MarginContainer/VBoxContainer/DummyButton2"), NodePath("../PanelContainer/MarginContainer/VBoxContainer/DummyButton3"), NodePath("../PanelContainer/MarginContainer/VBoxContainer/DummyButton4")]
+animation = SubResource("Resource_unyg3")
+duration = 0.18
+on_hover_start = true
+
+[node name="ButtonsHoverEndAnimation" type="Node" parent="CenterPanel" node_paths=PackedStringArray("targets")]
+script = ExtResource("2_kvx7x")
+targets = [NodePath("../PanelContainer/MarginContainer/VBoxContainer/DummyButton"), NodePath("../PanelContainer/MarginContainer/VBoxContainer/DummyButton2"), NodePath("../PanelContainer/MarginContainer/VBoxContainer/DummyButton3"), NodePath("../PanelContainer/MarginContainer/VBoxContainer/DummyButton4")]
+animation = SubResource("Resource_iue33")
+duration = 0.5
+on_hover_stop = true
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterPanel"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterPanel/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterPanel/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="CenterPanel/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Center panel"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="CenterPanel/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="DummyButton" type="Button" parent="CenterPanel/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Dummy button"
+
+[node name="ScaleInAnimation" type="Node" parent="CenterPanel/PanelContainer/MarginContainer/VBoxContainer/DummyButton" node_paths=PackedStringArray("targets")]
+script = ExtResource("2_kvx7x")
+targets = [NodePath("..")]
+animation = SubResource("Resource_dkxil")
+
+[node name="DummyButton2" type="Button" parent="CenterPanel/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Dummy button"
+
+[node name="ScaleInAnimation" type="Node" parent="CenterPanel/PanelContainer/MarginContainer/VBoxContainer/DummyButton2" node_paths=PackedStringArray("targets")]
+script = ExtResource("2_kvx7x")
+targets = [NodePath("..")]
+animation = SubResource("Resource_dkxil")
+
+[node name="DummyButton3" type="Button" parent="CenterPanel/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Dummy button"
+
+[node name="ScaleInAnimation" type="Node" parent="CenterPanel/PanelContainer/MarginContainer/VBoxContainer/DummyButton3" node_paths=PackedStringArray("targets")]
+script = ExtResource("2_kvx7x")
+targets = [NodePath("..")]
+animation = SubResource("Resource_dkxil")
+
+[node name="DummyButton4" type="Button" parent="CenterPanel/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Dummy button"
+
+[node name="ScaleInAnimation" type="Node" parent="CenterPanel/PanelContainer/MarginContainer/VBoxContainer/DummyButton4" node_paths=PackedStringArray("targets")]
+script = ExtResource("2_kvx7x")
+targets = [NodePath("..")]
+animation = SubResource("Resource_dkxil")
+
+[node name="HSeparator2" type="HSeparator" parent="CenterPanel/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CloseButtonCenter" type="Button" parent="CenterPanel/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Close"
+
+[node name="SidePanel" type="MarginContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -148.0
+offset_top = -108.0
+offset_bottom = 108.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="SlideAnimation" type="Node" parent="SidePanel"]
+script = ExtResource("2_kvx7x")
+on_show = true
+
+[node name="PanelContainer" type="PanelContainer" parent="SidePanel"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="SidePanel/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SidePanel/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="SidePanel/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Side panel"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="SidePanel/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Button 1"
+
+[node name="Button2" type="Button" parent="SidePanel/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Button 2"
+
+[node name="HSeparator" type="HSeparator" parent="SidePanel/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CloseButtonCenter" type="Button" parent="SidePanel/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Close"
