@@ -16,18 +16,18 @@ func create_tween(animation: ProtonControlAnimation, target: Control) -> Tween:
 		ScaleType.CURRENT_SCALE:
 			final_scale = target.scale
 		ScaleType.ORIGINAL_SCALE:
-			final_scale = target.get_meta("pca_original_scale", target.scale)
+			final_scale = target.get_meta(ProtonControlAnimation.META_ORIGINAL_SCALE, target.scale)
 		ScaleType.ABSOLUTE_SCALE:
 			final_scale = to_scale
 		ScaleType.RELATIVE_SCALE:
-			final_scale = target.scale * to_scale
+			final_scale = target.get_meta(ProtonControlAnimation.META_ORIGINAL_SCALE, target.scale) * to_scale
 
 	# Set the initial control position
 	match from:
 		ScaleType.CURRENT_SCALE:
 			pass # Nothing to do
 		ScaleType.ORIGINAL_SCALE:
-			target.scale = target.get_meta("pca_original_scale", target.scale)
+			target.scale = target.get_meta(ProtonControlAnimation.META_ORIGINAL_SCALE, target.scale)
 		ScaleType.ABSOLUTE_SCALE:
 			target.scale = from_scale
 		ScaleType.RELATIVE_SCALE:

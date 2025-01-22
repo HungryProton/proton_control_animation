@@ -1,0 +1,92 @@
+[gd_scene load_steps=7 format=3 uid="uid://lgb6hu88xc1f"]
+
+[ext_resource type="Theme" uid="uid://xjn6s723t6oi" path="res://addons/proton_control_animation/examples/misc/example_theme.tres" id="1_2fmxn"]
+[ext_resource type="Script" uid="uid://b4hvmk8t0qkgu" path="res://addons/proton_control_animation/src/proton_control_animation.gd" id="2_jxurd"]
+[ext_resource type="Script" uid="uid://b2b8fo5s01vuu" path="res://addons/proton_control_animation/examples/misc/debug.gd" id="2_w0yj4"]
+[ext_resource type="Script" uid="uid://bsufjcw4lsn2a" path="res://addons/proton_control_animation/src/animations/slide.gd" id="3_jcudn"]
+
+[sub_resource type="Resource" id="Resource_w0yj4"]
+script = ExtResource("3_jcudn")
+from = 3
+from_vector = Vector2(100, 0)
+to = 1
+to_vector = Vector2(0, 0)
+ease = 2
+trans = 2
+default_duration = 0.2
+metadata/_custom_type_script = ExtResource("3_jcudn")
+
+[sub_resource type="Resource" id="Resource_l3q27"]
+script = ExtResource("3_jcudn")
+from = 0
+from_vector = Vector2(0, 0)
+to = 3
+to_vector = Vector2(100, 0)
+ease = 2
+trans = 2
+default_duration = 0.2
+metadata/_custom_type_script = ExtResource("3_jcudn")
+
+[node name="Debug" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_2fmxn")
+script = ExtResource("2_w0yj4")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -51.5
+offset_top = -11.5
+offset_right = 51.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Toggle panel"
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+text = "Panel 1"
+
+[node name="SlideIn" type="Node" parent="VBoxContainer/PanelContainer" node_paths=PackedStringArray("targets")]
+script = ExtResource("2_jxurd")
+targets = [NodePath("..")]
+animation = SubResource("Resource_w0yj4")
+on_show = true
+
+[node name="SlideOut" type="Node" parent="VBoxContainer/PanelContainer" node_paths=PackedStringArray("targets")]
+unique_name_in_owner = true
+script = ExtResource("2_jxurd")
+targets = [NodePath("..")]
+animation = SubResource("Resource_l3q27")
+
+[node name="PanelContainer2" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/PanelContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/PanelContainer2/MarginContainer"]
+layout_mode = 2
+text = "Panel 2"

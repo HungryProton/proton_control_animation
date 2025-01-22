@@ -9,7 +9,7 @@ enum ScaleType {CURRENT_SCALE, ORIGINAL_SCALE, ABSOLUTE_SCALE, RELATIVE_SCALE}
 
 @export var ease: Tween.EaseType = Tween.EASE_IN_OUT
 @export var trans: Tween.TransitionType = Tween.TRANS_QUAD
-@export var duration: float = 1.0
+@export var default_duration: float = 1.0
 
 
 ## Override in child classes
@@ -23,4 +23,4 @@ func create_tween(animation: ProtonControlAnimation, target: Control) -> Tween:
 func get_duration(animation: ProtonControlAnimation) -> float:
 	if animation.duration > 0.0:
 		return animation.duration
-	return duration
+	return default_duration

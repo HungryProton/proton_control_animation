@@ -10,31 +10,38 @@ extends ProtonControlAnimationResource
 
 
 func create_tween(animation: ProtonControlAnimation, target: Control) -> Tween:
+	var property: String = &"position"
+	var original_position: Vector2 = target.get_meta(ProtonControlAnimation.META_ORIGINAL_POSITION, target.position)
+
 	# Set the target position
 	var final_position: Vector2
 	match to:
 		PositionType.CURRENT_POSITION:
-			final_position = target.global_position
+			final_position = target.position
 		PositionType.ORIGINAL_POSITION:
-			final_position = target.get_meta("pca_original_position", target.global_position)
+			final_position = original_position
 		PositionType.GLOBAL_POSITION:
 			final_position = to_vector
+			property = &"global_position"
 		PositionType.LOCAL_OFFSET:
-			final_position = target.global_position + to_vector
+			final_position = original_position + to_vector
 
 	# Set the initial control position
 	match from:
+		PositionType.CURRENT_POSITION:
+			pass # Nothing to do
 		PositionType.ORIGINAL_POSITION:
+			target.position = original_position
+		PositionType.GLOBAL_POSITION:
 			target.global_position = from_vector
 		PositionType.LOCAL_OFFSET:
-			target.position += from_vector
-		# Nothing to do if from == CURRENT_POSITION
+			target.position = original_position + from_vector
 
 	var tween: Tween = animation.create_tween()
 	@warning_ignore_start("return_value_discarded")
 	tween.set_ease(ease)
 	tween.set_trans(trans)
-	tween.tween_property(target, "global_position", final_position, get_duration(animation))
+	tween.tween_property(target, property, final_position, get_duration(animation))
 	@warning_ignore_restore("return_value_discarded")
 
 	return tween
