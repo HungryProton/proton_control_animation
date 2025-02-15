@@ -34,10 +34,10 @@ func create_tween(animation: ProtonControlAnimation, target: Control) -> Tween:
 			target.scale = target.get_meta(ProtonControlAnimation.META_ORIGINAL_SCALE, target.scale) * from_scale
 
 	var tween: Tween = animation.create_tween()
-	@warning_ignore_start("return_value_discarded")
+	#@warning_ignore_start("return_value_discarded")
 	tween.set_ease(easing)
 	tween.set_trans(transition)
 	tween.tween_property(target, "scale", final_scale, get_duration(animation))
-	@warning_ignore_restore("return_value_discarded")
+	#@warning_ignore_restore("return_value_discarded")
 
 	return tween
