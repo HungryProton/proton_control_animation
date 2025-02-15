@@ -24,7 +24,7 @@ func create_tween(animation: ProtonControlAnimation, target: Control) -> Tween:
 			final_position = to_vector
 			property = &"global_position"
 		PositionType.LOCAL_OFFSET:
-			final_position = original_position + to_vector
+			final_position = target.position + to_vector
 
 	# Set the initial control position
 	match from:
@@ -35,7 +35,7 @@ func create_tween(animation: ProtonControlAnimation, target: Control) -> Tween:
 		PositionType.GLOBAL_POSITION:
 			target.global_position = from_vector
 		PositionType.LOCAL_OFFSET:
-			target.position = original_position + from_vector
+			target.position = target.position + from_vector
 
 	var tween: Tween = animation.create_tween()
 	@warning_ignore_start("return_value_discarded")

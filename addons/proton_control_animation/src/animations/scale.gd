@@ -31,7 +31,7 @@ func create_tween(animation: ProtonControlAnimation, target: Control) -> Tween:
 		ScaleType.ABSOLUTE_SCALE:
 			target.scale = from_scale
 		ScaleType.RELATIVE_SCALE:
-			target.scale *= from_scale
+			target.scale = target.get_meta(ProtonControlAnimation.META_ORIGINAL_SCALE, target.scale) * from_scale
 
 	var tween: Tween = animation.create_tween()
 	@warning_ignore_start("return_value_discarded")

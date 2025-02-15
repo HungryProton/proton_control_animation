@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="ProtonControlAnimation"
-config/features=PackedStringArray("4.4", "Forward Plus")
+config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [debug]
@@ -24,3 +24,18 @@ gdscript/warnings/unsafe_method_access=1
 gdscript/warnings/unsafe_cast=1
 gdscript/warnings/unsafe_call_argument=1
 gdscript/warnings/return_value_discarded=1
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/proton_control_animation/plugin.cfg")
+
+[file_customization]
+
+folder_colors={
+"res://tmp/": "gray"
+}
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
