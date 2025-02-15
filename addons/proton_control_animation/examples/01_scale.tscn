@@ -1,0 +1,73 @@
+[gd_scene load_steps=6 format=3 uid="uid://v17fjjrttwj2"]
+
+[ext_resource type="Theme" uid="uid://xjn6s723t6oi" path="res://addons/proton_control_animation/examples/theme/pca_theme.tres" id="1_odwah"]
+[ext_resource type="Script" uid="uid://b4hvmk8t0qkgu" path="res://addons/proton_control_animation/src/proton_control_animation.gd" id="2_4x0ee"]
+[ext_resource type="Script" uid="uid://bi4omyv2xson" path="res://addons/proton_control_animation/src/animations/scale.gd" id="3_wxfa1"]
+
+[sub_resource type="Resource" id="Resource_irfdr"]
+script = ExtResource("3_wxfa1")
+from = 0
+from_scale = Vector2(0, 0)
+to = 2
+to_scale = Vector2(1.4, 1.4)
+easing = 1
+transition = 4
+default_duration = 1.0
+metadata/_custom_type_script = "uid://bi4omyv2xson"
+
+[sub_resource type="Resource" id="Resource_k4ckn"]
+script = ExtResource("3_wxfa1")
+from = 0
+from_scale = Vector2(0, 0)
+to = 2
+to_scale = Vector2(0.8, 0.8)
+easing = 1
+transition = 4
+default_duration = 1.0
+metadata/_custom_type_script = "uid://bi4omyv2xson"
+
+[node name="ScaleExample" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_odwah")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -35.5
+offset_right = 64.0
+offset_bottom = 35.5
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(64, 35)
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="PanelContainer"]
+layout_mode = 2
+text = "Hover me"
+horizontal_alignment = 1
+
+[node name="ScaleUp" type="Node" parent="PanelContainer" node_paths=PackedStringArray("target")]
+script = ExtResource("2_4x0ee")
+target = NodePath("..")
+animation = SubResource("Resource_irfdr")
+duration = 0.3
+on_hover_start = true
+metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
+
+[node name="ScaleDown" type="Node" parent="PanelContainer" node_paths=PackedStringArray("target")]
+script = ExtResource("2_4x0ee")
+target = NodePath("..")
+animation = SubResource("Resource_k4ckn")
+duration = 0.3
+on_hover_stop = true
+metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"

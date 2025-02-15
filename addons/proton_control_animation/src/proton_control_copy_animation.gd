@@ -1,3 +1,4 @@
+@icon("./icons/copy.svg")
 class_name ProtonControlCopyAnimation
 extends Node
 
