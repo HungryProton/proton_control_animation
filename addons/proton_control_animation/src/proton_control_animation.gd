@@ -10,11 +10,13 @@ extends ProtonControlTrigger
 ## while this nodes decides where and when the animation should run.
 
 
+const METADATA_UPDATER := preload("./metadata_updater.gd")
+
 const META_ORIGINAL_POSITION: String = "pca_original_position"
 const META_ORIGINAL_ROTATION: String = "pca_original_rotation"
 const META_ORIGINAL_SCALE: String = "pca_original_scale"
 const META_ANIMATION_IN_PROGRESS: String = "pca_animation_in_progress"
-const META_TRANSFORM_LISTENER: String = "pca_transform_listener"
+const META_HAS_UPDATER: String = "pca_metadata_updater"
 const META_HIDE_ANIMATIONS: String = "pca_hide_animations"
 
 signal animation_started
@@ -35,7 +37,6 @@ signal animation_ended
 
 
 var _tween: Tween
-var _original_data_outdated: bool = false
 var _started: bool = false
 
 
@@ -43,7 +44,7 @@ func _ready() -> void:
 	if not trigger_source:
 		trigger_source = target
 	super()
-	triggered.connect(start)
+	var _err: int = triggered.connect(start)
 
 	if not is_instance_valid(target):
 		return
@@ -53,12 +54,12 @@ func _ready() -> void:
 		list.push_back(self)
 		target.set_meta(META_HIDE_ANIMATIONS, list)
 
-	if target.get_meta(META_TRANSFORM_LISTENER, false):
+	if target.get_meta(META_HAS_UPDATER, false):
 		return
 
-	var listener := ProtonControlAnimationTransformListener.new()
-	target.add_child.call_deferred(listener)
-	target.set_meta(META_TRANSFORM_LISTENER, true)
+	var updater: Node = METADATA_UPDATER.new()
+	target.add_child.call_deferred(updater)
+	target.set_meta(META_HAS_UPDATER, true)
 
 
 func start() -> void:
@@ -119,11 +120,12 @@ static func hide(control: Control) -> void:
 	control.set_meta(ProtonControlTrigger.META_IGNORE_VISIBILITY_TRIGGERS, true)
 	control.show()
 
-	# Start all hide animations affecting the control
+	# Find all animations affecting this control on hide and play them.
+	var array: Array = control.get_meta(META_HIDE_ANIMATIONS, []) # Typed array shenanigans to avoid warnings
 	var hide_animations: Array[ProtonControlAnimation] = []
-	hide_animations.assign(control.get_meta(META_HIDE_ANIMATIONS, []))
-	for animation in hide_animations:
-		animation.start()
+	hide_animations.assign(array)
+	for a: ProtonControlAnimation in hide_animations:
+		a.start()
 
 	# Wait until all animations are complete
 	while not hide_animations.is_empty():

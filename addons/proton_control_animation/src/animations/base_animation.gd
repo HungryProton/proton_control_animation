@@ -7,13 +7,13 @@ extends Resource
 enum PositionType {CURRENT_POSITION, ORIGINAL_POSITION, GLOBAL_POSITION, LOCAL_OFFSET}
 enum ScaleType {CURRENT_SCALE, ORIGINAL_SCALE, ABSOLUTE_SCALE, RELATIVE_SCALE}
 
-@export var ease: Tween.EaseType = Tween.EASE_IN_OUT
-@export var trans: Tween.TransitionType = Tween.TRANS_QUAD
+@export var easing: Tween.EaseType = Tween.EASE_IN_OUT
+@export var transition: Tween.TransitionType = Tween.TRANS_QUAD
 @export var default_duration: float = 1.0
 
 
 ## Override in child classes
-func create_tween(animation: ProtonControlAnimation, target: Control) -> Tween:
+func create_tween(_animation: ProtonControlAnimation, _target: Control) -> Tween:
 	return null
 
 

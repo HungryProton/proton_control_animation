@@ -20,11 +20,12 @@ var _count: int = 0
 
 
 func _ready() -> void:
-	toggle_center.pressed.connect(_on_panel_toggled.bind(center_panel))
-	toggle_side.pressed.connect(_on_panel_toggled.bind(side_panel))
-	close_button_center.pressed.connect(_on_panel_toggled.bind(center_panel))
-	close_button_side.pressed.connect(_on_panel_toggled.bind(side_panel))
-	slide_up_button.pressed.connect(_on_slide_up_pressed)
+	var _err: int
+	_err = toggle_center.pressed.connect(_on_panel_toggled.bind(center_panel))
+	_err = toggle_side.pressed.connect(_on_panel_toggled.bind(side_panel))
+	_err = close_button_center.pressed.connect(_on_panel_toggled.bind(center_panel))
+	_err = close_button_side.pressed.connect(_on_panel_toggled.bind(side_panel))
+	_err = slide_up_button.pressed.connect(_on_slide_up_pressed)
 
 
 func _on_panel_toggled(panel: Control) -> void:

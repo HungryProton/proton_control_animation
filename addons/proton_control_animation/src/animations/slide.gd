@@ -39,8 +39,8 @@ func create_tween(animation: ProtonControlAnimation, target: Control) -> Tween:
 
 	var tween: Tween = animation.create_tween()
 	@warning_ignore_start("return_value_discarded")
-	tween.set_ease(ease)
-	tween.set_trans(trans)
+	tween.set_ease(easing)
+	tween.set_trans(transition)
 	tween.tween_property(target, property, final_position, get_duration(animation))
 	@warning_ignore_restore("return_value_discarded")
 

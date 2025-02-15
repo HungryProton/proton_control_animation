@@ -1,8 +1,8 @@
-class_name ProtonControlAnimationTransformListener
-extends Control
+extends Node
 
-
-## Detects when the target transform is modified from outside the animations
+## Metadata Updater
+##
+## Detects when the target transform is modified from outside the animations.
 ## This can happen if the window is resized or if the parent container
 ## is sorting the child controls.
 ##
@@ -10,23 +10,19 @@ extends Control
 
 
 var target: Control
-var _previous_position: Vector2
 
 
 func _ready() -> void:
-	size = Vector2.ZERO
-	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	target = get_parent()
-	_previous_position = position
 	_update_metadata(true)
 
 	var parent: Control = target.get_parent_control()
 	if parent:
-		parent.resized.connect(_on_parent_resized)
+		var _err: int = parent.resized.connect(_on_parent_resized)
 
 	var container: Container = _find_parent_container(target)
 	if container:
-		container.sort_children.connect(_on_parent_sort_children)
+		var _err: int = container.sort_children.connect(_on_parent_sort_children)
 
 
 func _find_parent_container(root: Control) -> Container:

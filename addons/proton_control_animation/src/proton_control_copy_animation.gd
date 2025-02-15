@@ -13,10 +13,15 @@ func _ready() -> void:
 	var parent: Node = get_parent()
 	if not parent is ProtonControlAnimation:
 		return
-	for target in extra_targets:
+
+	# For each extra target, duplicate the original animation node and assign.
+	for target: Control in extra_targets:
 		var copy: ProtonControlAnimation = parent.duplicate()
-		for child in copy.get_children():
+		# Remove all the children in the duplicate, or this Copy node will be duplicated too
+		# and will run this logic again in an infinite loop on ready.
+		for child: Node in copy.get_children():
 			copy.remove_child(child)
 			child.queue_free()
+
 		copy.target = target
 		parent.add_child.call_deferred(copy)
