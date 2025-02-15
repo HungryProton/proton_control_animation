@@ -2,6 +2,13 @@ class_name ProtonControlAnimationTransformListener
 extends Control
 
 
+## Detects when the target transform is modified from outside the animations
+## This can happen if the window is resized or if the parent container
+## is sorting the child controls.
+##
+## If a modification happens, updates the meta data stored on the node.
+
+
 var target: Control
 var _previous_position: Vector2
 
@@ -13,39 +20,30 @@ func _ready() -> void:
 	_previous_position = position
 	_update_metadata(true)
 
-	#set_notify_transform(true)
+	var parent: Control = target.get_parent_control()
+	if parent:
+		parent.resized.connect(_on_parent_resized)
+
+	var container: Container = _find_parent_container(target)
+	if container:
+		container.sort_children.connect(_on_parent_sort_children)
 
 
-
-## HACK: This only exists because the NOTIFICATION_TRANSFORM_CHANGED is never
-## received on this node, unless it is selected from the remote tree.
-func _process(delta: float) -> void:
-	if position.is_equal_approx(_previous_position):
-		return
-	_previous_position = position
-	if not _is_animation_in_progress():
-		_update_metadata()
-
-
-func _notification(what: int) -> void:
-	if what == NOTIFICATION_TRANSFORM_CHANGED:
-		if not _is_animation_in_progress():
-			_update_metadata()
-
-
-func _find_parent_container(target: Control) -> Container:
-	var node: Node = target
+func _find_parent_container(root: Control) -> Container:
+	var node: Node = root
 	while is_instance_valid(node) and not node is Container:
 		node = node.get_parent()
 	return node
 
 
 func _update_metadata(full_state: bool = false) -> void:
-	if not target.visible:
+	if not target.is_visible_in_tree():
 		return
+
 	target.set_meta(ProtonControlAnimation.META_ORIGINAL_POSITION, target.position)
 	# Only set the original rotation and scale once on ready.
-	# These values will never be modified by the containers
+	# These values will never be modified by the containers.
+	# TODO: They could still be modified by the user
 	if full_state:
 		target.set_meta(ProtonControlAnimation.META_ORIGINAL_ROTATION, target.rotation)
 		target.set_meta(ProtonControlAnimation.META_ORIGINAL_SCALE, target.scale)
@@ -54,3 +52,12 @@ func _update_metadata(full_state: bool = false) -> void:
 func _is_animation_in_progress() -> bool:
 	var list: Array = target.get_meta(ProtonControlAnimation.META_ANIMATION_IN_PROGRESS, [])
 	return not list.is_empty()
+
+
+func _on_parent_resized() -> void:
+	if target.is_visible_in_tree():
+		_update_metadata()
+
+
+func _on_parent_sort_children() -> void:
+	_update_metadata.call_deferred()

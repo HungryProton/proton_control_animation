@@ -7,7 +7,7 @@ extends ProtonControlTrigger
 ## inspector.
 ##
 ## The animation resource holds the information related to the animation,
-## while this nodes decides when the animation should run, and on which nodes.
+## while this nodes decides where and when the animation should run.
 
 
 const META_ORIGINAL_POSITION: String = "pca_original_position"
