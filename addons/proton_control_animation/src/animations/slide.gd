@@ -8,6 +8,8 @@ extends ProtonControlAnimationResource
 @export var to: PositionType
 @export var to_vector: Vector2
 
+var _start_pos: Vector2
+
 
 func create_tween(animation: ProtonControlAnimation, target: Control) -> Tween:
 	var property: String = &"position"
@@ -37,11 +39,24 @@ func create_tween(animation: ProtonControlAnimation, target: Control) -> Tween:
 		PositionType.LOCAL_OFFSET:
 			target.position = target.position + from_vector
 
+	_start_pos = target.position
+
 	var tween: Tween = animation.create_tween()
 	#@warning_ignore_start("return_value_discarded")
 	tween.set_ease(easing)
 	tween.set_trans(transition)
 	tween.tween_property(target, property, final_position, get_duration(animation))
+	#@warning_ignore_restore("return_value_discarded")
+
+	return tween
+
+
+func create_tween_reverse(animation: ProtonControlAnimation, target: Control) -> Tween:
+	var tween: Tween = animation.create_tween()
+	#@warning_ignore_start("return_value_discarded")
+	tween.set_ease(easing)
+	tween.set_trans(transition)
+	tween.tween_property(target, "position", _start_pos, get_duration(animation))
 	#@warning_ignore_restore("return_value_discarded")
 
 	return tween

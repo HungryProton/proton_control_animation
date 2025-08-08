@@ -17,6 +17,11 @@ func create_tween(_animation: ProtonControlAnimation, _target: Control) -> Tween
 	return null
 
 
+## Override in child classes
+func create_tween_reverse(_animation: ProtonControlAnimation, _target: Control) -> Tween:
+	return null
+
+
 ## Returns the actual duration of the animation
 ## If a duration override is defined in the parent ControlAnimation node, use that
 ## Else, use the one defined on the animation resource.

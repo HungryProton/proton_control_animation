@@ -1,3 +1,4 @@
+@tool
 @icon("./icons/animation.svg")
 class_name ProtonControlAnimation
 extends Node
@@ -25,6 +26,13 @@ const META_IGNORE_VISIBILITY_TRIGGERS: String = "pca_ignore_visibility_triggers"
 signal animation_started
 signal animation_ended
 
+# TODO: 
+enum LoopType {
+	NONE,
+	LINEAR,
+	PING_PONG
+}
+
 ## The control node that will be animated
 @export var target: Control
 
@@ -41,6 +49,19 @@ signal animation_ended
 @export var delay: float = 0.0:
 	set(val):
 		delay = max(0, val)
+
+@export_category("Loop")
+
+## None: The animation does not loop
+## Linear: Play the animation from the start again when it's complete
+## PingPong: Play the animation backwards from the end when it's complete
+@export var loop_type: LoopType = LoopType.NONE:
+	set(val):
+		loop_type = val
+		property_list_changed.emit()
+
+## How many times the animation should play before stopping
+@export_range(1, 10, 1, "or_greater") var loop_count: int = 1
 
 @export_category("Triggers")
 
@@ -122,8 +143,16 @@ func _ready() -> void:
 	target.set_meta(META_HAS_UPDATER, true)
 
 
+func _validate_property(property: Dictionary) -> void:
+	if property.name == "loop_count" and loop_type == LoopType.NONE:
+		property.usage = PROPERTY_USAGE_STORAGE
+
+
 func start() -> void:
-	if not animation:
+	if Engine.is_editor_hint():
+		return
+	
+	if not animation or _started:
 		return
 
 	_started = true
@@ -136,16 +165,20 @@ func _start_deferred() -> void:
 	var list: Array = target.get_meta(META_ANIMATION_IN_PROGRESS, [])
 	list.push_back(self)
 	target.set_meta(META_ANIMATION_IN_PROGRESS, list)
-
-	_tween = animation.create_tween(self, target)
-
+	
 	if delay > 0.0:
-		_tween.pause()
 		await get_tree().create_timer(delay).timeout
-		_tween.play()
 
 	animation_started.emit()
-	await _tween.finished
+
+	for i in max(loop_count, 1):
+		_tween = animation.create_tween(self, target)
+		await _tween.finished
+		
+		if loop_type == LoopType.PING_PONG:
+			_tween = animation.create_tween_reverse(self, target)
+			await _tween.finished
+	
 	clear()
 	_started = false
 	animation_ended.emit()
