@@ -1,14 +1,56 @@
+@tool
 class_name PCA_SlideAnimation
 extends ProtonControlAnimationResource
 
 
-@export var from: PositionType
-@export var from_vector: Vector2
+@export var from: PositionType:
+	set(val):
+		from = val
+		notify_property_list_changed()
+@export var from_global_position: Vector2
+@export var from_local_offset: Vector2
 
-@export var to: PositionType
-@export var to_vector: Vector2
+@export var to: PositionType:
+	set(val):
+		to = val
+		notify_property_list_changed()
+@export var to_global_position: Vector2
+@export var to_local_offset: Vector2
 
 var _start_pos: Vector2
+
+
+## Backward compatibility code
+##
+## Initially, there were only two variables (from_vector and to_vector).
+## They got replaced with more specific variables instead that are only shown
+## depending on the context.
+func _set(property: StringName, value: Variant) -> bool:
+	if property == "from_vector":
+		if from == PositionType.GLOBAL_POSITION:
+			from_global_position = value
+			return true
+		if from == PositionType.LOCAL_OFFSET:
+			from_local_offset = value
+			return true
+
+	elif property == "to_vector":
+		if to == PositionType.GLOBAL_POSITION:
+			to_global_position = value
+			return true
+		if to == PositionType.LOCAL_OFFSET:
+			to_local_offset = value
+			return true
+
+	return false
+
+
+## Hide some exported variable when they are irrelevant to the current position type.
+func _validate_property(property: Dictionary) -> void:
+	_update_inspector_visibility(property, "from_global_position", from == PositionType.GLOBAL_POSITION)
+	_update_inspector_visibility(property, "from_local_offset", from == PositionType.LOCAL_OFFSET)
+	_update_inspector_visibility(property, "to_global_position", to == PositionType.GLOBAL_POSITION)
+	_update_inspector_visibility(property, "to_local_offset", to == PositionType.LOCAL_OFFSET)
 
 
 func create_tween(animation: ProtonControlAnimation, target: Control) -> Tween:
@@ -23,10 +65,10 @@ func create_tween(animation: ProtonControlAnimation, target: Control) -> Tween:
 		PositionType.ORIGINAL_POSITION:
 			final_position = original_position
 		PositionType.GLOBAL_POSITION:
-			final_position = to_vector
+			final_position = to_global_position
 			property = &"global_position"
 		PositionType.LOCAL_OFFSET:
-			final_position = target.position + to_vector
+			final_position = target.position + to_local_offset
 
 	# Set the initial control position
 	match from:
@@ -35,28 +77,22 @@ func create_tween(animation: ProtonControlAnimation, target: Control) -> Tween:
 		PositionType.ORIGINAL_POSITION:
 			target.position = original_position
 		PositionType.GLOBAL_POSITION:
-			target.global_position = from_vector
+			target.global_position = from_global_position
 		PositionType.LOCAL_OFFSET:
-			target.position = target.position + from_vector
+			target.position = target.position + from_local_offset
 
 	_start_pos = target.position
 
-	var tween: Tween = animation.create_tween()
-	#@warning_ignore_start("return_value_discarded")
-	tween.set_ease(easing)
-	tween.set_trans(transition)
+	var tween: Tween = animation.create_tween().set_ease(easing).set_trans(transition)
+	@warning_ignore("return_value_discarded")
 	tween.tween_property(target, property, final_position, get_duration(animation))
-	#@warning_ignore_restore("return_value_discarded")
 
 	return tween
 
 
 func create_tween_reverse(animation: ProtonControlAnimation, target: Control) -> Tween:
-	var tween: Tween = animation.create_tween()
-	#@warning_ignore_start("return_value_discarded")
-	tween.set_ease(easing)
-	tween.set_trans(transition)
+	var tween: Tween = animation.create_tween().set_ease(easing).set_trans(transition)
+	@warning_ignore("return_value_discarded")
 	tween.tween_property(target, "position", _start_pos, get_duration(animation))
-	#@warning_ignore_restore("return_value_discarded")
 
 	return tween

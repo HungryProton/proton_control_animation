@@ -1,3 +1,4 @@
+@tool
 class_name ProtonControlAnimationResource
 extends Resource
 
@@ -29,3 +30,9 @@ func get_duration(animation: ProtonControlAnimation) -> float:
 	if animation.duration > 0.0:
 		return animation.duration
 	return default_duration
+
+
+## Call this from _validate_property() to quickly hide or show exported property depending on context.
+func _update_inspector_visibility(property: Dictionary, name: String, visible: bool) -> void:
+	if property.name == name:
+		property.usage = PROPERTY_USAGE_DEFAULT if visible else PROPERTY_USAGE_STORAGE

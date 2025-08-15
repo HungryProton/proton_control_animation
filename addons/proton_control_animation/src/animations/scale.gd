@@ -1,15 +1,47 @@
+@tool
 class_name PCA_ScaleAnimation
 extends ProtonControlAnimationResource
 
 
 @export var from: ScaleType
-@export var from_scale: Vector2
+@export var from_absolute_scale: Vector2
+@export var from_relative_scale: Vector2
 
 @export var to: ScaleType
-@export var to_scale: Vector2
+@export var to_absolute_scale: Vector2
+@export var to_relative_scale: Vector2
 
 var _start_scale: Vector2
 var _end_scale: Vector2
+
+
+## Backward compatibility code
+func _set(property: StringName, value: Variant) -> bool:
+	if property == "from_scale":
+		if from == ScaleType.ABSOLUTE_SCALE:
+			from_absolute_scale = value
+			return true
+		if from == ScaleType.RELATIVE_SCALE:
+			from_relative_scale = value
+			return true
+
+	elif property == "to_scale":
+		if to == ScaleType.ABSOLUTE_SCALE:
+			to_absolute_scale = value
+			return true
+		if to == ScaleType.RELATIVE_SCALE:
+			to_relative_scale = value
+			return true
+
+	return false
+
+
+## Hide some exported variable when they are irrelevant to the current scale type.
+func _validate_property(property: Dictionary) -> void:
+	_update_inspector_visibility(property, "from_absolute_scale", from == ScaleType.ABSOLUTE_SCALE)
+	_update_inspector_visibility(property, "from_relative_scale", from == ScaleType.RELATIVE_SCALE)
+	_update_inspector_visibility(property, "to_absolute_scale", to == ScaleType.ABSOLUTE_SCALE)
+	_update_inspector_visibility(property, "to_relative_scale", to == ScaleType.RELATIVE_SCALE)
 
 
 func create_tween(animation: ProtonControlAnimation, target: Control) -> Tween:
@@ -20,9 +52,9 @@ func create_tween(animation: ProtonControlAnimation, target: Control) -> Tween:
 		ScaleType.ORIGINAL_SCALE:
 			_end_scale = target.get_meta(ProtonControlAnimation.META_ORIGINAL_SCALE, target.scale)
 		ScaleType.ABSOLUTE_SCALE:
-			_end_scale = to_scale
+			_end_scale = to_absolute_scale
 		ScaleType.RELATIVE_SCALE:
-			_end_scale = target.get_meta(ProtonControlAnimation.META_ORIGINAL_SCALE, target.scale) * to_scale
+			_end_scale = target.get_meta(ProtonControlAnimation.META_ORIGINAL_SCALE, target.scale) * to_relative_scale
 
 	# Set the initial control position
 	match from:
@@ -31,28 +63,22 @@ func create_tween(animation: ProtonControlAnimation, target: Control) -> Tween:
 		ScaleType.ORIGINAL_SCALE:
 			target.scale = target.get_meta(ProtonControlAnimation.META_ORIGINAL_SCALE, target.scale)
 		ScaleType.ABSOLUTE_SCALE:
-			target.scale = from_scale
+			target.scale = from_absolute_scale
 		ScaleType.RELATIVE_SCALE:
-			target.scale = target.get_meta(ProtonControlAnimation.META_ORIGINAL_SCALE, target.scale) * from_scale
+			target.scale = target.get_meta(ProtonControlAnimation.META_ORIGINAL_SCALE, target.scale) * from_relative_scale
 	_start_scale = target.scale
 
-	var tween: Tween = animation.create_tween()
-	#@warning_ignore_start("return_value_discarded")
-	tween.set_ease(easing)
-	tween.set_trans(transition)
+	var tween: Tween = animation.create_tween().set_ease(easing).set_trans(transition)
+	@warning_ignore("return_value_discarded")
 	tween.tween_property(target, "scale", _end_scale, get_duration(animation))
-	#@warning_ignore_restore("return_value_discarded")
 
 	return tween
 
 
 func create_tween_reverse(animation: ProtonControlAnimation, target: Control) -> Tween:
 	target.scale = _end_scale
-	var tween: Tween = animation.create_tween()
-	#@warning_ignore_start("return_value_discarded")
-	tween.set_ease(easing)
-	tween.set_trans(transition)
+	var tween: Tween = animation.create_tween().set_ease(easing).set_trans(transition)
+	@warning_ignore("return_value_discarded")
 	tween.tween_property(target, "scale", _start_scale, get_duration(animation))
-	#@warning_ignore_restore("return_value_discarded")
 
 	return tween
