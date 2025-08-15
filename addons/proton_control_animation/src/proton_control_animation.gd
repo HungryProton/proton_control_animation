@@ -34,7 +34,14 @@ enum LoopType {
 }
 
 ## The control node that will be animated
-@export var target: Control
+@export var target: Control:
+	set(val):
+		target = val
+		if not target:
+			target = get_parent()
+		if not trigger_source:
+			trigger_source = target
+		notify_property_list_changed()
 
 ## The animation that plays on the target
 @export var animation: ProtonControlAnimationResource
@@ -49,6 +56,11 @@ enum LoopType {
 @export var delay: float = 0.0:
 	set(val):
 		delay = max(0, val)
+
+
+## If true, when the animation is already playing but something tries to play
+## the animation again, restart the animation when it's complete.
+@export var accumulate_start_events: bool = false
 
 @export_category("Loop")
 
@@ -67,7 +79,10 @@ enum LoopType {
 
 ## On which node the trigger events are listened.
 ## If empty, `target` will be used instead.
-@export var trigger_source: Node
+@export var trigger_source: Node:
+	set(val):
+		trigger_source = val
+		notify_property_list_changed()
 
 ## The animation will play when the Control becomes visible.
 @export var on_show: bool
@@ -102,13 +117,10 @@ enum LoopType {
 
 var _tween: Tween
 var _started: bool = false
-
+var _restart_queued: bool = false
 
 func _ready() -> void:
 	var _err: int
-
-	if not trigger_source:
-		trigger_source = target
 
 	if trigger_source is Button:
 		var button: Button = trigger_source as Button
@@ -144,12 +156,24 @@ func _ready() -> void:
 
 
 func _validate_property(property: Dictionary) -> void:
-	if property.name == "loop_count":
-		if loop_type == LoopType.NONE:
-			property.usage = PROPERTY_USAGE_STORAGE
-		else:
-			property.usage = PROPERTY_USAGE_DEFAULT
+	_update_inspector_visibility(property, "loop_count", loop_type != LoopType.NONE)
 
+	var is_control: bool = trigger_source is Control
+	_update_inspector_visibility(property, "on_show", is_control)
+	_update_inspector_visibility(property, "on_hide", is_control)
+	_update_inspector_visibility(property, "on_hover_start", is_control)
+	_update_inspector_visibility(property, "on_hover_stop", is_control)
+	_update_inspector_visibility(property, "on_focus_entered", is_control)
+	_update_inspector_visibility(property, "on_focus_exited", is_control)
+	_update_inspector_visibility(property, "on_pressed", trigger_source is BaseButton)
+	_update_inspector_visibility(property, "on_animation_start", trigger_source is ProtonControlAnimation)
+	_update_inspector_visibility(property, "on_animation_end", trigger_source is ProtonControlAnimation)
+
+
+## Call this from _validate_property() to quickly hide or show exported property depending on context.
+func _update_inspector_visibility(property: Dictionary, p_name: String, visible: bool) -> void:
+	if property.name == p_name:
+		property.usage = PROPERTY_USAGE_DEFAULT if visible else PROPERTY_USAGE_STORAGE
 
 
 func start() -> void:
@@ -157,6 +181,8 @@ func start() -> void:
 		return
 
 	if not animation or _started:
+		if accumulate_start_events:
+			_restart_queued = true
 		return
 
 	_started = true
@@ -186,6 +212,10 @@ func _start_deferred() -> void:
 	clear()
 	_started = false
 	animation_ended.emit()
+
+	if _restart_queued:
+		_restart_queued = false
+		start()
 
 
 func clear() -> void:
