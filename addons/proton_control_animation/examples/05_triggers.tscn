@@ -65,10 +65,6 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(150, 120)
 layout_mode = 2
 size_flags_vertical = 4
-metadata/pca_metadata_updater = true
-metadata/pca_original_position = Vector2(512, 288.5)
-metadata/pca_original_rotation = 0.0
-metadata/pca_original_scale = Vector2(1, 1)
 
 [node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/PanelContainer"]
 layout_mode = 2
@@ -80,7 +76,6 @@ script = ExtResource("3_iaavb")
 target = NodePath("..")
 animation = SubResource("Resource_irfdr")
 duration = 0.3
-accumulate_start_events = null
 trigger_source = NodePath("..")
 on_hover_start = true
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
@@ -90,7 +85,6 @@ script = ExtResource("3_iaavb")
 target = NodePath("..")
 animation = SubResource("Resource_k4ckn")
 duration = 0.3
-accumulate_start_events = null
 trigger_source = NodePath("..")
 on_hover_stop = true
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
@@ -129,13 +123,14 @@ texture = ExtResource("5_6sdpr")
 expand_mode = 1
 stretch_mode = 4
 
-[node name="ShakeAnimation" type="Node" parent="HBoxContainer/VBoxContainer2/TextureRect" node_paths=PackedStringArray("target")]
+[node name="ShakeAnimation" type="Node" parent="HBoxContainer/VBoxContainer2/TextureRect" node_paths=PackedStringArray("target", "trigger_source")]
 script = ExtResource("3_iaavb")
 target = NodePath("..")
 animation = SubResource("Resource_3l0qa")
-accumulate_start_events = true
 loop_type = 2
 loop_count = 2
+accumulate_start_events = true
+trigger_source = NodePath("..")
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
 [node name="RichTextLabel2" type="RichTextLabel" parent="HBoxContainer/VBoxContainer2"]

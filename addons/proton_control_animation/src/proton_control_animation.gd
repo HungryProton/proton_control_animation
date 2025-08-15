@@ -58,10 +58,6 @@ enum LoopType {
 		delay = max(0, val)
 
 
-## If true, when the animation is already playing but something tries to play
-## the animation again, restart the animation when it's complete.
-@export var accumulate_start_events: bool = false
-
 @export_category("Loop")
 
 ## None: The animation does not loop
@@ -76,6 +72,10 @@ enum LoopType {
 @export_range(1, 10, 1, "or_greater") var loop_count: int = 1
 
 @export_category("Triggers")
+
+## If true, when the animation is already playing but something tries to play
+## the animation again, restart the animation when it's complete.
+@export var accumulate_start_events: bool = false
 
 ## On which node the trigger events are listened.
 ## If empty, `target` will be used instead.
@@ -119,7 +119,12 @@ var _tween: Tween
 var _started: bool = false
 var _restart_queued: bool = false
 
+
 func _ready() -> void:
+	if Engine.is_editor_hint():
+		clear_meta_data(target)
+		return
+
 	var _err: int
 
 	if trigger_source is Button:
@@ -317,5 +322,18 @@ static func hide(control: Control) -> void:
 	# Actually hide the control
 	control.hide()
 	control.set_meta(META_IGNORE_VISIBILITY_TRIGGERS, false)
+
+
+## Removes any meta data related to this addon in a given node.
+## This exists because I forgot to put `is_editor_hint` guards in some
+## tool scripts and now there are meta data that shouldn't exist in editor
+## potentially stored in people's projects.
+static func clear_meta_data(node: Control) -> void:
+	if not is_instance_valid(node):
+		return
+
+	for meta: StringName in node.get_meta_list():
+		if meta.begins_with("pca_"):
+			node.remove_meta(meta)
 
 #endregion

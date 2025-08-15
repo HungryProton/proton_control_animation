@@ -11,75 +11,56 @@
 [sub_resource type="Resource" id="Resource_dkxil"]
 script = ExtResource("4_s0040")
 from = 2
-from_scale = Vector2(0, 0)
 to = 2
-to_scale = Vector2(1, 1)
+to_absolute_scale = Vector2(1, 1)
 easing = 1
 transition = 10
-default_duration = 1.0
 metadata/_custom_type_script = ExtResource("4_s0040")
 
 [sub_resource type="Resource" id="Resource_qbm01"]
 script = ExtResource("4_s0040")
 from = 2
-from_scale = Vector2(1, 1)
+from_absolute_scale = Vector2(1, 1)
 to = 2
-to_scale = Vector2(0, 0)
 easing = 1
 transition = 2
-default_duration = 1.0
 metadata/_custom_type_script = ExtResource("4_s0040")
 
 [sub_resource type="Resource" id="Resource_unyg3"]
 script = ExtResource("5_c05e6")
-from = 0
-from_vector = Vector2(0, 0)
 to = 3
-to_vector = Vector2(20, 0)
+to_local_offset = Vector2(20, 0)
 easing = 1
-transition = 4
 default_duration = 0.18
 metadata/_custom_type_script = ExtResource("5_c05e6")
 
 [sub_resource type="Resource" id="Resource_iue33"]
 script = ExtResource("5_c05e6")
-from = 0
-from_vector = Vector2(0, 0)
 to = 1
-to_vector = Vector2(0, 0)
 easing = 1
-transition = 4
 default_duration = 0.22
 metadata/_custom_type_script = ExtResource("5_c05e6")
 
 [sub_resource type="Resource" id="Resource_1rhje"]
 script = ExtResource("5_c05e6")
-from = 0
-from_vector = Vector2(0, 0)
 to = 3
-to_vector = Vector2(0, -45)
+to_local_offset = Vector2(0, -45)
 easing = 1
 transition = 10
-default_duration = 1.0
 metadata/_custom_type_script = "uid://bsufjcw4lsn2a"
 
 [sub_resource type="Resource" id="Resource_tploy"]
 script = ExtResource("5_c05e6")
-from = 0
-from_vector = Vector2(0, 0)
 to = 1
-to_vector = Vector2(0, 0)
 easing = 1
 transition = 9
-default_duration = 1.0
 metadata/_custom_type_script = "uid://bsufjcw4lsn2a"
 
 [sub_resource type="Resource" id="Resource_jnopg"]
 script = ExtResource("5_c05e6")
 from = 3
-from_vector = Vector2(300, 0)
+from_local_offset = Vector2(300, 0)
 to = 1
-to_vector = Vector2(0, 0)
 easing = 1
 transition = 10
 default_duration = 0.3
@@ -87,10 +68,8 @@ metadata/_custom_type_script = ExtResource("5_c05e6")
 
 [sub_resource type="Resource" id="Resource_a6eo0"]
 script = ExtResource("5_c05e6")
-from = 0
-from_vector = Vector2(0, 0)
 to = 3
-to_vector = Vector2(400, 0)
+to_local_offset = Vector2(400, 0)
 easing = 1
 transition = 2
 default_duration = 0.3
@@ -98,10 +77,8 @@ metadata/_custom_type_script = ExtResource("5_c05e6")
 
 [sub_resource type="Resource" id="Resource_j3cwm"]
 script = ExtResource("5_c05e6")
-from = 0
-from_vector = Vector2(0, 0)
 to = 3
-to_vector = Vector2(-30, 0)
+to_local_offset = Vector2(-30, 0)
 easing = 1
 transition = 2
 default_duration = 0.18
@@ -109,10 +86,7 @@ metadata/_custom_type_script = ExtResource("5_c05e6")
 
 [sub_resource type="Resource" id="Resource_rseu8"]
 script = ExtResource("5_c05e6")
-from = 0
-from_vector = Vector2(0, 0)
 to = 1
-to_vector = Vector2(0, 0)
 easing = 1
 transition = 2
 default_duration = 0.18
@@ -144,7 +118,7 @@ layout_mode = 2
 
 [node name="InfoPanem" type="PanelContainer" parent="Control"]
 layout_mode = 1
-anchors_preset = 4
+anchors_preset = -1
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_top = -104.0
@@ -179,7 +153,7 @@ text = "Side panel"
 [node name="CenterPanel" type="PanelContainer" parent="Control"]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -192,18 +166,20 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(145.5, 191)
 
-[node name="ScaleUpAnimation" type="Node" parent="Control/CenterPanel" node_paths=PackedStringArray("target")]
+[node name="ScaleUpAnimation" type="Node" parent="Control/CenterPanel" node_paths=PackedStringArray("target", "trigger_source")]
 script = ExtResource("3_mdnh0")
 target = NodePath("..")
 animation = SubResource("Resource_dkxil")
 duration = 0.3
+trigger_source = NodePath("..")
 on_show = true
 
-[node name="ScaleDownAnimation" type="Node" parent="Control/CenterPanel" node_paths=PackedStringArray("target")]
+[node name="ScaleDownAnimation" type="Node" parent="Control/CenterPanel" node_paths=PackedStringArray("target", "trigger_source")]
 script = ExtResource("3_mdnh0")
 target = NodePath("..")
 animation = SubResource("Resource_qbm01")
 duration = 0.3
+trigger_source = NodePath("..")
 on_hide = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterPanel"]
@@ -275,12 +251,13 @@ trigger_source = NodePath("../../SlideUpButton")
 on_pressed = true
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
-[node name="ResetSlideAnimation" type="Node" parent="Control/CenterPanel/VBoxContainer/HBoxContainer/VBoxContainer2/TextureRect" node_paths=PackedStringArray("target")]
+[node name="ResetSlideAnimation" type="Node" parent="Control/CenterPanel/VBoxContainer/HBoxContainer/VBoxContainer2/TextureRect" node_paths=PackedStringArray("target", "trigger_source")]
 unique_name_in_owner = true
 script = ExtResource("3_mdnh0")
 target = NodePath("..")
 animation = SubResource("Resource_tploy")
 duration = 0.75
+trigger_source = NodePath("..")
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
 [node name="SlideUpButton" type="Button" parent="Control/CenterPanel/VBoxContainer/HBoxContainer/VBoxContainer2"]
@@ -300,7 +277,7 @@ text = "Close"
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 1
-anchors_preset = 6
+anchors_preset = -1
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
@@ -311,16 +288,18 @@ offset_bottom = 174.0
 grow_horizontal = 0
 grow_vertical = 2
 
-[node name="SlideInAnimation" type="Node" parent="Control/SidePanel" node_paths=PackedStringArray("target")]
+[node name="SlideInAnimation" type="Node" parent="Control/SidePanel" node_paths=PackedStringArray("target", "trigger_source")]
 script = ExtResource("3_mdnh0")
 target = NodePath("..")
 animation = SubResource("Resource_jnopg")
+trigger_source = NodePath("..")
 on_show = true
 
-[node name="SlideOutAnimation" type="Node" parent="Control/SidePanel" node_paths=PackedStringArray("target")]
+[node name="SlideOutAnimation" type="Node" parent="Control/SidePanel" node_paths=PackedStringArray("target", "trigger_source")]
 script = ExtResource("3_mdnh0")
 target = NodePath("..")
 animation = SubResource("Resource_a6eo0")
+trigger_source = NodePath("..")
 on_hide = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/SidePanel"]

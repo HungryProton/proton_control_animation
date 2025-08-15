@@ -69,10 +69,6 @@ layout_mode = 2
 [node name="Button1" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
 text = "Button"
-metadata/pca_metadata_updater = true
-metadata/pca_original_position = Vector2(0, 0)
-metadata/pca_original_rotation = 0.0
-metadata/pca_original_scale = Vector2(1, 1)
 
 [node name="Button2" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
@@ -101,18 +97,10 @@ metadata/pca_original_scale = Vector2(1, 1)
 [node name="Button5" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
 text = "Button"
-metadata/pca_metadata_updater = true
-metadata/pca_original_position = Vector2(0, 0)
-metadata/pca_original_rotation = 0.0
-metadata/pca_original_scale = Vector2(1, 1)
 
 [node name="Button6" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
 text = "Button"
-metadata/pca_metadata_updater = true
-metadata/pca_original_position = Vector2(0, 0)
-metadata/pca_original_rotation = 0.0
-metadata/pca_original_scale = Vector2(1, 1)
 
 [node name="ScaleButtonUpAnimation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer" node_paths=PackedStringArray("target", "trigger_source")]
 script = ExtResource("2_mmri4")

@@ -64,10 +64,6 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(150, 120)
 layout_mode = 2
 size_flags_vertical = 4
-metadata/pca_metadata_updater = true
-metadata/pca_original_position = Vector2(512, 288.5)
-metadata/pca_original_rotation = 0.0
-metadata/pca_original_scale = Vector2(1, 1)
 
 [node name="Label" type="Label" parent="HBoxContainer/PanelContainer"]
 layout_mode = 2

@@ -82,10 +82,6 @@ alignment = 1
 [node name="Button" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
 text = "Hover me"
-metadata/pca_metadata_updater = true
-metadata/pca_original_position = Vector2(0, 0)
-metadata/pca_original_rotation = 0.0
-metadata/pca_original_scale = Vector2(1, 1)
 
 [node name="HSeparator" type="HSeparator" parent="HBoxContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2

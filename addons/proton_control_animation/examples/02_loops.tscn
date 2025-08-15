@@ -70,10 +70,6 @@ theme_override_constants/separation = 64
 custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 size_flags_vertical = 3
-metadata/pca_metadata_updater = true
-metadata/pca_original_position = Vector2(0, 0)
-metadata/pca_original_rotation = 0.0
-metadata/pca_original_scale = Vector2(1, 1)
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer"]
 layout_mode = 2
@@ -95,10 +91,6 @@ metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 size_flags_vertical = 3
-metadata/pca_metadata_updater = true
-metadata/pca_original_position = Vector2(189, 0)
-metadata/pca_original_rotation = 0.0
-metadata/pca_original_scale = Vector2(1, 1)
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer2"]
 layout_mode = 2
@@ -119,10 +111,6 @@ metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 [node name="PanelContainer3" type="PanelContainer" parent="VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
-metadata/pca_metadata_updater = true
-metadata/pca_original_position = Vector2(378, 0)
-metadata/pca_original_rotation = 0.0
-metadata/pca_original_scale = Vector2(1, 1)
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer3"]
 layout_mode = 2

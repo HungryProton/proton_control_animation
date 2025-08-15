@@ -1,3 +1,4 @@
+@tool
 @icon("./icons/copy.svg")
 class_name ProtonControlCopyAnimation
 extends Node
@@ -11,6 +12,11 @@ extends Node
 
 
 func _ready() -> void:
+	if Engine.is_editor_hint():
+		for target: Control in extra_targets:
+			ProtonControlAnimation.clear_meta_data(target)
+		return
+
 	var parent: Node = get_parent()
 	if not parent is ProtonControlAnimation:
 		return
