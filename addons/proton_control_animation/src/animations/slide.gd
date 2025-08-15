@@ -3,6 +3,8 @@ class_name PCA_SlideAnimation
 extends ProtonControlAnimationResource
 
 
+enum PositionType {CURRENT_POSITION, ORIGINAL_POSITION, GLOBAL_POSITION, LOCAL_OFFSET}
+
 @export var from: PositionType:
 	set(val):
 		from = val

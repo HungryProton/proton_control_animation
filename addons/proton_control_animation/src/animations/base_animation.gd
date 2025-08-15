@@ -5,8 +5,6 @@ extends Resource
 ## Abstract class
 ## Defines how the control is animated
 
-enum PositionType {CURRENT_POSITION, ORIGINAL_POSITION, GLOBAL_POSITION, LOCAL_OFFSET}
-enum ScaleType {CURRENT_SCALE, ORIGINAL_SCALE, ABSOLUTE_SCALE, RELATIVE_SCALE}
 
 @export var easing: Tween.EaseType = Tween.EASE_IN_OUT
 @export var transition: Tween.TransitionType = Tween.TRANS_QUAD

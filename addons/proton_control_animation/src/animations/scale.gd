@@ -3,11 +3,20 @@ class_name PCA_ScaleAnimation
 extends ProtonControlAnimationResource
 
 
-@export var from: ScaleType
+enum ScaleType {CURRENT_SCALE, ORIGINAL_SCALE, ABSOLUTE_SCALE, RELATIVE_SCALE}
+
+
+@export var from: ScaleType:
+	set(val):
+		from = val
+		notify_property_list_changed()
 @export var from_absolute_scale: Vector2
 @export var from_relative_scale: Vector2
 
-@export var to: ScaleType
+@export var to: ScaleType:
+	set(val):
+		to = val
+		notify_property_list_changed()
 @export var to_absolute_scale: Vector2
 @export var to_relative_scale: Vector2
 
