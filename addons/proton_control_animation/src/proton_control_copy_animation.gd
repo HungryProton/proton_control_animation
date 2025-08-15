@@ -16,7 +16,10 @@ func _ready() -> void:
 		return
 
 	# For each extra target, duplicate the original animation node and assign.
-	for target: Control in extra_targets:
+	for extra_target: Control in extra_targets:
+		if not is_instance_valid(extra_target):
+			push_warning("Extra target is not assigned")
+			continue
 		var copy: ProtonControlAnimation = parent.duplicate()
 		# Remove all the children in the duplicate, or this Copy node will be duplicated too
 		# and will run this logic again in an infinite loop on ready.
@@ -24,5 +27,12 @@ func _ready() -> void:
 			copy.remove_child(child)
 			child.queue_free()
 
-		copy.target = target
+		# Make sure the events are fired from the extra targets instead
+		# of being fired from the original node, unless the trigger source is
+		# explicitely set as a different node from the original target.
+		if copy.target and copy.trigger_source == copy.target:
+			copy.trigger_source = extra_target
+
+		# Update the animation target
+		copy.target = extra_target
 		parent.add_child.call_deferred(copy)

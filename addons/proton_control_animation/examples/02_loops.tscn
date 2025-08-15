@@ -8,13 +8,9 @@
 
 [sub_resource type="Resource" id="Resource_j6uly"]
 script = ExtResource("3_3xvwd")
-from = 0
-from_vector = Vector2(0, 0)
 to = 3
-to_vector = Vector2(0, -40)
+to_local_offset = Vector2(0, -40)
 easing = 1
-transition = 4
-default_duration = 1.0
 metadata/_custom_type_script = "uid://bsufjcw4lsn2a"
 
 [sub_resource type="Resource" id="Resource_u2rf8"]
@@ -23,18 +19,15 @@ from = 1.0
 to = 0.25
 easing = 1
 transition = 2
-default_duration = 1.0
 metadata/_custom_type_script = "uid://doh0f6x2cdghd"
 
 [sub_resource type="Resource" id="Resource_x8am6"]
 script = ExtResource("5_j6uly")
 from = 1
-from_scale = Vector2(0, 0)
 to = 2
-to_scale = Vector2(1.4, 1.4)
+to_absolute_scale = Vector2(1.4, 1.4)
 easing = 1
 transition = 2
-default_duration = 1.0
 metadata/_custom_type_script = "uid://bi4omyv2xson"
 
 [node name="LoopExample" type="Control"]
@@ -46,22 +39,34 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_jh8lk")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 13
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "If  [b]LoopType [/b] is set to something other than `None`, the animation will play again automatically for as many times as defined by [b]LoopCount[/b].
+
+[b]None:[/b] The animation only plays once.
+
+[b]Linear:[/b] Plays the animation again from the start.
+
+[b]PingPong:[/b] Plays the animation normally, when complete, plays it in reverse. The whole round trip is counted as 1 loop."
+fit_content = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
 theme_override_constants/separation = 64
 
-[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 size_flags_vertical = 3
@@ -70,12 +75,12 @@ metadata/pca_original_position = Vector2(0, 0)
 metadata/pca_original_rotation = 0.0
 metadata/pca_original_scale = Vector2(1, 1)
 
-[node name="Label" type="Label" parent="HBoxContainer/PanelContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer"]
 layout_mode = 2
 text = "Slide"
 horizontal_alignment = 1
 
-[node name="SlideAnimation" type="Node" parent="HBoxContainer/PanelContainer" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="SlideAnimation" type="Node" parent="VBoxContainer/HBoxContainer/PanelContainer" node_paths=PackedStringArray("target", "trigger_source")]
 script = ExtResource("2_07bcj")
 target = NodePath("..")
 animation = SubResource("Resource_j6uly")
@@ -86,7 +91,7 @@ trigger_source = NodePath("..")
 on_hover_start = true
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
-[node name="PanelContainer2" type="PanelContainer" parent="HBoxContainer"]
+[node name="PanelContainer2" type="PanelContainer" parent="VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 size_flags_vertical = 3
@@ -95,12 +100,12 @@ metadata/pca_original_position = Vector2(189, 0)
 metadata/pca_original_rotation = 0.0
 metadata/pca_original_scale = Vector2(1, 1)
 
-[node name="Label" type="Label" parent="HBoxContainer/PanelContainer2"]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer2"]
 layout_mode = 2
 text = "Fade"
 horizontal_alignment = 1
 
-[node name="FadeAnimation" type="Node" parent="HBoxContainer/PanelContainer2" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="FadeAnimation" type="Node" parent="VBoxContainer/HBoxContainer/PanelContainer2" node_paths=PackedStringArray("target", "trigger_source")]
 script = ExtResource("2_07bcj")
 target = NodePath("..")
 animation = SubResource("Resource_u2rf8")
@@ -111,7 +116,7 @@ trigger_source = NodePath("..")
 on_hover_start = true
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
-[node name="PanelContainer3" type="PanelContainer" parent="HBoxContainer"]
+[node name="PanelContainer3" type="PanelContainer" parent="VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 metadata/pca_metadata_updater = true
@@ -119,12 +124,12 @@ metadata/pca_original_position = Vector2(378, 0)
 metadata/pca_original_rotation = 0.0
 metadata/pca_original_scale = Vector2(1, 1)
 
-[node name="Label" type="Label" parent="HBoxContainer/PanelContainer3"]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer3"]
 layout_mode = 2
 text = "Scale"
 horizontal_alignment = 1
 
-[node name="ScaleAnimation" type="Node" parent="HBoxContainer/PanelContainer3" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="ScaleAnimation" type="Node" parent="VBoxContainer/HBoxContainer/PanelContainer3" node_paths=PackedStringArray("target", "trigger_source")]
 script = ExtResource("2_07bcj")
 target = NodePath("..")
 animation = SubResource("Resource_x8am6")

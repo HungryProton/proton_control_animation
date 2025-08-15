@@ -1,0 +1,162 @@
+[gd_scene load_steps=8 format=3 uid="uid://glmo1tjc7a2q"]
+
+[ext_resource type="Theme" uid="uid://xjn6s723t6oi" path="res://addons/proton_control_animation/examples/theme/pca_theme.tres" id="1_7k0r8"]
+[ext_resource type="Script" uid="uid://b4hvmk8t0qkgu" path="res://addons/proton_control_animation/src/proton_control_animation.gd" id="2_cna2p"]
+[ext_resource type="Script" uid="uid://wxkjdt0qwf48" path="res://addons/proton_control_animation/examples/scripts/auto_center_pivots.gd" id="2_fgtbd"]
+[ext_resource type="Script" uid="uid://ciccapc76ic3k" path="res://addons/proton_control_animation/src/animations/rotate.gd" id="3_cna2p"]
+[ext_resource type="Script" uid="uid://p8liavl4kvv8" path="res://addons/proton_control_animation/src/proton_control_copy_animation.gd" id="4_h6wfi"]
+
+[sub_resource type="Resource" id="Resource_cna2p"]
+script = ExtResource("3_cna2p")
+from = 2
+from_absolute_rotation = -7.0
+from_relative_rotation = -10.0
+to = 2
+to_absolute_rotation = 7.0
+to_relative_rotation = 10.0
+easing = 1
+default_duration = 0.10000000000582077
+metadata/_custom_type_script = "uid://ciccapc76ic3k"
+
+[sub_resource type="Resource" id="Resource_fgtbd"]
+script = ExtResource("3_cna2p")
+from_absolute_rotation = -5.0
+from_relative_rotation = -10.0
+to = 1
+to_absolute_rotation = 7.0
+to_relative_rotation = 10.0
+easing = 1
+default_duration = 0.10000000000582077
+metadata/_custom_type_script = "uid://ciccapc76ic3k"
+
+[node name="CopyExample" type="Control" node_paths=PackedStringArray("parent")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_7k0r8")
+script = ExtResource("2_fgtbd")
+parent = NodePath("HBoxContainer/PanelContainer/VBoxContainer")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -251.5
+offset_top = -213.0
+offset_right = 251.5
+offset_bottom = 213.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="RichTextLabel" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.5
+bbcode_enabled = true
+text = "[b]See 03_copies first.[/b]
+
+If the [b]target[/b] is different from the [b]trigger_source[/b], all the copy animations will reuse the same trigger_source.
+
+Hover the button and notice how every label moves at once, unlike the previous example where each animation were independent."
+autowrap_mode = 2
+vertical_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="Button" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Hover me"
+metadata/pca_metadata_updater = true
+metadata/pca_original_position = Vector2(0, 0)
+metadata/pca_original_rotation = 0.0
+metadata/pca_original_scale = Vector2(1, 1)
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Dummy label"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/pca_metadata_updater = true
+metadata/pca_original_position = Vector2(0, 105)
+metadata/pca_original_rotation = 0.0
+metadata/pca_original_scale = Vector2(1, 1)
+
+[node name="Label2" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Dummy label"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label3" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Dummy label"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label4" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Dummy label"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label5" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Dummy label"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label6" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Dummy label"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WiggleTextAnimation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer" node_paths=PackedStringArray("target", "trigger_source")]
+script = ExtResource("2_cna2p")
+target = NodePath("../Label")
+animation = SubResource("Resource_cna2p")
+loop_type = 2
+loop_count = 4
+trigger_source = NodePath("../Button")
+on_hover_start = true
+metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
+
+[node name="ProtonControlCopyAnimation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer/WiggleTextAnimation" node_paths=PackedStringArray("extra_targets")]
+script = ExtResource("4_h6wfi")
+extra_targets = [NodePath("../../Label2"), NodePath("../../Label3"), NodePath("../../Label4"), NodePath("../../Label5"), NodePath("../../Label6")]
+metadata/_custom_type_script = "uid://p8liavl4kvv8"
+
+[node name="RestoreRotation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer" node_paths=PackedStringArray("target", "trigger_source")]
+script = ExtResource("2_cna2p")
+target = NodePath("../Label")
+animation = SubResource("Resource_fgtbd")
+duration = 0.0
+loop_count = 4
+trigger_source = NodePath("../WiggleTextAnimation")
+on_hover_start = true
+on_animation_end = true
+metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
+
+[node name="ProtonControlCopyAnimation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer/RestoreRotation" node_paths=PackedStringArray("extra_targets")]
+script = ExtResource("4_h6wfi")
+extra_targets = [NodePath("../../Label2"), NodePath("../../Label3"), NodePath("../../Label4"), NodePath("../../Label5"), NodePath("../../Label6")]
+metadata/_custom_type_script = "uid://p8liavl4kvv8"
