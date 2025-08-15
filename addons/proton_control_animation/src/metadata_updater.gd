@@ -43,6 +43,8 @@ func _update_metadata(full_state: bool = false) -> void:
 	if full_state:
 		target.set_meta(ProtonControlAnimation.META_ORIGINAL_ROTATION, target.rotation)
 		target.set_meta(ProtonControlAnimation.META_ORIGINAL_SCALE, target.scale)
+		target.set_meta(ProtonControlAnimation.META_ORIGINAL_MODULATE, target.modulate)
+		target.set_meta(ProtonControlAnimation.META_ORIGINAL_SELF_MODULATE, target.self_modulate)
 
 
 func _is_animation_in_progress() -> bool:

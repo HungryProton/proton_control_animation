@@ -31,6 +31,10 @@ func _validate_property(property: Dictionary) -> void:
 	_update_inspector_visibility(property, "to_absolute_rotation", to == RotationType.ABSOLUTE_ROTATION)
 	_update_inspector_visibility(property, "to_relative_rotation", to == RotationType.RELATIVE_ROTATION)
 
+	# Hide the rotation_in_degrees if no angle field is visible
+	var keys: Array = [RotationType.ABSOLUTE_ROTATION, RotationType.RELATIVE_ROTATION]
+	_update_inspector_visibility(property, "rotation_in_degrees", from in keys or to in keys)
+
 
 func create_tween(animation: ProtonControlAnimation, target: Control) -> Tween:
 	var original_rotation: float = target.get_meta(ProtonControlAnimation.META_ORIGINAL_ROTATION, target.rotation)
