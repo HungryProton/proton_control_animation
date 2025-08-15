@@ -26,7 +26,7 @@ const META_IGNORE_VISIBILITY_TRIGGERS: String = "pca_ignore_visibility_triggers"
 signal animation_started
 signal animation_ended
 
-# TODO: 
+# TODO:
 enum LoopType {
 	NONE,
 	LINEAR,
@@ -123,9 +123,9 @@ func _ready() -> void:
 		_err = control.mouse_exited.connect(_on_mouse_exited)
 
 	if trigger_source is ProtonControlAnimation:
-		var animation: ProtonControlAnimation = trigger_source as ProtonControlAnimation
-		_err = animation.animation_started.connect(_on_parent_animation_started)
-		_err = animation.animation_ended.connect(_on_parent_animation_ended)
+		var source_animation: ProtonControlAnimation = trigger_source as ProtonControlAnimation
+		_err = source_animation.animation_started.connect(_on_parent_animation_started)
+		_err = source_animation.animation_ended.connect(_on_parent_animation_ended)
 
 	if not is_instance_valid(target):
 		return
@@ -144,14 +144,18 @@ func _ready() -> void:
 
 
 func _validate_property(property: Dictionary) -> void:
-	if property.name == "loop_count" and loop_type == LoopType.NONE:
-		property.usage = PROPERTY_USAGE_STORAGE
+	if property.name == "loop_count":
+		if loop_type == LoopType.NONE:
+			property.usage = PROPERTY_USAGE_STORAGE
+		else:
+			property.usage = PROPERTY_USAGE_DEFAULT
+
 
 
 func start() -> void:
 	if Engine.is_editor_hint():
 		return
-	
+
 	if not animation or _started:
 		return
 
@@ -165,20 +169,20 @@ func _start_deferred() -> void:
 	var list: Array = target.get_meta(META_ANIMATION_IN_PROGRESS, [])
 	list.push_back(self)
 	target.set_meta(META_ANIMATION_IN_PROGRESS, list)
-	
+
 	if delay > 0.0:
 		await get_tree().create_timer(delay).timeout
 
 	animation_started.emit()
 
-	for i in max(loop_count, 1):
+	for i: int in max(loop_count, 1):
 		_tween = animation.create_tween(self, target)
 		await _tween.finished
-		
+
 		if loop_type == LoopType.PING_PONG:
 			_tween = animation.create_tween_reverse(self, target)
 			await _tween.finished
-	
+
 	clear()
 	_started = false
 	animation_ended.emit()
