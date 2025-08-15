@@ -1,0 +1,10 @@
+title: ProtonControlAnimation documentation
+description: Documentation for the UI animation add-on.
+theme: just-the-docs
+logo: "icon.png"
+favicon_ico: "icon.png"
+
+url: https://github.com/HungryProton/proton_control_animation
+
+aux_links:
+  Repository: https://github.com/HungryProton/proton_control_animation 
