@@ -1,7 +1,7 @@
 title: Proton Control Animation
 description: A Godot add-on for UI animation.
-logo: "icon.png"
-favicon_ico: "icon.png"
+logo: "/img/icon.png"
+favicon_ico: "/img/favicon.ico"
 remote_theme: vaibhavvikas/jekyll-theme-minimalistic
 
 plugins:
@@ -13,11 +13,13 @@ aux_links:
   Repository: https://github.com/HungryProton/proton_control_animation
 
 navigation:
-  - name: Index
-    link: ./index.html
+  - name: Overview
+    link: /index.html
   - name: Installation
-    link: ./installation.html
+    link: /installation.html
   - name: Getting started
-    link: ./getting_started.html
+    link: /getting_started.html
   - name: Reference
-    link: ./reference/reference.html
+    link: /reference/reference.html
+
+hide_project_footer: true

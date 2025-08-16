@@ -5,4 +5,6 @@ nav_order: 3
 parent: Animations
 ---
 
+# Slide animation
+
 Alters the control position
