@@ -14,12 +14,12 @@ aux_links:
 
 navigation:
   - name: Overview
-    link: /index.html
+    link: /proton_control_animation/index.html
   - name: Installation
-    link: /installation.html
+    link: /proton_control_animation/installation.html
   - name: Getting started
-    link: /getting_started.html
+    link: /proton_control_animation/getting_started.html
   - name: Reference
-    link: /reference/reference.html
+    link: /proton_control_animation/reference/reference.html
 
 hide_project_footer: true
