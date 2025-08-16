@@ -17,7 +17,7 @@ nav_order: 1
 
 + **Create an animation resource**
   - For this example, we'll create a `SlideAnimation`
-  - Each animation has its own parameters. More on that in the [Reference page](/reference/reference.html).
+  - Each animation has its own parameters. More on that in the [Reference page](/proton_control_animation/reference/reference.html).
 
 + Define a trigger.
   - This is a short hand for connecting a signal to the `start()` method of the `ProtonControlAnimation` node.

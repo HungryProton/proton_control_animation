@@ -4,9 +4,9 @@ layout: default
 nav_order: 1
 ---
 
-## Installing the add-on
+# Installation
 
-# From the asset library
+## From the asset library
 
 *Might not be uploaded yet at the time I'm writing this guide* 
 
@@ -15,7 +15,7 @@ nav_order: 1
 + Click on the result and press "Download" 
 + Install the add-on in its default location `res://addons/proton_control_animation`
  
-# From source
+## From source
 
 + Clone the [Github](https://github.com/HungryProton/proton_control_animation) (or download the archive)
 + Copy the `addons` folder into your Godot project.
