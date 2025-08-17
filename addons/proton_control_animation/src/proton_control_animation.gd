@@ -124,6 +124,11 @@ enum LoopType {
 ## (Only applicable if `trigger_source` is a ProtonControlAnimation)
 @export var on_animation_end: bool
 
+## Starts the animation when this signal is emitted from the trigger source.
+## Foolproof way of connecting a signal to the start() method, as this technique
+## handles unbinding the arguments automatically if any.
+@export var custom_signal: String = ""
+
 
 var _tween: Tween
 var _started: bool = false
@@ -154,6 +159,8 @@ func _ready() -> void:
 		_err = source_animation.animation_started.connect(_on_parent_animation_started)
 		_err = source_animation.animation_ended.connect(_on_parent_animation_ended)
 
+	_connect_custom_signal()
+
 	if not is_instance_valid(target):
 		return
 
@@ -171,6 +178,10 @@ func _ready() -> void:
 
 
 func _validate_property(property: Dictionary) -> void:
+	if property.name == "custom_signal":
+		_update_custom_signal_export(property)
+		return
+
 	_update_inspector_visibility(property, "loop_count", loop_type != LoopType.NONE)
 
 	var is_control: bool = trigger_source is Control
@@ -189,6 +200,29 @@ func _validate_property(property: Dictionary) -> void:
 func _update_inspector_visibility(property: Dictionary, p_name: String, visible: bool) -> void:
 	if property.name == p_name:
 		property.usage = PROPERTY_USAGE_DEFAULT if visible else PROPERTY_USAGE_STORAGE
+
+
+func _update_custom_signal_export(property: Dictionary) -> void:
+	if not is_instance_valid(trigger_source):
+		property.usage = PROPERTY_USAGE_STORAGE
+		return
+
+	# Trigger source exists, expose all the valid signals to the inspector.
+	var signal_list: Array[String] = []
+	for s: Dictionary in trigger_source.get_signal_list():
+		signal_list.push_back(s.name)
+
+	signal_list.sort()
+
+	var hint_string: String = ""
+	for signal_name: String in signal_list:
+		if not hint_string.is_empty():
+			hint_string += ","
+		hint_string += signal_name
+
+	property.hint = PROPERTY_HINT_ENUM
+	property.hint_string = hint_string
+	property.usage = PROPERTY_USAGE_DEFAULT
 
 
 ## Plays the animation.
@@ -243,6 +277,28 @@ func clear() -> void:
 	var list: Array = target.get_meta(META_ANIMATION_IN_PROGRESS, [])
 	list.erase(self)
 	target.set_meta(META_ANIMATION_IN_PROGRESS, list)
+
+
+func _connect_custom_signal() -> void:
+	if not is_instance_valid(trigger_source) or custom_signal.is_empty():
+		return
+
+	# Find how many arguments comes with the signal
+	var args_count: int = -1
+	for s: Dictionary in trigger_source.get_signal_list():
+		if s.name == custom_signal:
+			var args: Array[Dictionary] = s.args
+			args_count = args.size()
+			break
+
+	if args_count < 0:
+		push_warning("Signal ", custom_signal, " is not present on ", trigger_source)
+		return
+
+	# Start() takes no argument, unbinds the ones comming from custom_signal if any
+	var err: Error = trigger_source.connect(custom_signal, start.unbind(args_count))
+	if err != OK:
+		push_warning("Could not connect ", custom_signal, " - Error: ", err)
 
 
 #region callbacks

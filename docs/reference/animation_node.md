@@ -57,12 +57,14 @@ It's exactly the same as going to the signals panel and connecting the relevant 
 + **on_focus_entered:** Plays the animation when the control aquires the focus.
 + **on_focus_exited:** Plays the animation when the control releases the focus.
 + **on_pressed:** Plays the animation when the Button is pressed.
-    - Only applicable if `trigger_source` is a button.
+	- Only applicable if `trigger_source` is a button.
 + **on_animation_start:** Plays the animation when the source animation starts.
-    - Only applicable if `trigger_source` is a `ProtonControlAnimation`.
+	- Only applicable if `trigger_source` is a `ProtonControlAnimation`.
 + **on_animation_end:** Plays the animation when the source animation ends.
-    - Only applicable if `trigger_source` is a `ProtonControlAnimation`.
+	- Only applicable if `trigger_source` is a `ProtonControlAnimation`.
 
++ **Custom Signal:** Starts the animation when this signal is emitted from the trigger source.
+	- Foolproof way of connecting a signal to the start() method, as this technique handles unbinding the arguments automatically if any.
 
 ## Method
 

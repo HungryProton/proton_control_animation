@@ -107,6 +107,8 @@ text = "You're not limited to that list. [b]Any[/b] signal from any node can be 
 Select the [b]LineEdit[/b] below and open the [b]Signals[/b] panel.
 Notice the `text_changed` signal is connected to the `start()` function on the Animation node.
 
+(Same thing as setting the [b]Custom Signal[/b] property)
+
 Whenever this signal is emitted, the animation will play."
 fit_content = true
 vertical_alignment = 1
