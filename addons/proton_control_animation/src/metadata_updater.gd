@@ -2,11 +2,14 @@ extends Node
 
 ## Metadata Updater
 ##
+## Internal helper node.
 ## Detects when the target transform is modified from outside the animations.
 ## This can happen if the window is resized or if the parent container
 ## is sorting the child controls.
 ##
 ## If a modification happens, updates the meta data stored on the node.
+## This metadata is used when animations need to access the original control's
+## transform (or other data).
 
 
 var target: Control

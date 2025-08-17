@@ -5,19 +5,32 @@ extends ProtonControlAnimationResource
 
 enum ScaleType {CURRENT_SCALE, ORIGINAL_SCALE, ABSOLUTE_SCALE, RELATIVE_SCALE}
 
-
+## The control's scale at the start of the animation.
 @export var from: ScaleType:
 	set(val):
 		from = val
 		notify_property_list_changed()
+
+## This will override the control's `scale` property when the animation starts.
+## Only applicable if `from == ABSOLUTE_SCALE`
 @export var from_absolute_scale: Vector2
+
+## The control's current scale will is multiplied by `from_relative_scale` when the animation starts.
+## Only applicable if `from == RELATIVE_SCALE`
 @export var from_relative_scale: Vector2
 
+## The control's scale at the end of the animation.
 @export var to: ScaleType:
 	set(val):
 		to = val
 		notify_property_list_changed()
+
+## At the end of the animation, the control's scale will be equal to `to_absolute_scale`.
+## Only applicable if `to == ABSOLUTE_SCALE`.
 @export var to_absolute_scale: Vector2
+
+## At the end of the animation, the control's `scale` will be equal to `control.scale * to_relative_scale`.
+## Only applicable if `to == RELATIVE_SCALE`
 @export var to_relative_scale: Vector2
 
 var _start_scale: Vector2

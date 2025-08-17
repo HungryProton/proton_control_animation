@@ -8,6 +8,9 @@ extends Node
 ## This node must be the direct child of a ProtonAnimationNode
 
 
+## An array of control nodes that will also be affected by the animation.
+## The `ProtonControlAnimation` node is duplicated for each of these nodes.
+## See `examples/03_copies.tscn` and `examples/04_copies_with[...]`
 @export var extra_targets: Array[Control] = []
 
 

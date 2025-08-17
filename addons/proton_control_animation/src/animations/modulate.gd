@@ -3,22 +3,33 @@ class_name PCA_ModulateAnimation
 extends ProtonControlAnimationResource
 
 enum ModulateType {
+	CURRENT_COLOR,
 	ORIGINAL_COLOR,
 	NEW_COLOR,
 }
 
+## The control's color at the start of the animation.
 @export var from: ModulateType:
 	set(val):
 		from = val
 		notify_property_list_changed()
+
+## This color will replace the control's color when the animation starts.
+## Only applicable if `from == NEW_COLOR`
 @export var from_color: Color
 
+## The control's color at the end of the animation.
 @export var to: ModulateType:
 	set(val):
 		to = val
 		notify_property_list_changed()
+
+## At the end of the animation, the control's color will have changed to `to_color`.
+## Only applicable if `to == NEW_COLOR`.
 @export var to_color: Color
 
+## If true, animate the control's `self_modulate` property.
+## If false, animation the control's `modulate` property.
 @export var self_modulate: bool = false
 
 var _start_color: Color
@@ -33,6 +44,11 @@ func _validate_property(property: Dictionary) -> void:
 func create_tween(animation: ProtonControlAnimation, target: Control) -> Tween:
 	var final_color: Color
 	match to:
+		ModulateType.CURRENT_COLOR:
+			if self_modulate:
+				final_color = target.self_modulate
+			else:
+				final_color = target.modulate
 		ModulateType.ORIGINAL_COLOR:
 			if self_modulate:
 				final_color = target.get_meta(ProtonControlAnimation.META_ORIGINAL_SELF_MODULATE, target.self_modulate)
@@ -42,6 +58,8 @@ func create_tween(animation: ProtonControlAnimation, target: Control) -> Tween:
 			final_color = to_color
 
 	match from:
+		ModulateType.CURRENT_COLOR:
+			pass # Nothing to do
 		ModulateType.ORIGINAL_COLOR:
 			if self_modulate:
 				target.self_modulate = target.get_meta(ProtonControlAnimation.META_ORIGINAL_SELF_MODULATE, target.self_modulate)

@@ -2,8 +2,14 @@
 class_name PCA_FadeAnimation
 extends ProtonControlAnimationResource
 
+## Animates the control's transparency.
+## This is a simplified version of the Modulate animation.
+## It is included as a minimal example you can refert to when creating your own animations.
 
+## The control's transparency at the start of the animation
 @export var from: float
+
+## The control's transparency at the end of the animation
 @export var to: float
 
 

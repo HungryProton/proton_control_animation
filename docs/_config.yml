@@ -1,0 +1,41 @@
+title: Proton Control Animation
+description: A Godot add-on for UI animation.
+logo: "/img/icon.png"
+favicon: true
+remote_theme: vaibhavvikas/jekyll-theme-minimalistic
+
+plugins:
+  - jekyll-remote-theme
+
+url: https://github.com/HungryProton/proton_control_animation
+
+aux_links:
+  Repository: https://github.com/HungryProton/proton_control_animation
+
+navigation:
+  - name: Overview
+    link: /proton_control_animation/index.html
+  - name: Installation
+    link: /proton_control_animation/installation.html
+  - name: Getting started
+    link: /proton_control_animation/getting_started.html
+  - name: Reference
+    link: /proton_control_animation/reference/reference.html
+    sublist:
+      - name: ProtonControlAnimation
+        link: /proton_control_animation/reference/animation_node.html
+      - name: ProtonControlCopyAnimation
+        link: /proton_control_animation/reference/copy_node.html
+      - name: Animation
+        link: /proton_control_animation/reference/animations.html
+      - name: Animation / Slide
+        link: /proton_control_animation/reference/animation/slide.html
+      - name: Animation / Rotate
+        link: /proton_control_animation/reference/animation/rotate.html
+      - name: Animation / Scale
+        link: /proton_control_animation/reference/animation/scale.html
+      - name: Animation / Modulate
+        link: /proton_control_animation/reference/animation/modulate.html
+      - name: Animation / Fade
+        link: /proton_control_animation/reference/animation/fade.html
+hide_project_footer: true

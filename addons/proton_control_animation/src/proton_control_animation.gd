@@ -10,6 +10,9 @@ extends Node
 ##
 ## The animation resource holds the information related to the animation,
 ## while this nodes decides where and when the animation should run.
+##
+## See the [online documentation](https://hungryproton.github.io/proton_control_animation/index.html)
+## for more information.
 
 
 const METADATA_UPDATER := preload("./metadata_updater.gd")
@@ -25,10 +28,15 @@ const META_HIDE_ANIMATIONS: String = "pca_hide_animations"
 const META_IGNORE_VISIBILITY_TRIGGERS: String = "pca_ignore_visibility_triggers"
 
 
+## Emitted when the animation starts. This is emitted after the delay (if any),
+## when the tween actually starts moving the UI.
 signal animation_started
+
+## Emitted when the animation ends. This is emitted once after all the loops
+## are complete (if any).
 signal animation_ended
 
-# TODO:
+
 enum LoopType {
 	NONE,
 	LINEAR,
@@ -183,6 +191,8 @@ func _update_inspector_visibility(property: Dictionary, p_name: String, visible:
 		property.usage = PROPERTY_USAGE_DEFAULT if visible else PROPERTY_USAGE_STORAGE
 
 
+## Plays the animation.
+## Directly call this method or connect it to a signal.
 func start() -> void:
 	if Engine.is_editor_hint():
 		return

@@ -1,8 +1,9 @@
 # ProtonControlAnimation
 
+**A simple way to animate Control nodes in Godot.**
+
 https://github.com/user-attachments/assets/fc9b0acc-646f-427d-9a0f-b1e103e65eec
 
-**Experimental** tool to quickly and easily add UI animation to your scenes. 
 
 ## Overview
 
@@ -11,45 +12,54 @@ No shaders, no custom containers, just drop a few `ProtonControlAnimation` nodes
 
 ## How to install
 
-+ Download this repository.
-+ Copy the `addons/proton_control_animation` folder into your addons folder.
-+ Enable the plugin in Project Settings.
++ Like any other Godot add-on.
++ Check out [the documentation](https://hungryproton.github.io/proton_control_animation/installation.html) for a detailled step by step guide.
 
-## How to use
+## Minimal example
 
-Navigate to the `addon/proton_control_animation/examples` to see what can be done.
-
-### Minimal example
-
-#### Add a `Control` node to animate.
+This tool works with your existing scenes.
+Simply add a `ProtonControlAnimation` node under the control you want to animate.
 
 ![image](https://github.com/user-attachments/assets/49353f18-62aa-46f1-9cef-5e12cf87b588)
 
-  - Here, we're going to animate a `PanelContainer` inside a control.
-  - You can put it inside regular containers too, both will work.
+  - In this example, we will animate the `PanelContainer`
 
-#### Add a `ProtonControlAnimation` node
+### The `ProtonControlAnimation` nodes
 
-![image](https://github.com/user-attachments/assets/bd543355-128d-4380-a69a-ad22a0f8435e)
+![image](https://github.com/user-attachments/assets/f7f9cca6-fb65-4963-adba-82863a0470a7)
 
-+ `Target` is the control node to animate, select the PanelContainer
-+ `Animation` is the animation that will play (see the following section)
-+ `Triggers` define **when** the animation should play
-  - Here, `on_hover_start` means the animation will start when the mouse moves over the control.
-+ `Trigger source` is the element from where we listen the events from:
-  - **You can leave it empty**, by default it will use the `Target` control.
-  - This is useful if another part of the UI should trigger the Control animation.
-    + See the `00_showcase.tscn` file if you want an example.
++ This node handles when an animation should play.
+  - Check out the [full documentation](https://hungryproton.github.io/proton_control_animation/reference/animation_node.html) for more information.
++ `Target` is the control node to animate (in this case, the `PanelContainer`).
++ `Animation` is the animation that will play.
  
-#### Add an animation
+### The animation resources
 
-![image](https://github.com/user-attachments/assets/80c5743a-357b-430a-ba7a-3f6630f80577)
+![image](https://github.com/user-attachments/assets/8798e88a-5fd3-4a18-8350-275c02ba2fa6)
 
-+ Here, the Scale animation makes the control bigger
-+ Three animations are available for now (Scale, Slide and Fade)
-  - More will come later
-  - Some properties like `from_scale` or `to_scale` are only useful depending on context, I still need to work on the UI.
++ The animation resource is what actually animates the controls.
++ Add a Scale animation one to the `ProtonControlAnimation` node
++ Each animation has its own set of parameters, check out [the documentation](https://hungryproton.github.io/proton_control_animation/reference/reference.html).
 
-#### That's it!
-You can add another animation node to scale the panel down when the mouse stops hovering.
-You can find the complete scene in `addons\proton_control_animation\example\01_scale`
+### Playing an animation
+
+The easiest way to play an animation is by using the Triggers properties, on the `ProtonControlAnimation` node:
+
+![image](https://github.com/user-attachments/assets/ce1ed35c-9ea5-455f-a068-337b2b742aaa)
+
++ **Trigger Source** is the control we're listening for events
+  - The triggers below are the most commonly used signals.
++ In this example, `On Hover Start` is enabled. The animation will play when the player hovers `PanelContainer` with the mouse.
+
++ You can also ignore that panel, and directly call the `start()` function to play the animation.
+  - You can find more information in the example scene `05_triggers.tscn`
+
+### That's it!
+
+This setup scales the panel up when hovering it with the mouse.
+You can add another animation node to scale it down when the mouse stops hovering.
+Check out the complete scene in `addons\proton_control_animation\examples\01_getting_started.tscn`
+
+## Going further
+
+You can extend the `ProtonControlAnimationResource` class to create your own animations. Check out the `animations/fade.gd` script for a minimal example.

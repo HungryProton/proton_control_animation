@@ -5,18 +5,33 @@ extends ProtonControlAnimationResource
 
 enum PositionType {CURRENT_POSITION, ORIGINAL_POSITION, GLOBAL_POSITION, LOCAL_OFFSET}
 
+## Defines where the animation starts.
 @export var from: PositionType:
 	set(val):
 		from = val
 		notify_property_list_changed()
+
+## This overrides the control's global position when the animation starts
+## Only applicable if `from == GLOBAL_POSITION`
 @export var from_global_position: Vector2
+
+## `from_local_offset` is added to the control's current position when the animation starts.
+## Only applicable if `from == LOCAL_OFFSET`
 @export var from_local_offset: Vector2
 
+## Defines where the animation ends.
 @export var to: PositionType:
 	set(val):
 		to = val
 		notify_property_list_changed()
+
+## The global position where the animation ends.
+## At the end of the animation, the control global position will be equal to `to_global_position`.
+## Only applicable if `to == GLOBAL_POSITION`
 @export var to_global_position: Vector2
+
+## At the end of the animation, the control's position will equal `control.position + to_local_offset`.
+## Only applicable if `to == LOCAL_OFFSET`
 @export var to_local_offset: Vector2
 
 var _start_pos: Vector2

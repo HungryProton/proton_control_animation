@@ -6,17 +6,27 @@ extends Resource
 ## Defines how the control is animated
 
 
+## Controls where the animation is interpolated.
+## Same as `Tween.set_ease(EaseType)`
 @export var easing: Tween.EaseType = Tween.EASE_IN_OUT
+
+## Controls the interpolation type.
+## Same as `Tween.set_trans(TransitionType)`
 @export var transition: Tween.TransitionType = Tween.TRANS_QUAD
+
+## How long the animation lasts.
+## Overriden by the ProtonControlAnimation duration if set.
 @export var default_duration: float = 1.0
 
 
 ## Override in child classes
+## Handles starting the animation.
 func create_tween(_animation: ProtonControlAnimation, _target: Control) -> Tween:
 	return null
 
 
 ## Override in child classes
+## Plays the animation in reverse. Used with the PingPong loop only.
 func create_tween_reverse(_animation: ProtonControlAnimation, _target: Control) -> Tween:
 	return null
 
