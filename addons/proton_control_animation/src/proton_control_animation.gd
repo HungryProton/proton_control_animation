@@ -296,7 +296,12 @@ func _connect_custom_signal() -> void:
 		return
 
 	# Start() takes no argument, unbinds the ones comming from custom_signal if any
-	var err: Error = trigger_source.connect(custom_signal, start.unbind(args_count))
+
+	var err: Error
+	if args_count == 0:
+		err = trigger_source.connect(custom_signal, start)
+	else:
+		err = trigger_source.connect(custom_signal, start.unbind(args_count))
 	if err != OK:
 		push_warning("Could not connect ", custom_signal, " - Error: ", err)
 
