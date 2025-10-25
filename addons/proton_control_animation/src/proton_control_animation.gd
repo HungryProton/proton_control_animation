@@ -43,6 +43,11 @@ enum LoopType {
 	PING_PONG
 }
 
+enum PivotOverride {NONE, CUSTOM, CENTER,
+		CENTER_TOP, CENTER_BOTTOM, CENTER_LEFT, CENTER_RIGHT,
+		TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT}
+
+
 ## The control node that will be animated
 @export var target: Control:
 	set(val):
@@ -60,7 +65,7 @@ enum LoopType {
 ## This has priority over the `default_duration` property from the `animation` resource.
 @export var duration: float = -1.0:
 	set(val):
-		duration = max(0, val)
+		duration = max(-1.0, val)
 
 ## If the animation should start, wait this amount of time before actually starting it (in seconds).
 @export var delay: float = 0.0:
@@ -129,6 +134,17 @@ enum LoopType {
 ## handles unbinding the arguments automatically if any.
 @export var custom_signal: String = ""
 
+@export_category("Overrides")
+
+## Overrides the target pivot offset, even if the control is under a container.
+@export var override_pivot: PivotOverride = PivotOverride.NONE:
+	set(val):
+		override_pivot = val
+		notify_property_list_changed()
+
+## Replaces the `pivot_offset` value in the target control.
+## Only applicable if `override_pivot == CUSTOM`
+@export var pivot_offset_override: Vector2 = Vector2.ZERO
 
 var _tween: Tween
 var _started: bool = false
@@ -175,6 +191,7 @@ func _ready() -> void:
 	var updater: Node = METADATA_UPDATER.new()
 	target.add_child.call_deferred(updater)
 	target.set_meta(META_HAS_UPDATER, true)
+	updater.updated.connect(_on_meta_data_updated)
 
 
 func _validate_property(property: Dictionary) -> void:
@@ -194,6 +211,7 @@ func _validate_property(property: Dictionary) -> void:
 	_update_inspector_visibility(property, "on_pressed", trigger_source is BaseButton)
 	_update_inspector_visibility(property, "on_animation_start", trigger_source is ProtonControlAnimation)
 	_update_inspector_visibility(property, "on_animation_end", trigger_source is ProtonControlAnimation)
+	_update_inspector_visibility(property, "pivot_offset_override", override_pivot == PivotOverride.CUSTOM)
 
 
 ## Call this from _validate_property() to quickly hide or show exported property depending on context.
@@ -306,6 +324,51 @@ func _connect_custom_signal() -> void:
 		push_warning("Could not connect ", custom_signal, " - Error: ", err)
 
 
+func _validate_pivot() -> void:
+	if not target:
+		return
+
+	match override_pivot:
+		PivotOverride.NONE:
+			return
+
+		PivotOverride.CUSTOM:
+			target.pivot_offset = pivot_offset_override
+
+		PivotOverride.CENTER:
+			target.pivot_offset = target.size / 2.0
+
+		PivotOverride.CENTER_TOP:
+			target.pivot_offset.x = target.size.x / 2.0
+			target.pivot_offset.y = 0.0
+
+		PivotOverride.CENTER_BOTTOM:
+			target.pivot_offset.x = target.size.x / 2.0
+			target.pivot_offset.y = target.size.y
+
+		PivotOverride.CENTER_LEFT:
+			target.pivot_offset.x = 0.0
+			target.pivot_offset.y = target.size.y / 2.0
+
+		PivotOverride.CENTER_RIGHT:
+			target.pivot_offset.x = target.size.x
+			target.pivot_offset.y = target.size.y / 2.0
+
+		PivotOverride.TOP_LEFT:
+			target.pivot_offset = Vector2.ZERO
+
+		PivotOverride.TOP_RIGHT:
+			target.pivot_offset.x = target.size.x
+			target.pivot_offset.y = 0
+
+		PivotOverride.BOTTOM_LEFT:
+			target.pivot_offset.x = 0
+			target.pivot_offset.y = target.size.y
+
+		PivotOverride.BOTTOM_RIGHT:
+			target.pivot_offset = target.size
+
+
 #region callbacks
 
 func _on_visibility_changed() -> void:
@@ -353,6 +416,11 @@ func _on_parent_animation_started() -> void:
 func _on_parent_animation_ended() -> void:
 	if on_animation_end:
 		start()
+
+
+func _on_meta_data_updated() -> void:
+	_validate_pivot()
+
 
 #endregion
 

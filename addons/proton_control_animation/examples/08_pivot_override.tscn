@@ -1,0 +1,190 @@
+[gd_scene load_steps=5 format=3 uid="uid://wa2r3mx8tuft"]
+
+[ext_resource type="Theme" uid="uid://xjn6s723t6oi" path="res://addons/proton_control_animation/examples/theme/pca_theme.tres" id="1_y66gc"]
+[ext_resource type="Script" uid="uid://b4hvmk8t0qkgu" path="res://addons/proton_control_animation/src/proton_control_animation.gd" id="2_gqwl6"]
+[ext_resource type="Script" uid="uid://bi4omyv2xson" path="res://addons/proton_control_animation/src/animations/scale.gd" id="3_ihp1e"]
+
+[sub_resource type="Resource" id="Resource_pnie3"]
+script = ExtResource("3_ihp1e")
+to = 2
+to_absolute_scale = Vector2(1.5, 1.5)
+easing = 1
+transition = 2
+default_duration = 0.4
+metadata/_custom_type_script = "uid://bi4omyv2xson"
+
+[node name="08PivotOverride" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_y66gc")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -164.5
+offset_top = -82.0
+offset_right = 164.5
+offset_bottom = 82.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Controls" type="GridContainer" parent="PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+columns = 3
+
+[node name="TopLeft" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/Controls"]
+layout_mode = 2
+text = "Top left"
+
+[node name="Scale" type="Node" parent="PanelContainer/MarginContainer/HBoxContainer/Controls/TopLeft" node_paths=PackedStringArray("target", "trigger_source")]
+script = ExtResource("2_gqwl6")
+target = NodePath("..")
+animation = SubResource("Resource_pnie3")
+loop_type = 2
+trigger_source = NodePath("..")
+on_pressed = true
+override_pivot = 7
+metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
+
+[node name="TopCenter" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/Controls"]
+layout_mode = 2
+text = "Center top"
+
+[node name="Scale" type="Node" parent="PanelContainer/MarginContainer/HBoxContainer/Controls/TopCenter" node_paths=PackedStringArray("target", "trigger_source")]
+script = ExtResource("2_gqwl6")
+target = NodePath("..")
+animation = SubResource("Resource_pnie3")
+loop_type = 2
+trigger_source = NodePath("..")
+on_pressed = true
+override_pivot = 3
+metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
+
+[node name="TopRight" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/Controls"]
+layout_mode = 2
+text = "Top right"
+
+[node name="Scale" type="Node" parent="PanelContainer/MarginContainer/HBoxContainer/Controls/TopRight" node_paths=PackedStringArray("target", "trigger_source")]
+script = ExtResource("2_gqwl6")
+target = NodePath("..")
+animation = SubResource("Resource_pnie3")
+loop_type = 2
+trigger_source = NodePath("..")
+on_pressed = true
+override_pivot = 8
+metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
+
+[node name="CenterLeft" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/Controls"]
+layout_mode = 2
+text = "Center left"
+
+[node name="Scale" type="Node" parent="PanelContainer/MarginContainer/HBoxContainer/Controls/CenterLeft" node_paths=PackedStringArray("target", "trigger_source")]
+script = ExtResource("2_gqwl6")
+target = NodePath("..")
+animation = SubResource("Resource_pnie3")
+loop_type = 2
+trigger_source = NodePath("..")
+on_pressed = true
+override_pivot = 5
+metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
+
+[node name="Center" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/Controls"]
+layout_mode = 2
+text = "Center"
+
+[node name="Scale" type="Node" parent="PanelContainer/MarginContainer/HBoxContainer/Controls/Center" node_paths=PackedStringArray("target", "trigger_source")]
+script = ExtResource("2_gqwl6")
+target = NodePath("..")
+animation = SubResource("Resource_pnie3")
+loop_type = 2
+trigger_source = NodePath("..")
+on_pressed = true
+override_pivot = 2
+metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
+
+[node name="CenterRight" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/Controls"]
+layout_mode = 2
+text = "Center right"
+
+[node name="Scale" type="Node" parent="PanelContainer/MarginContainer/HBoxContainer/Controls/CenterRight" node_paths=PackedStringArray("target", "trigger_source")]
+script = ExtResource("2_gqwl6")
+target = NodePath("..")
+animation = SubResource("Resource_pnie3")
+loop_type = 2
+trigger_source = NodePath("..")
+on_pressed = true
+override_pivot = 6
+metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
+
+[node name="BottomLeft" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/Controls"]
+layout_mode = 2
+text = "Bottom left"
+
+[node name="Scale" type="Node" parent="PanelContainer/MarginContainer/HBoxContainer/Controls/BottomLeft" node_paths=PackedStringArray("target", "trigger_source")]
+script = ExtResource("2_gqwl6")
+target = NodePath("..")
+animation = SubResource("Resource_pnie3")
+loop_type = 2
+trigger_source = NodePath("..")
+on_pressed = true
+override_pivot = 9
+metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
+
+[node name="CenterBottom" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/Controls"]
+layout_mode = 2
+text = "Center bottom"
+
+[node name="Scale" type="Node" parent="PanelContainer/MarginContainer/HBoxContainer/Controls/CenterBottom" node_paths=PackedStringArray("target", "trigger_source")]
+script = ExtResource("2_gqwl6")
+target = NodePath("..")
+animation = SubResource("Resource_pnie3")
+loop_type = 2
+trigger_source = NodePath("..")
+on_pressed = true
+override_pivot = 4
+metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
+
+[node name="BottomRight" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/Controls"]
+layout_mode = 2
+text = "Bottom right"
+
+[node name="Scale" type="Node" parent="PanelContainer/MarginContainer/HBoxContainer/Controls/BottomRight" node_paths=PackedStringArray("target", "trigger_source")]
+script = ExtResource("2_gqwl6")
+target = NodePath("..")
+animation = SubResource("Resource_pnie3")
+loop_type = 2
+trigger_source = NodePath("..")
+on_pressed = true
+override_pivot = 10
+metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
+
+[node name="Custom" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Custom"
+
+[node name="Scale" type="Node" parent="PanelContainer/MarginContainer/HBoxContainer/Custom" node_paths=PackedStringArray("target", "trigger_source")]
+script = ExtResource("2_gqwl6")
+target = NodePath("..")
+animation = SubResource("Resource_pnie3")
+loop_type = 2
+trigger_source = NodePath("..")
+on_pressed = true
+override_pivot = 1
+pivot_offset_override = Vector2(400, 100)
+metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
