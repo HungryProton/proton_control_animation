@@ -84,3 +84,10 @@ func create_tween_reverse(animation: ProtonControlAnimation, target: Control) ->
 	@warning_ignore("return_value_discarded")
 	tween.tween_property(target, "self_modulate" if self_modulate else "modulate", _start_color, get_duration(animation))
 	return tween
+
+
+func reset(_animation: ProtonControlAnimation, target: Control) -> void:
+	if self_modulate:
+		target.self_modulate = target.get_meta(ProtonControlAnimation.META_ORIGINAL_SELF_MODULATE, target.self_modulate)
+	else:
+		target.modulate = target.get_meta(ProtonControlAnimation.META_ORIGINAL_MODULATE, target.modulate)

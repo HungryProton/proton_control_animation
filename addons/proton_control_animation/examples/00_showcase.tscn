@@ -166,21 +166,23 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(145.5, 191)
 
-[node name="ScaleUpAnimation" type="Node" parent="Control/CenterPanel" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="ScaleUpAnimation" type="Node" parent="Control/CenterPanel" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("3_mdnh0")
 target = NodePath("..")
 animation = SubResource("Resource_dkxil")
 duration = 0.3
-trigger_source = NodePath("..")
-on_show = true
+start_trigger_source = NodePath("..")
+start_on_show = true
+stop_trigger_source = NodePath("..")
 
-[node name="ScaleDownAnimation" type="Node" parent="Control/CenterPanel" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="ScaleDownAnimation" type="Node" parent="Control/CenterPanel" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("3_mdnh0")
 target = NodePath("..")
 animation = SubResource("Resource_qbm01")
 duration = 0.3
-trigger_source = NodePath("..")
-on_hide = true
+start_trigger_source = NodePath("..")
+start_on_hide = true
+stop_trigger_source = NodePath("..")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterPanel"]
 layout_mode = 2
@@ -211,7 +213,7 @@ text = "Hover me!"
 [node name="ButtonsHoverStartAnimation" type="Node" parent="Control/CenterPanel/VBoxContainer/HBoxContainer/VBoxContainer"]
 script = ExtResource("3_mdnh0")
 animation = SubResource("Resource_unyg3")
-on_hover_start = true
+start_on_hover_start = true
 
 [node name="ProtonControlCopyAnimation" type="Node" parent="Control/CenterPanel/VBoxContainer/HBoxContainer/VBoxContainer/ButtonsHoverStartAnimation" node_paths=PackedStringArray("extra_targets")]
 script = ExtResource("6_01ri3")
@@ -221,7 +223,7 @@ metadata/_custom_type_script = "uid://p8liavl4kvv8"
 [node name="ButtonsHoverEndAnimation" type="Node" parent="Control/CenterPanel/VBoxContainer/HBoxContainer/VBoxContainer"]
 script = ExtResource("3_mdnh0")
 animation = SubResource("Resource_iue33")
-on_hover_stop = true
+start_on_hover_stop = true
 
 [node name="ProtonControlCopyAnimation2" type="Node" parent="Control/CenterPanel/VBoxContainer/HBoxContainer/VBoxContainer/ButtonsHoverEndAnimation" node_paths=PackedStringArray("extra_targets")]
 script = ExtResource("6_01ri3")
@@ -242,22 +244,24 @@ texture = ExtResource("7_amg16")
 expand_mode = 1
 stretch_mode = 3
 
-[node name="SlideUpAnimation" type="Node" parent="Control/CenterPanel/VBoxContainer/HBoxContainer/VBoxContainer2/TextureRect" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="SlideUpAnimation" type="Node" parent="Control/CenterPanel/VBoxContainer/HBoxContainer/VBoxContainer2/TextureRect" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("3_mdnh0")
 target = NodePath("..")
 animation = SubResource("Resource_1rhje")
 duration = 0.2
-trigger_source = NodePath("../../SlideUpButton")
-on_pressed = true
+start_trigger_source = NodePath("../../SlideUpButton")
+start_on_pressed = true
+stop_trigger_source = NodePath("..")
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
-[node name="ResetSlideAnimation" type="Node" parent="Control/CenterPanel/VBoxContainer/HBoxContainer/VBoxContainer2/TextureRect" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="ResetSlideAnimation" type="Node" parent="Control/CenterPanel/VBoxContainer/HBoxContainer/VBoxContainer2/TextureRect" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 unique_name_in_owner = true
 script = ExtResource("3_mdnh0")
 target = NodePath("..")
 animation = SubResource("Resource_tploy")
 duration = 0.75
-trigger_source = NodePath("..")
+start_trigger_source = NodePath("..")
+stop_trigger_source = NodePath("..")
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
 [node name="SlideUpButton" type="Button" parent="Control/CenterPanel/VBoxContainer/HBoxContainer/VBoxContainer2"]
@@ -288,19 +292,21 @@ offset_bottom = 174.0
 grow_horizontal = 0
 grow_vertical = 2
 
-[node name="SlideInAnimation" type="Node" parent="Control/SidePanel" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="SlideInAnimation" type="Node" parent="Control/SidePanel" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("3_mdnh0")
 target = NodePath("..")
 animation = SubResource("Resource_jnopg")
-trigger_source = NodePath("..")
-on_show = true
+start_trigger_source = NodePath("..")
+start_on_show = true
+stop_trigger_source = NodePath("..")
 
-[node name="SlideOutAnimation" type="Node" parent="Control/SidePanel" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="SlideOutAnimation" type="Node" parent="Control/SidePanel" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("3_mdnh0")
 target = NodePath("..")
 animation = SubResource("Resource_a6eo0")
-trigger_source = NodePath("..")
-on_hide = true
+start_trigger_source = NodePath("..")
+start_on_hide = true
+stop_trigger_source = NodePath("..")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/SidePanel"]
 layout_mode = 2
@@ -323,21 +329,23 @@ texture = ExtResource("7_amg16")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="SlideLeft" type="Node" parent="Control/SidePanel/VBoxContainer/TextureRect" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="SlideLeft" type="Node" parent="Control/SidePanel/VBoxContainer/TextureRect" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("3_mdnh0")
 target = NodePath("..")
 animation = SubResource("Resource_j3cwm")
 delay = 0.12
-trigger_source = NodePath("../../../SlideInAnimation")
-on_animation_end = true
+start_trigger_source = NodePath("../../../SlideInAnimation")
+start_on_animation_end = true
+stop_trigger_source = NodePath("..")
 
-[node name="SlideRight" type="Node" parent="Control/SidePanel/VBoxContainer/TextureRect" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="SlideRight" type="Node" parent="Control/SidePanel/VBoxContainer/TextureRect" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("3_mdnh0")
 target = NodePath("..")
 animation = SubResource("Resource_rseu8")
 delay = 0.12
-trigger_source = NodePath("../../TextureRect3/SlideLeft")
-on_animation_end = true
+start_trigger_source = NodePath("../../TextureRect3/SlideLeft")
+start_on_animation_end = true
+stop_trigger_source = NodePath("..")
 
 [node name="TextureRect2" type="TextureRect" parent="Control/SidePanel/VBoxContainer"]
 custom_minimum_size = Vector2(0, 48)
@@ -346,21 +354,23 @@ texture = ExtResource("7_amg16")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="SlideLeft" type="Node" parent="Control/SidePanel/VBoxContainer/TextureRect2" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="SlideLeft" type="Node" parent="Control/SidePanel/VBoxContainer/TextureRect2" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("3_mdnh0")
 target = NodePath("..")
 animation = SubResource("Resource_j3cwm")
 delay = 0.12
-trigger_source = NodePath("../../TextureRect/SlideLeft")
-on_animation_end = true
+start_trigger_source = NodePath("../../TextureRect/SlideLeft")
+start_on_animation_end = true
+stop_trigger_source = NodePath("..")
 
-[node name="SlideRight" type="Node" parent="Control/SidePanel/VBoxContainer/TextureRect2" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="SlideRight" type="Node" parent="Control/SidePanel/VBoxContainer/TextureRect2" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("3_mdnh0")
 target = NodePath("..")
 animation = SubResource("Resource_rseu8")
 delay = 0.12
-trigger_source = NodePath("../../TextureRect/SlideRight")
-on_animation_end = true
+start_trigger_source = NodePath("../../TextureRect/SlideRight")
+start_on_animation_end = true
+stop_trigger_source = NodePath("..")
 
 [node name="TextureRect3" type="TextureRect" parent="Control/SidePanel/VBoxContainer"]
 custom_minimum_size = Vector2(0, 48)
@@ -369,21 +379,23 @@ texture = ExtResource("7_amg16")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="SlideLeft" type="Node" parent="Control/SidePanel/VBoxContainer/TextureRect3" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="SlideLeft" type="Node" parent="Control/SidePanel/VBoxContainer/TextureRect3" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("3_mdnh0")
 target = NodePath("..")
 animation = SubResource("Resource_j3cwm")
 delay = 0.12
-trigger_source = NodePath("../../TextureRect2/SlideLeft")
-on_animation_end = true
+start_trigger_source = NodePath("../../TextureRect2/SlideLeft")
+start_on_animation_end = true
+stop_trigger_source = NodePath("..")
 
-[node name="SlideRight" type="Node" parent="Control/SidePanel/VBoxContainer/TextureRect3" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="SlideRight" type="Node" parent="Control/SidePanel/VBoxContainer/TextureRect3" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("3_mdnh0")
 target = NodePath("..")
 animation = SubResource("Resource_rseu8")
 delay = 0.12
-trigger_source = NodePath("../../TextureRect2/SlideRight")
-on_animation_end = true
+start_trigger_source = NodePath("../../TextureRect2/SlideRight")
+start_on_animation_end = true
+stop_trigger_source = NodePath("..")
 
 [node name="HSeparator2" type="HSeparator" parent="Control/SidePanel/VBoxContainer"]
 layout_mode = 2

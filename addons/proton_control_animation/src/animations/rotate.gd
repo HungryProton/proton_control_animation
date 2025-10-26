@@ -105,3 +105,7 @@ func create_tween_reverse(animation: ProtonControlAnimation, target: Control) ->
 	tween.tween_property(target, "rotation", _start_rotation, get_duration(animation))
 
 	return tween
+
+
+func reset(_animation: ProtonControlAnimation, target: Control) -> void:
+	target.rotation = target.get_meta(ProtonControlAnimation.META_ORIGINAL_ROTATION, target.rotation)

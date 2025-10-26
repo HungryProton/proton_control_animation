@@ -1,10 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://dyqoum2s8vjtd"]
+[gd_scene load_steps=12 format=3 uid="uid://dyqoum2s8vjtd"]
 
 [ext_resource type="Theme" uid="uid://xjn6s723t6oi" path="res://addons/proton_control_animation/examples/theme/pca_theme.tres" id="1_jh8lk"]
 [ext_resource type="Script" uid="uid://b4hvmk8t0qkgu" path="res://addons/proton_control_animation/src/proton_control_animation.gd" id="2_07bcj"]
 [ext_resource type="Script" uid="uid://bsufjcw4lsn2a" path="res://addons/proton_control_animation/src/animations/slide.gd" id="3_3xvwd"]
 [ext_resource type="Script" uid="uid://doh0f6x2cdghd" path="res://addons/proton_control_animation/src/animations/fade.gd" id="4_3xvwd"]
 [ext_resource type="Script" uid="uid://bi4omyv2xson" path="res://addons/proton_control_animation/src/animations/scale.gd" id="5_j6uly"]
+[ext_resource type="Texture2D" uid="uid://c3o13n7n8bq12" path="res://addons/proton_control_animation/examples/theme/assets/panel-transparent-center-031.png" id="6_u2rf8"]
+[ext_resource type="Script" uid="uid://ciccapc76ic3k" path="res://addons/proton_control_animation/src/animations/rotate.gd" id="7_x8am6"]
 
 [sub_resource type="Resource" id="Resource_j6uly"]
 script = ExtResource("3_3xvwd")
@@ -29,6 +31,14 @@ to_absolute_scale = Vector2(1.4, 1.4)
 easing = 1
 transition = 2
 metadata/_custom_type_script = "uid://bi4omyv2xson"
+
+[sub_resource type="Resource" id="Resource_ca07r"]
+script = ExtResource("7_x8am6")
+from = 1
+to = 2
+to_absolute_rotation = 360.0
+transition = 0
+metadata/_custom_type_script = "uid://ciccapc76ic3k"
 
 [node name="LoopExample" type="Control"]
 layout_mode = 3
@@ -59,7 +69,9 @@ text = "If  [b]LoopType [/b] is set to something other than `None`, the animatio
 
 [b]Linear:[/b] Plays the animation again from the start.
 
-[b]PingPong:[/b] Plays the animation normally, when complete, plays it in reverse. The whole round trip is counted as 1 loop."
+[b]PingPong:[/b] Plays the animation normally, when complete, plays it in reverse. The whole round trip is counted as 1 loop.
+
+If [b]Infinite Loop[/b] is enabled, the animation will play forever until a [i]Stop Trigger[/i] is activated."
 fit_content = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
@@ -76,15 +88,16 @@ layout_mode = 2
 text = "Slide"
 horizontal_alignment = 1
 
-[node name="SlideAnimation" type="Node" parent="VBoxContainer/HBoxContainer/PanelContainer" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="SlideAnimation" type="Node" parent="VBoxContainer/HBoxContainer/PanelContainer" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("2_07bcj")
 target = NodePath("..")
 animation = SubResource("Resource_j6uly")
 duration = 0.2
 loop_type = 2
 loop_count = 3
-trigger_source = NodePath("..")
-on_hover_start = true
+start_trigger_source = NodePath("..")
+start_on_hover_start = true
+stop_trigger_source = NodePath("..")
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
 [node name="PanelContainer2" type="PanelContainer" parent="VBoxContainer/HBoxContainer"]
@@ -97,15 +110,16 @@ layout_mode = 2
 text = "Fade"
 horizontal_alignment = 1
 
-[node name="FadeAnimation" type="Node" parent="VBoxContainer/HBoxContainer/PanelContainer2" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="FadeAnimation" type="Node" parent="VBoxContainer/HBoxContainer/PanelContainer2" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("2_07bcj")
 target = NodePath("..")
 animation = SubResource("Resource_u2rf8")
 duration = 0.2
 loop_type = 2
 loop_count = 4
-trigger_source = NodePath("..")
-on_hover_start = true
+start_trigger_source = NodePath("..")
+start_on_hover_start = true
+stop_trigger_source = NodePath("..")
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
 [node name="PanelContainer3" type="PanelContainer" parent="VBoxContainer/HBoxContainer"]
@@ -117,12 +131,43 @@ layout_mode = 2
 text = "Scale"
 horizontal_alignment = 1
 
-[node name="ScaleAnimation" type="Node" parent="VBoxContainer/HBoxContainer/PanelContainer3" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="ScaleAnimation" type="Node" parent="VBoxContainer/HBoxContainer/PanelContainer3" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("2_07bcj")
 target = NodePath("..")
 animation = SubResource("Resource_x8am6")
 duration = 0.3
 loop_type = 2
-trigger_source = NodePath("..")
-on_hover_start = true
+start_trigger_source = NodePath("..")
+start_on_hover_start = true
+stop_trigger_source = NodePath("..")
+override_pivot = 2
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("6_u2rf8")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="SpinAnimation" type="Node" parent="VBoxContainer/TextureRect" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
+script = ExtResource("2_07bcj")
+target = NodePath("..")
+animation = SubResource("Resource_ca07r")
+loop_type = 1
+infinite_loop = true
+start_trigger_source = NodePath("..")
+start_on_show = true
+start_on_hover_stop = true
+stop_behavior = 2
+stop_trigger_source = NodePath("..")
+stop_on_hover_start = true
+override_pivot = 2
+metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Hover me!"
+horizontal_alignment = 1

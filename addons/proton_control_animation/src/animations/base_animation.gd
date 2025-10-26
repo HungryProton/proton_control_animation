@@ -31,6 +31,12 @@ func create_tween_reverse(_animation: ProtonControlAnimation, _target: Control) 
 	return null
 
 
+## Override in child classes
+## Restore the control as it was before this animation started.
+func reset(_animation: ProtonControlAnimation, _target: Control) -> void:
+	pass
+
+
 ## Returns the actual duration of the animation
 ## If a duration override is defined in the parent ControlAnimation node, use that
 ## Else, use the one defined on the animation resource.

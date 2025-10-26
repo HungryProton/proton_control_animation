@@ -55,7 +55,7 @@ The [b]Target[/b] is the node that's animated. Here it's the PanelContainer on t
 
 The [b]Animation[/b] resource defines what type of animation should play.
 
-The [b]Trigger source[/b] is just a shortcut for the most common events. Here, the ScaleUp animation plays when you hover the panel, while ScaleDown plays when you stop hovering.
+The [b]Start Triggers[/b] [i](Triggers > Start triggers)[/i] are shortcuts for the most common events. Here, the ScaleUp animation plays when you hover the panel, while ScaleDown plays when you stop hovering.
 
 You can use any signal from any node by simply connecting them to the [b]start()[/b] function on the animation node."
 vertical_alignment = 1
@@ -70,20 +70,22 @@ layout_mode = 2
 text = "Hover me"
 horizontal_alignment = 1
 
-[node name="ScaleUp" type="Node" parent="HBoxContainer/PanelContainer" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="ScaleUp" type="Node" parent="HBoxContainer/PanelContainer" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("2_x1n5d")
 target = NodePath("..")
 animation = SubResource("Resource_irfdr")
 duration = 0.3
-trigger_source = NodePath("..")
-on_hover_start = true
+start_trigger_source = NodePath("..")
+start_on_hover_start = true
+stop_trigger_source = NodePath("..")
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
-[node name="ScaleDown" type="Node" parent="HBoxContainer/PanelContainer" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="ScaleDown" type="Node" parent="HBoxContainer/PanelContainer" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("2_x1n5d")
 target = NodePath("..")
 animation = SubResource("Resource_k4ckn")
 duration = 0.3
-trigger_source = NodePath("..")
-on_hover_stop = true
+start_trigger_source = NodePath("..")
+start_on_hover_stop = true
+stop_trigger_source = NodePath("..")
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"

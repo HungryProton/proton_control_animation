@@ -39,8 +39,11 @@ func _ready() -> void:
 		# Make sure the events are fired from the extra targets instead
 		# of being fired from the original node, unless the trigger source is
 		# explicitely set as a different node from the original target.
-		if copy.target and copy.trigger_source == copy.target:
-			copy.trigger_source = extra_target
+		if copy.target:
+			if copy.start_trigger_source == copy.target:
+				copy.start_trigger_source = extra_target
+			if copy.stop_trigger_source == copy.target:
+				copy.stop_trigger_source = extra_target
 
 		# Update the animation target
 		copy.target = extra_target

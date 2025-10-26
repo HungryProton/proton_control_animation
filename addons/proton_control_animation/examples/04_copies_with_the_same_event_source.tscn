@@ -91,10 +91,6 @@ layout_mode = 2
 text = "Dummy label"
 horizontal_alignment = 1
 vertical_alignment = 1
-metadata/pca_metadata_updater = true
-metadata/pca_original_position = Vector2(0, 105)
-metadata/pca_original_rotation = 0.0
-metadata/pca_original_scale = Vector2(1, 1)
 
 [node name="Label2" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
@@ -126,14 +122,16 @@ text = "Dummy label"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="WiggleTextAnimation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="WiggleTextAnimation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("2_cna2p")
 target = NodePath("../Label")
 animation = SubResource("Resource_cna2p")
 loop_type = 2
 loop_count = 4
-trigger_source = NodePath("../Button")
-on_hover_start = true
+start_trigger_source = NodePath("../Button")
+start_on_hover_start = true
+stop_trigger_source = NodePath("../Label")
+override_pivot = 2
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
 [node name="ProtonControlCopyAnimation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer/WiggleTextAnimation" node_paths=PackedStringArray("extra_targets")]
@@ -141,15 +139,16 @@ script = ExtResource("4_h6wfi")
 extra_targets = [NodePath("../../Label2"), NodePath("../../Label3"), NodePath("../../Label4"), NodePath("../../Label5"), NodePath("../../Label6")]
 metadata/_custom_type_script = "uid://p8liavl4kvv8"
 
-[node name="RestoreRotation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="RestoreRotation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("2_cna2p")
 target = NodePath("../Label")
 animation = SubResource("Resource_fgtbd")
 duration = 0.0
 loop_count = 4
-trigger_source = NodePath("../WiggleTextAnimation")
-on_hover_start = true
-on_animation_end = true
+start_trigger_source = NodePath("../WiggleTextAnimation")
+start_on_hover_start = true
+start_on_animation_end = true
+stop_trigger_source = NodePath("../Label")
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
 [node name="ProtonControlCopyAnimation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer/RestoreRotation" node_paths=PackedStringArray("extra_targets")]

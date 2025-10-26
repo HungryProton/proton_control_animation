@@ -27,3 +27,7 @@ func create_tween_reverse(animation: ProtonControlAnimation, target: Control) ->
 	@warning_ignore("return_value_discarded")
 	tween.tween_property(target, "modulate:a", from, get_duration(animation))
 	return tween
+
+
+func reset(_animation: ProtonControlAnimation, target: Control) -> void:
+	target.modulate.a = from

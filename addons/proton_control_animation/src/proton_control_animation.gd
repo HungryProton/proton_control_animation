@@ -47,6 +47,11 @@ enum PivotOverride {NONE, CUSTOM, CENTER,
 		CENTER_TOP, CENTER_BOTTOM, CENTER_LEFT, CENTER_RIGHT,
 		TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT}
 
+enum StopBehavior {
+	WAIT_UNTIL_END,
+	IN_PLACE,
+	RESET,
+}
 
 ## The control node that will be animated
 @export var target: Control:
@@ -54,8 +59,10 @@ enum PivotOverride {NONE, CUSTOM, CENTER,
 		target = val
 		if not target:
 			target = get_parent()
-		if not trigger_source:
-			trigger_source = target
+		if not start_trigger_source:
+			start_trigger_source = target
+		if not stop_trigger_source:
+			stop_trigger_source = target
 		notify_property_list_changed()
 
 ## The animation that plays on the target
@@ -81,12 +88,18 @@ enum PivotOverride {NONE, CUSTOM, CENTER,
 @export var loop_type: LoopType = LoopType.NONE:
 	set(val):
 		loop_type = val
-		property_list_changed.emit()
+		notify_property_list_changed()
+
+@export var infinite_loop: bool = false:
+	set(val):
+		infinite_loop = val
+		notify_property_list_changed()
 
 ## How many times the animation should play before stopping
 @export_range(1, 10, 1, "or_greater") var loop_count: int = 1
 
 @export_category("Triggers")
+@export_group("Start triggers")
 
 ## If true, when the animation is already playing but something tries to play
 ## the animation again, restart the animation when it's complete.
@@ -94,45 +107,96 @@ enum PivotOverride {NONE, CUSTOM, CENTER,
 
 ## On which node the trigger events are listened.
 ## If empty, `target` will be used instead.
-@export var trigger_source: Node:
+@export var start_trigger_source: Node:
 	set(val):
-		trigger_source = val
+		start_trigger_source = val
 		notify_property_list_changed()
 
 ## The animation will play when the Control becomes visible.
-@export var on_show: bool
+@export var start_on_show: bool
 
 ## The animation will play when the Control is hidden.
-@export var on_hide: bool # TODO: kinda hacky for now
+@export var start_on_hide: bool # TODO: kinda hacky for now
 
 ## The animation will play when the mouse enters the Control.
-@export var on_hover_start: bool
+@export var start_on_hover_start: bool
 
 ## The animation will play when the mouse exits the Control.
-@export var on_hover_stop: bool
+@export var start_on_hover_stop: bool
 
 ## The animation will play when the control aquires the focus
-@export var on_focus_entered: bool
+@export var start_on_focus_entered: bool
 
 ## The animation will play when the control releases the focus
-@export var on_focus_exited: bool
+@export var start_on_focus_exited: bool
 
 ## The animation will play when the Button is pressed.
 ## (Only applicable if `trigger_source` is a Button)
-@export var on_pressed: bool
+@export var start_on_pressed: bool
 
 ## The animation will play when the source animation starts.
 ## (Only applicable if `trigger_source` is a ProtonControlAnimation)
-@export var on_animation_start: bool
+@export var start_on_animation_start: bool
 
 ## The animation will play when the source animation ends.
 ## (Only applicable if `trigger_source` is a ProtonControlAnimation)
-@export var on_animation_end: bool
+@export var start_on_animation_end: bool
 
 ## Starts the animation when this signal is emitted from the trigger source.
 ## Foolproof way of connecting a signal to the start() method, as this technique
 ## handles unbinding the arguments automatically if any.
-@export var custom_signal: String = ""
+@export var start_custom_signal: String = ""
+
+
+@export_group("Stop triggers")
+
+## What happens to the animation when interrupted.
+## WAIT_UNTIL_END: Waits for the current loop to complete and stops the animation.
+## IN_PLACE: Immediately stops, leaves the control as is in its mid animation state.
+## RESET: Stops immediately and restores the control original transform.
+@export var stop_behavior: StopBehavior = StopBehavior.WAIT_UNTIL_END
+
+## On which node the trigger events are listened.
+## If empty, `target` will be used instead.
+@export var stop_trigger_source: Node:
+	set(val):
+		stop_trigger_source = val
+		notify_property_list_changed()
+
+## If playing, the animation will stop when the Control becomes visible.
+@export var stop_on_show: bool
+
+## The animation will play when the Control is hidden.
+@export var stop_on_hide: bool # TODO: kinda hacky for now
+
+## The animation will play when the mouse enters the Control.
+@export var stop_on_hover_start: bool
+
+## The animation will play when the mouse exits the Control.
+@export var stop_on_hover_stop: bool
+
+## The animation will play when the control aquires the focus
+@export var stop_on_focus_entered: bool
+
+## The animation will play when the control releases the focus
+@export var stop_on_focus_exited: bool
+
+## The animation will play when the Button is pressed.
+## (Only applicable if `trigger_source` is a Button)
+@export var stop_on_pressed: bool
+
+## The animation will play when the source animation starts.
+## (Only applicable if `trigger_source` is a ProtonControlAnimation)
+@export var stop_on_animation_start: bool
+
+## The animation will play when the source animation ends.
+## (Only applicable if `trigger_source` is a ProtonControlAnimation)
+@export var stop_on_animation_end: bool
+
+## Starts the animation when this signal is emitted from the trigger source.
+## Foolproof way of connecting a signal to the start() method, as this technique
+## handles unbinding the arguments automatically if any.
+@export var stop_custom_signal: String = ""
 
 @export_category("Overrides")
 
@@ -149,6 +213,7 @@ enum PivotOverride {NONE, CUSTOM, CENTER,
 var _tween: Tween
 var _started: bool = false
 var _restart_queued: bool = false
+var _stop_flag: bool = false
 
 
 func _ready() -> void:
@@ -158,29 +223,47 @@ func _ready() -> void:
 
 	var _err: int
 
-	if trigger_source is Button:
-		var button: Button = trigger_source as Button
-		_err = button.pressed.connect(_on_pressed)
+	if start_trigger_source is Button:
+		var button: Button = start_trigger_source as Button
+		_err = button.pressed.connect(_on_start_trigger_pressed)
 
-	if trigger_source is Control:
-		var control: Control = trigger_source as Control
-		_err = control.visibility_changed.connect(_on_visibility_changed)
-		_err = control.focus_entered.connect(_on_focus_entered)
-		_err = control.focus_exited.connect(_on_focus_exited)
-		_err = control.mouse_entered.connect(_on_mouse_entered)
-		_err = control.mouse_exited.connect(_on_mouse_exited)
+	if stop_trigger_source is Button:
+		var button: Button = start_trigger_source as Button
+		_err = button.pressed.connect(_on_stop_trigger_pressed)
 
-	if trigger_source is ProtonControlAnimation:
-		var source_animation: ProtonControlAnimation = trigger_source as ProtonControlAnimation
-		_err = source_animation.animation_started.connect(_on_parent_animation_started)
-		_err = source_animation.animation_ended.connect(_on_parent_animation_ended)
+	if start_trigger_source is Control:
+		var control: Control = start_trigger_source as Control
+		_err = control.visibility_changed.connect(_on_start_trigger_visibility_changed)
+		_err = control.focus_entered.connect(_on_start_trigger_focus_entered)
+		_err = control.focus_exited.connect(_on_start_trigger_focus_exited)
+		_err = control.mouse_entered.connect(_on_start_trigger_mouse_entered)
+		_err = control.mouse_exited.connect(_on_start_trigger_mouse_exited)
 
-	_connect_custom_signal()
+	if stop_trigger_source is Control:
+		var control: Control = stop_trigger_source as Control
+		_err = control.visibility_changed.connect(_on_stop_trigger_visibility_changed)
+		_err = control.focus_entered.connect(_on_stop_trigger_focus_entered)
+		_err = control.focus_exited.connect(_on_stop_trigger_focus_exited)
+		_err = control.mouse_entered.connect(_on_stop_trigger_mouse_entered)
+		_err = control.mouse_exited.connect(_on_stop_trigger_mouse_exited)
+
+	if start_trigger_source is ProtonControlAnimation:
+		var source_animation: ProtonControlAnimation = start_trigger_source as ProtonControlAnimation
+		_err = source_animation.animation_started.connect(_on_start_trigger_parent_animation_started)
+		_err = source_animation.animation_ended.connect(_on_start_trigger_parent_animation_ended)
+
+	if stop_trigger_source is ProtonControlAnimation:
+		var source_animation: ProtonControlAnimation = stop_trigger_source as ProtonControlAnimation
+		_err = source_animation.animation_started.connect(_on_stop_trigger_parent_animation_started)
+		_err = source_animation.animation_ended.connect(_on_stop_trigger_parent_animation_ended)
+
+	_connect_custom_signal(start_trigger_source, start_custom_signal, start)
+	_connect_custom_signal(stop_trigger_source, stop_custom_signal, stop)
 
 	if not is_instance_valid(target):
 		return
 
-	if on_hide:
+	if start_on_hide:
 		var list: Array = target.get_meta(META_HIDE_ANIMATIONS, [])
 		list.push_back(self)
 		target.set_meta(META_HIDE_ANIMATIONS, list)
@@ -191,27 +274,92 @@ func _ready() -> void:
 		target.set_meta(META_HAS_UPDATER, true)
 		_err = updater.updated.connect(_on_meta_data_updated)
 
-	if target.visible and on_show:
-		_on_visibility_changed.call_deferred()
+	if start_trigger_source is Control:
+		if (start_trigger_source as Control).visible and start_on_show:
+			_on_start_trigger_visibility_changed.call_deferred()
 
 
+## Backward compatibility code
+## Triggers were renamed with the "start_" prefix to accomodate the new "stop_" triggers
+## introduced with the infinite loop feature.
+## This function ensures old animation nodes will keep working the same
+## without any user intervention.
+func _set(property: StringName, value: Variant) -> bool:
+	if property == "trigger_source":
+		start_trigger_source = value
+		return true
+	elif property == "on_show":
+		start_on_show = value
+		return true
+	elif property == "on_hide":
+		start_on_hide = value
+		return true
+	elif property == "on_hover_start":
+		start_on_hover_start = value
+		return true
+	elif property == "on_hover_stop":
+		start_on_hover_stop = value
+		return true
+	elif property == "on_focus_entered":
+		start_on_focus_entered = value
+		return true
+	elif property == "on_focus_exited":
+		start_on_focus_exited = value
+		return true
+	elif property == "on_pressed":
+		start_on_pressed = value
+		return true
+	elif property == "on_animation_start":
+		start_on_animation_start = value
+		return true
+	elif property == "on_animation_end":
+		start_on_animation_end = value
+		return true
+
+	return false
+
+
+## Decides which properties should be visible in the inspector.
+## Some properties directly depends on other properties. They can be hidden
+## when they're not relevant, saving space and making things less confusing
+## for the end user.
 func _validate_property(property: Dictionary) -> void:
-	if property.name == "custom_signal":
-		_update_custom_signal_export(property)
+	# Populate the custom signal list
+	if property.name == "start_custom_signal":
+		_update_custom_signal_export(property, start_trigger_source)
+		return
+	elif property.name == "stop_custom_signal":
+		_update_custom_signal_export(property, stop_trigger_source)
 		return
 
-	_update_inspector_visibility(property, "loop_count", loop_type != LoopType.NONE)
+	# Loop properties
+	_update_inspector_visibility(property, "loop_count", loop_type != LoopType.NONE and not infinite_loop)
+	_update_inspector_visibility(property, "infinite_loop", loop_type != LoopType.NONE)
 
-	var is_control: bool = trigger_source is Control
-	_update_inspector_visibility(property, "on_show", is_control)
-	_update_inspector_visibility(property, "on_hide", is_control)
-	_update_inspector_visibility(property, "on_hover_start", is_control)
-	_update_inspector_visibility(property, "on_hover_stop", is_control)
-	_update_inspector_visibility(property, "on_focus_entered", is_control)
-	_update_inspector_visibility(property, "on_focus_exited", is_control)
-	_update_inspector_visibility(property, "on_pressed", trigger_source is BaseButton)
-	_update_inspector_visibility(property, "on_animation_start", trigger_source is ProtonControlAnimation)
-	_update_inspector_visibility(property, "on_animation_end", trigger_source is ProtonControlAnimation)
+	# Trigger properties
+	var is_control: bool = start_trigger_source is Control
+	_update_inspector_visibility(property, "start_on_show", is_control)
+	_update_inspector_visibility(property, "start_on_hide", is_control)
+	_update_inspector_visibility(property, "start_on_hover_start", is_control)
+	_update_inspector_visibility(property, "start_on_hover_stop", is_control)
+	_update_inspector_visibility(property, "start_on_focus_entered", is_control)
+	_update_inspector_visibility(property, "start_on_focus_exited", is_control)
+	_update_inspector_visibility(property, "start_on_pressed", start_trigger_source is BaseButton)
+	_update_inspector_visibility(property, "start_on_animation_start", start_trigger_source is ProtonControlAnimation)
+	_update_inspector_visibility(property, "start_on_animation_end", start_trigger_source is ProtonControlAnimation)
+
+	is_control = stop_trigger_source is Control
+	_update_inspector_visibility(property, "stop_on_show", is_control)
+	_update_inspector_visibility(property, "stop_on_hide", is_control)
+	_update_inspector_visibility(property, "stop_on_hover_start", is_control)
+	_update_inspector_visibility(property, "stop_on_hover_stop", is_control)
+	_update_inspector_visibility(property, "stop_on_focus_entered", is_control)
+	_update_inspector_visibility(property, "stop_on_focus_exited", is_control)
+	_update_inspector_visibility(property, "stop_on_pressed", stop_trigger_source is BaseButton)
+	_update_inspector_visibility(property, "stop_on_animation_start", stop_trigger_source is ProtonControlAnimation)
+	_update_inspector_visibility(property, "stop_on_animation_end", stop_trigger_source is ProtonControlAnimation)
+
+	# Pivot
 	_update_inspector_visibility(property, "pivot_offset_override", override_pivot == PivotOverride.CUSTOM)
 
 
@@ -221,7 +369,7 @@ func _update_inspector_visibility(property: Dictionary, p_name: String, visible:
 		property.usage = PROPERTY_USAGE_DEFAULT if visible else PROPERTY_USAGE_STORAGE
 
 
-func _update_custom_signal_export(property: Dictionary) -> void:
+func _update_custom_signal_export(property: Dictionary, trigger_source: Node) -> void:
 	if not is_instance_valid(trigger_source):
 		property.usage = PROPERTY_USAGE_STORAGE
 		return
@@ -259,6 +407,14 @@ func start() -> void:
 	_start_deferred.call_deferred()
 
 
+func stop() -> void:
+	_stop_flag = true
+	if stop_behavior != StopBehavior.WAIT_UNTIL_END:
+		if _tween:
+			_tween.kill()
+			_tween.finished.emit()
+
+
 ## Called at the end of the frame from start()
 func _start_deferred() -> void:
 	clear()
@@ -271,13 +427,35 @@ func _start_deferred() -> void:
 
 	animation_started.emit()
 
-	for i: int in max(loop_count, 1):
+	var i: int = 0
+	_stop_flag = false
+
+	while not _stop_flag:
+		# Start a loop
 		_tween = animation.create_tween(self, target)
 		await _tween.finished
 
+		if _stop_flag: # Tween was interrupted before completion
+			if stop_behavior == StopBehavior.IN_PLACE:
+				break
+			elif stop_behavior == StopBehavior.RESET:
+				animation.reset(self, target)
+				break
+
+		# Return loop
 		if loop_type == LoopType.PING_PONG:
 			_tween = animation.create_tween_reverse(self, target)
 			await _tween.finished
+
+			# If the return loop was interupted, reset the target if necessary
+			if _stop_flag and stop_behavior == StopBehavior.RESET:
+				animation.reset(self, target)
+				break
+
+		if not infinite_loop:
+			i += 1
+			if i >= loop_count:
+				break
 
 	clear()
 	_started = false
@@ -298,7 +476,7 @@ func clear() -> void:
 	target.set_meta(META_ANIMATION_IN_PROGRESS, list)
 
 
-func _connect_custom_signal() -> void:
+func _connect_custom_signal(trigger_source: Node, custom_signal: String, callback: Callable) -> void:
 	if not is_instance_valid(trigger_source) or custom_signal.is_empty():
 		return
 
@@ -314,13 +492,13 @@ func _connect_custom_signal() -> void:
 		push_warning("Signal ", custom_signal, " is not present on ", trigger_source)
 		return
 
-	# Start() takes no argument, unbinds the ones comming from custom_signal if any
+	# Callback takes no argument, unbinds the ones comming from custom_signal if any
 
 	var err: Error
 	if args_count == 0:
-		err = trigger_source.connect(custom_signal, start)
+		err = trigger_source.connect(custom_signal, callback)
 	else:
-		err = trigger_source.connect(custom_signal, start.unbind(args_count))
+		err = trigger_source.connect(custom_signal, callback.unbind(args_count))
 	if err != OK:
 		push_warning("Could not connect ", custom_signal, " - Error: ", err)
 
@@ -372,51 +550,98 @@ func _validate_pivot() -> void:
 
 #region callbacks
 
-func _on_visibility_changed() -> void:
+func _on_start_trigger_visibility_changed() -> void:
 	if target.get_meta(META_IGNORE_VISIBILITY_TRIGGERS, false):
 		return
 
-	var is_visible: bool = (trigger_source as Control).visible
+	var is_visible: bool = (start_trigger_source as Control).visible
 
-	if on_show and is_visible:
+	if start_on_show and is_visible:
 		start()
-	elif on_hide and not is_visible:
+	elif start_on_hide and not is_visible:
 		ProtonControlAnimation.hide(target)
 
 
-func _on_mouse_entered() -> void:
-	if on_hover_start:
+func _on_stop_trigger_visibility_changed() -> void:
+	if target.get_meta(META_IGNORE_VISIBILITY_TRIGGERS, false):
+		return
+
+	var is_visible: bool = (stop_trigger_source as Control).visible
+
+	if stop_on_show and is_visible:
+		stop()
+	elif stop_on_hide and not is_visible:
+		stop()
+
+
+func _on_start_trigger_mouse_entered() -> void:
+	if start_on_hover_start:
 		start()
 
 
-func _on_mouse_exited() -> void:
-	if on_hover_stop:
+func _on_stop_trigger_mouse_entered() -> void:
+	if stop_on_hover_start:
+		stop()
+
+
+func _on_start_trigger_mouse_exited() -> void:
+	if start_on_hover_stop:
 		start()
 
 
-func _on_focus_entered() -> void:
-	if on_focus_entered:
+func _on_stop_trigger_mouse_exited() -> void:
+	if stop_on_hover_stop:
+		stop()
+
+
+func _on_start_trigger_focus_entered() -> void:
+	if start_on_focus_entered:
 		start()
 
 
-func _on_focus_exited() -> void:
-	if on_focus_exited:
+func _on_stop_trigger_focus_entered() -> void:
+	if stop_on_focus_entered:
+		stop()
+
+
+func _on_start_trigger_focus_exited() -> void:
+	if start_on_focus_exited:
 		start()
 
 
-func _on_pressed() -> void:
-	if on_pressed:
+func _on_stop_trigger_focus_exited() -> void:
+	if stop_on_focus_exited:
+		stop()
+
+
+func _on_start_trigger_pressed() -> void:
+	if start_on_pressed:
 		start()
 
 
-func _on_parent_animation_started() -> void:
-	if on_animation_start:
+func _on_stop_trigger_pressed() -> void:
+	if stop_on_pressed:
+		stop()
+
+
+func _on_start_trigger_parent_animation_started() -> void:
+	if start_on_animation_start:
 		start()
 
 
-func _on_parent_animation_ended() -> void:
-	if on_animation_end:
+func _on_stop_trigger_parent_animation_started() -> void:
+	if stop_on_animation_start:
+		stop()
+
+
+func _on_start_trigger_parent_animation_ended() -> void:
+	if start_on_animation_end:
 		start()
+
+
+func _on_stop_trigger_parent_animation_ended() -> void:
+	if stop_on_animation_end:
+		stop()
 
 
 func _on_meta_data_updated() -> void:

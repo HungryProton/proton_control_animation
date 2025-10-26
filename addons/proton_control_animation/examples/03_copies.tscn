@@ -73,26 +73,14 @@ text = "Button"
 [node name="Button2" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
 text = "Button"
-metadata/pca_metadata_updater = true
-metadata/pca_original_position = Vector2(0, 0)
-metadata/pca_original_rotation = 0.0
-metadata/pca_original_scale = Vector2(1, 1)
 
 [node name="Button3" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
 text = "Button"
-metadata/pca_metadata_updater = true
-metadata/pca_original_position = Vector2(0, 0)
-metadata/pca_original_rotation = 0.0
-metadata/pca_original_scale = Vector2(1, 1)
 
 [node name="Button4" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
 text = "Button"
-metadata/pca_metadata_updater = true
-metadata/pca_original_position = Vector2(0, 0)
-metadata/pca_original_rotation = 0.0
-metadata/pca_original_scale = Vector2(1, 1)
 
 [node name="Button5" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
@@ -102,12 +90,14 @@ text = "Button"
 layout_mode = 2
 text = "Button"
 
-[node name="ScaleButtonUpAnimation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="ScaleButtonUpAnimation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("2_mmri4")
 target = NodePath("../Button1")
 animation = SubResource("Resource_mtifd")
-trigger_source = NodePath("../Button1")
-on_hover_start = true
+start_trigger_source = NodePath("../Button1")
+start_on_hover_start = true
+stop_trigger_source = NodePath("../Button1")
+override_pivot = 2
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
 [node name="ProtonControlCopyAnimation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer/ScaleButtonUpAnimation" node_paths=PackedStringArray("extra_targets")]
@@ -115,13 +105,15 @@ script = ExtResource("4_aybf1")
 extra_targets = [NodePath("../../Button2"), NodePath("../../Button3"), NodePath("../../Button4"), NodePath("../../Button5"), NodePath("../../Button6")]
 metadata/_custom_type_script = "uid://p8liavl4kvv8"
 
-[node name="ScaleButtonDownAnimation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="ScaleButtonDownAnimation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("2_mmri4")
 target = NodePath("../Button1")
 animation = SubResource("Resource_aybf1")
 duration = 0.0
-trigger_source = NodePath("../Button1")
-on_hover_stop = true
+start_trigger_source = NodePath("../Button1")
+start_on_hover_stop = true
+stop_trigger_source = NodePath("../Button1")
+override_pivot = 2
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
 [node name="ProtonControlCopyAnimation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer/ScaleButtonDownAnimation" node_paths=PackedStringArray("extra_targets")]

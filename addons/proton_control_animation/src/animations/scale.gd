@@ -104,3 +104,7 @@ func create_tween_reverse(animation: ProtonControlAnimation, target: Control) ->
 	tween.tween_property(target, "scale", _start_scale, get_duration(animation))
 
 	return tween
+
+
+func reset(_animation: ProtonControlAnimation, target: Control) -> void:
+	target.scale = target.get_meta(ProtonControlAnimation.META_ORIGINAL_SCALE, target.scale)

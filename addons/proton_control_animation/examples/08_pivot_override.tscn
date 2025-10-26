@@ -52,27 +52,29 @@ columns = 3
 layout_mode = 2
 text = "Top left"
 
-[node name="Scale" type="Node" parent="PanelContainer/MarginContainer/HBoxContainer/Controls/TopLeft" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="Scale" type="Node" parent="PanelContainer/MarginContainer/HBoxContainer/Controls/TopLeft" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("2_gqwl6")
 target = NodePath("..")
 animation = SubResource("Resource_pnie3")
 loop_type = 2
-trigger_source = NodePath("..")
-on_pressed = true
-override_pivot = 7
+start_trigger_source = NodePath("..")
+start_on_pressed = true
+stop_trigger_source = NodePath("..")
+override_pivot = 2
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
 [node name="TopCenter" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/Controls"]
 layout_mode = 2
 text = "Center top"
 
-[node name="Scale" type="Node" parent="PanelContainer/MarginContainer/HBoxContainer/Controls/TopCenter" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="Scale" type="Node" parent="PanelContainer/MarginContainer/HBoxContainer/Controls/TopCenter" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("2_gqwl6")
 target = NodePath("..")
 animation = SubResource("Resource_pnie3")
 loop_type = 2
-trigger_source = NodePath("..")
-on_pressed = true
+start_trigger_source = NodePath("..")
+start_on_pressed = true
+stop_trigger_source = NodePath("..")
 override_pivot = 3
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
@@ -80,13 +82,14 @@ metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 layout_mode = 2
 text = "Top right"
 
-[node name="Scale" type="Node" parent="PanelContainer/MarginContainer/HBoxContainer/Controls/TopRight" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="Scale" type="Node" parent="PanelContainer/MarginContainer/HBoxContainer/Controls/TopRight" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("2_gqwl6")
 target = NodePath("..")
 animation = SubResource("Resource_pnie3")
 loop_type = 2
-trigger_source = NodePath("..")
-on_pressed = true
+start_trigger_source = NodePath("..")
+start_on_pressed = true
+stop_trigger_source = NodePath("..")
 override_pivot = 8
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
@@ -94,13 +97,14 @@ metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 layout_mode = 2
 text = "Center left"
 
-[node name="Scale" type="Node" parent="PanelContainer/MarginContainer/HBoxContainer/Controls/CenterLeft" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="Scale" type="Node" parent="PanelContainer/MarginContainer/HBoxContainer/Controls/CenterLeft" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("2_gqwl6")
 target = NodePath("..")
 animation = SubResource("Resource_pnie3")
 loop_type = 2
-trigger_source = NodePath("..")
-on_pressed = true
+start_trigger_source = NodePath("..")
+start_on_pressed = true
+stop_trigger_source = NodePath("..")
 override_pivot = 5
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
@@ -108,13 +112,14 @@ metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 layout_mode = 2
 text = "Center"
 
-[node name="Scale" type="Node" parent="PanelContainer/MarginContainer/HBoxContainer/Controls/Center" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="Scale" type="Node" parent="PanelContainer/MarginContainer/HBoxContainer/Controls/Center" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("2_gqwl6")
 target = NodePath("..")
 animation = SubResource("Resource_pnie3")
 loop_type = 2
-trigger_source = NodePath("..")
-on_pressed = true
+start_trigger_source = NodePath("..")
+start_on_pressed = true
+stop_trigger_source = NodePath("..")
 override_pivot = 2
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
@@ -122,13 +127,14 @@ metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 layout_mode = 2
 text = "Center right"
 
-[node name="Scale" type="Node" parent="PanelContainer/MarginContainer/HBoxContainer/Controls/CenterRight" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="Scale" type="Node" parent="PanelContainer/MarginContainer/HBoxContainer/Controls/CenterRight" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("2_gqwl6")
 target = NodePath("..")
 animation = SubResource("Resource_pnie3")
 loop_type = 2
-trigger_source = NodePath("..")
-on_pressed = true
+start_trigger_source = NodePath("..")
+start_on_pressed = true
+stop_trigger_source = NodePath("..")
 override_pivot = 6
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
@@ -136,13 +142,14 @@ metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 layout_mode = 2
 text = "Bottom left"
 
-[node name="Scale" type="Node" parent="PanelContainer/MarginContainer/HBoxContainer/Controls/BottomLeft" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="Scale" type="Node" parent="PanelContainer/MarginContainer/HBoxContainer/Controls/BottomLeft" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("2_gqwl6")
 target = NodePath("..")
 animation = SubResource("Resource_pnie3")
 loop_type = 2
-trigger_source = NodePath("..")
-on_pressed = true
+start_trigger_source = NodePath("..")
+start_on_pressed = true
+stop_trigger_source = NodePath("..")
 override_pivot = 9
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
@@ -150,13 +157,14 @@ metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 layout_mode = 2
 text = "Center bottom"
 
-[node name="Scale" type="Node" parent="PanelContainer/MarginContainer/HBoxContainer/Controls/CenterBottom" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="Scale" type="Node" parent="PanelContainer/MarginContainer/HBoxContainer/Controls/CenterBottom" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("2_gqwl6")
 target = NodePath("..")
 animation = SubResource("Resource_pnie3")
 loop_type = 2
-trigger_source = NodePath("..")
-on_pressed = true
+start_trigger_source = NodePath("..")
+start_on_pressed = true
+stop_trigger_source = NodePath("..")
 override_pivot = 4
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
@@ -164,13 +172,14 @@ metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 layout_mode = 2
 text = "Bottom right"
 
-[node name="Scale" type="Node" parent="PanelContainer/MarginContainer/HBoxContainer/Controls/BottomRight" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="Scale" type="Node" parent="PanelContainer/MarginContainer/HBoxContainer/Controls/BottomRight" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("2_gqwl6")
 target = NodePath("..")
 animation = SubResource("Resource_pnie3")
 loop_type = 2
-trigger_source = NodePath("..")
-on_pressed = true
+start_trigger_source = NodePath("..")
+start_on_pressed = true
+stop_trigger_source = NodePath("..")
 override_pivot = 10
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
@@ -178,13 +187,34 @@ metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 layout_mode = 2
 text = "Custom"
 
-[node name="Scale" type="Node" parent="PanelContainer/MarginContainer/HBoxContainer/Custom" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="Scale" type="Node" parent="PanelContainer/MarginContainer/HBoxContainer/Custom" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("2_gqwl6")
 target = NodePath("..")
 animation = SubResource("Resource_pnie3")
 loop_type = 2
-trigger_source = NodePath("..")
-on_pressed = true
+start_trigger_source = NodePath("..")
+start_on_pressed = true
+stop_trigger_source = NodePath("..")
 override_pivot = 1
 pivot_offset_override = Vector2(400, 100)
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -32.5
+offset_right = 32.5
+offset_bottom = 87.0
+grow_horizontal = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "Since Godot 4.2, pivot_offsets can't be changed from the inspector when a control is a child of a container.
+The [b]Override Pivot[/b] property (under the animation node) let you fix that issue.
+
+There are 9 default presets that auto adjust based on the control size, and a Custom option that lets you enter a raw override for the pivot offset."
+fit_content = true
