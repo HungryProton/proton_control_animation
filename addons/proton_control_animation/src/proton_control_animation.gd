@@ -185,13 +185,14 @@ func _ready() -> void:
 		list.push_back(self)
 		target.set_meta(META_HIDE_ANIMATIONS, list)
 
-	if target.get_meta(META_HAS_UPDATER, false):
-		return
+	if not target.get_meta(META_HAS_UPDATER, false):
+		var updater: METADATA_UPDATER = METADATA_UPDATER.new()
+		target.add_child.call_deferred(updater)
+		target.set_meta(META_HAS_UPDATER, true)
+		_err = updater.updated.connect(_on_meta_data_updated)
 
-	var updater: Node = METADATA_UPDATER.new()
-	target.add_child.call_deferred(updater)
-	target.set_meta(META_HAS_UPDATER, true)
-	updater.updated.connect(_on_meta_data_updated)
+	if target.visible and on_show:
+		_on_visibility_changed.call_deferred()
 
 
 func _validate_property(property: Dictionary) -> void:
