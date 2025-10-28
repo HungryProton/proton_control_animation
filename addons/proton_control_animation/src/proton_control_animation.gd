@@ -279,6 +279,8 @@ func _ready() -> void:
 		if (start_trigger_source as Control).visible and start_on_show:
 			_on_start_trigger_visibility_changed.call_deferred()
 
+	_err = target.resized.connect(_validate_pivot)
+
 
 ## Backward compatibility code
 ## Triggers were renamed with the "start_" prefix to accomodate the new "stop_" triggers

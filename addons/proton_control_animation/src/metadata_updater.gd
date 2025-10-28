@@ -50,6 +50,7 @@ func _update_metadata(full_state: bool = false) -> void:
 		target.set_meta(ProtonControlAnimation.META_ORIGINAL_SCALE, target.scale)
 		target.set_meta(ProtonControlAnimation.META_ORIGINAL_MODULATE, target.modulate)
 		target.set_meta(ProtonControlAnimation.META_ORIGINAL_SELF_MODULATE, target.self_modulate)
+		target.set_meta(ProtonControlAnimation.META_ORIGINAL_SIZE, target.size)
 	updated.emit()
 
 
