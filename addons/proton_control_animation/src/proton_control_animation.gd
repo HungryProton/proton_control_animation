@@ -20,6 +20,7 @@ const METADATA_UPDATER := preload("./metadata_updater.gd")
 const META_ORIGINAL_POSITION: String = "pca_original_position"
 const META_ORIGINAL_ROTATION: String = "pca_original_rotation"
 const META_ORIGINAL_SCALE: String = "pca_original_scale"
+const META_ORIGINAL_SIZE: String = "pca_original_size"
 const META_ORIGINAL_MODULATE: String = "pca_original_modulate"
 const META_ORIGINAL_SELF_MODULATE: String = "pca_original_self_modulate"
 const META_ANIMATION_IN_PROGRESS: String = "pca_animation_in_progress"
