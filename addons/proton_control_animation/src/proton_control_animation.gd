@@ -228,7 +228,7 @@ func _ready() -> void:
 		_err = button.pressed.connect(_on_start_trigger_pressed)
 
 	if stop_trigger_source is Button:
-		var button: Button = start_trigger_source as Button
+		var button: Button = stop_trigger_source as Button
 		_err = button.pressed.connect(_on_stop_trigger_pressed)
 
 	if start_trigger_source is Control:
