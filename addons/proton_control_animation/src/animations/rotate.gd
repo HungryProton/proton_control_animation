@@ -38,9 +38,6 @@ enum RotationType {CURRENT_ROTATION, ORIGINAL_ROTATION, ABSOLUTE_ROTATION, RELAT
 @export var rotation_in_degrees: bool = true
 
 
-var _start_rotation: float
-
-
 ## Hide some exported variable when they are irrelevant to the current position type.
 func _validate_property(property: Dictionary) -> void:
 	_update_inspector_visibility(property, "from_absolute_rotation", from == RotationType.ABSOLUTE_ROTATION)
@@ -91,7 +88,7 @@ func create_tween(animation: ProtonControlAnimation, target: Control) -> Tween:
 			else:
 				target.rotation = target.rotation + from_relative_rotation
 
-	_start_rotation = target.rotation
+	_cache(target, "start_rotation", target.rotation)
 	var tween: Tween = animation.create_tween().set_ease(easing).set_trans(transition)
 	@warning_ignore("return_value_discarded")
 	tween.tween_property(target, "rotation", final_rotation, get_duration(animation))
@@ -100,9 +97,10 @@ func create_tween(animation: ProtonControlAnimation, target: Control) -> Tween:
 
 
 func create_tween_reverse(animation: ProtonControlAnimation, target: Control) -> Tween:
+	var start_rotation: float = _get_cached(target, "start_rotation", target.rotation)
 	var tween: Tween = animation.create_tween().set_ease(easing).set_trans(transition)
 	@warning_ignore("return_value_discarded")
-	tween.tween_property(target, "rotation", _start_rotation, get_duration(animation))
+	tween.tween_property(target, "rotation", start_rotation, get_duration(animation))
 
 	return tween
 

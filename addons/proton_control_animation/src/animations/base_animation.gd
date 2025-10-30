@@ -19,6 +19,9 @@ extends Resource
 @export var default_duration: float = 1.0
 
 
+var _cached_data: Dictionary[Control, Dictionary] = {}
+
+
 ## Override in child classes
 ## Handles starting the animation.
 func create_tween(_animation: ProtonControlAnimation, _target: Control) -> Tween:
@@ -50,3 +53,19 @@ func get_duration(animation: ProtonControlAnimation) -> float:
 func _update_inspector_visibility(property: Dictionary, name: String, visible: bool) -> void:
 	if property.name == name:
 		property.usage = PROPERTY_USAGE_DEFAULT if visible else PROPERTY_USAGE_STORAGE
+
+
+## Store values associated with a specific control.
+## This exists because animation resources can operate on different targets
+func _cache(control: Control, key: String, data: Variant) -> void:
+	var dict: Dictionary[String, Variant] = {}
+	if _cached_data.has(control):
+		dict = _cached_data[control]
+	else:
+		_cached_data[control] = dict
+	dict[key] = data
+
+
+func _get_cached(control: Control, key: String, default: Variant = null) -> Variant:
+	var dict: Dictionary[String, Variant] = _cached_data.get(control, {})
+	return dict.get(key, default)

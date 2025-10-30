@@ -60,7 +60,7 @@ loop_type = 2
 start_trigger_source = NodePath("..")
 start_on_pressed = true
 stop_trigger_source = NodePath("..")
-override_pivot = 2
+override_pivot = 7
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
 [node name="TopCenter" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/Controls"]

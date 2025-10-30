@@ -33,9 +33,6 @@ enum ScaleType {CURRENT_SCALE, ORIGINAL_SCALE, ABSOLUTE_SCALE, RELATIVE_SCALE}
 ## Only applicable if `to == RELATIVE_SCALE`
 @export var to_relative_scale: Vector2
 
-var _start_scale: Vector2
-var _end_scale: Vector2
-
 
 ## Backward compatibility code
 func _set(property: StringName, value: Variant) -> bool:
@@ -67,16 +64,17 @@ func _validate_property(property: Dictionary) -> void:
 
 
 func create_tween(animation: ProtonControlAnimation, target: Control) -> Tween:
+	var end_scale: Vector2
 	# Set the target position
 	match to:
 		ScaleType.CURRENT_SCALE:
-			_end_scale = target.scale
+			end_scale = target.scale
 		ScaleType.ORIGINAL_SCALE:
-			_end_scale = target.get_meta(ProtonControlAnimation.META_ORIGINAL_SCALE, target.scale)
+			end_scale = target.get_meta(ProtonControlAnimation.META_ORIGINAL_SCALE, target.scale)
 		ScaleType.ABSOLUTE_SCALE:
-			_end_scale = to_absolute_scale
+			end_scale = to_absolute_scale
 		ScaleType.RELATIVE_SCALE:
-			_end_scale = target.get_meta(ProtonControlAnimation.META_ORIGINAL_SCALE, target.scale) * to_relative_scale
+			end_scale = target.get_meta(ProtonControlAnimation.META_ORIGINAL_SCALE, target.scale) * to_relative_scale
 
 	# Set the initial control position
 	match from:
@@ -88,20 +86,23 @@ func create_tween(animation: ProtonControlAnimation, target: Control) -> Tween:
 			target.scale = from_absolute_scale
 		ScaleType.RELATIVE_SCALE:
 			target.scale = target.get_meta(ProtonControlAnimation.META_ORIGINAL_SCALE, target.scale) * from_relative_scale
-	_start_scale = target.scale
+
+	_cache(target, "start_scale", target.scale)
+	_cache(target, "end_scale", end_scale)
 
 	var tween: Tween = animation.create_tween().set_ease(easing).set_trans(transition)
 	@warning_ignore("return_value_discarded")
-	tween.tween_property(target, "scale", _end_scale, get_duration(animation))
+	tween.tween_property(target, "scale", end_scale, get_duration(animation))
 
 	return tween
 
 
 func create_tween_reverse(animation: ProtonControlAnimation, target: Control) -> Tween:
-	target.scale = _end_scale
+	target.scale = _get_cached(target, "end_scale", target.scale)
+	var final_scale: Vector2 = _get_cached(target, "start_scale", target.scale)
 	var tween: Tween = animation.create_tween().set_ease(easing).set_trans(transition)
 	@warning_ignore("return_value_discarded")
-	tween.tween_property(target, "scale", _start_scale, get_duration(animation))
+	tween.tween_property(target, "scale", final_scale, get_duration(animation))
 
 	return tween
 

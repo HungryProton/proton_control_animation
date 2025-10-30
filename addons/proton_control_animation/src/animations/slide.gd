@@ -34,8 +34,6 @@ enum PositionType {CURRENT_POSITION, ORIGINAL_POSITION, GLOBAL_POSITION, LOCAL_O
 ## Only applicable if `to == LOCAL_OFFSET`
 @export var to_local_offset: Vector2
 
-var _start_pos: Vector2
-
 
 ## Backward compatibility code
 ##
@@ -98,7 +96,7 @@ func create_tween(animation: ProtonControlAnimation, target: Control) -> Tween:
 		PositionType.LOCAL_OFFSET:
 			target.position = target.position + from_local_offset
 
-	_start_pos = target.position
+	_cache(target, "start_pos", target.position)
 
 	var tween: Tween = animation.create_tween().set_ease(easing).set_trans(transition)
 	@warning_ignore("return_value_discarded")
@@ -108,9 +106,10 @@ func create_tween(animation: ProtonControlAnimation, target: Control) -> Tween:
 
 
 func create_tween_reverse(animation: ProtonControlAnimation, target: Control) -> Tween:
+	var start_pos: Vector2 = _get_cached(target, "start_pos", target.position)
 	var tween: Tween = animation.create_tween().set_ease(easing).set_trans(transition)
 	@warning_ignore("return_value_discarded")
-	tween.tween_property(target, "position", _start_pos, get_duration(animation))
+	tween.tween_property(target, "position", start_pos, get_duration(animation))
 
 	return tween
 

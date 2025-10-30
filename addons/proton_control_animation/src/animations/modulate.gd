@@ -32,8 +32,6 @@ enum ModulateType {
 ## If false, animation the control's `modulate` property.
 @export var self_modulate: bool = false
 
-var _start_color: Color
-
 
 ## Hide some exported variable when they are irrelevant to the current scale type.
 func _validate_property(property: Dictionary) -> void:
@@ -71,7 +69,7 @@ func create_tween(animation: ProtonControlAnimation, target: Control) -> Tween:
 			else:
 				target.modulate = from_color
 
-	_start_color = target.self_modulate if self_modulate else target.modulate
+	_cache(target, "start_color", target.self_modulate if self_modulate else target.modulate)
 
 	var tween: Tween = animation.create_tween().set_ease(easing).set_trans(transition)
 	@warning_ignore("return_value_discarded")
@@ -80,9 +78,10 @@ func create_tween(animation: ProtonControlAnimation, target: Control) -> Tween:
 
 
 func create_tween_reverse(animation: ProtonControlAnimation, target: Control) -> Tween:
+	var start_color: Color = _get_cached(target, "start_color", target.modulate)
 	var tween: Tween = animation.create_tween().set_ease(easing).set_trans(transition)
 	@warning_ignore("return_value_discarded")
-	tween.tween_property(target, "self_modulate" if self_modulate else "modulate", _start_color, get_duration(animation))
+	tween.tween_property(target, "self_modulate" if self_modulate else "modulate", start_color, get_duration(animation))
 	return tween
 
 
