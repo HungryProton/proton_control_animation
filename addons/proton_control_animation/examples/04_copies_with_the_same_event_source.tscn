@@ -1,8 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://glmo1tjc7a2q"]
+[gd_scene load_steps=7 format=3 uid="uid://glmo1tjc7a2q"]
 
 [ext_resource type="Theme" uid="uid://xjn6s723t6oi" path="res://addons/proton_control_animation/examples/theme/pca_theme.tres" id="1_7k0r8"]
 [ext_resource type="Script" uid="uid://b4hvmk8t0qkgu" path="res://addons/proton_control_animation/src/proton_control_animation.gd" id="2_cna2p"]
-[ext_resource type="Script" uid="uid://wxkjdt0qwf48" path="res://addons/proton_control_animation/examples/scripts/auto_center_pivots.gd" id="2_fgtbd"]
 [ext_resource type="Script" uid="uid://ciccapc76ic3k" path="res://addons/proton_control_animation/src/animations/rotate.gd" id="3_cna2p"]
 [ext_resource type="Script" uid="uid://p8liavl4kvv8" path="res://addons/proton_control_animation/src/proton_control_copy_animation.gd" id="4_h6wfi"]
 
@@ -29,7 +28,7 @@ easing = 1
 default_duration = 0.10000000000582077
 metadata/_custom_type_script = "uid://ciccapc76ic3k"
 
-[node name="CopyExample" type="Control" node_paths=PackedStringArray("parent")]
+[node name="CopyExample" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -37,8 +36,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_7k0r8")
-script = ExtResource("2_fgtbd")
-parent = NodePath("HBoxContainer/PanelContainer/VBoxContainer")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 custom_minimum_size = Vector2(700, 0)

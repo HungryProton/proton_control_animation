@@ -1,7 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://1skehu7cnue7"]
+[gd_scene load_steps=9 format=3 uid="uid://1skehu7cnue7"]
 
 [ext_resource type="Theme" uid="uid://xjn6s723t6oi" path="res://addons/proton_control_animation/examples/theme/pca_theme.tres" id="1_ehixa"]
-[ext_resource type="Script" uid="uid://wxkjdt0qwf48" path="res://addons/proton_control_animation/examples/scripts/auto_center_pivots.gd" id="2_8ht1s"]
 [ext_resource type="Texture2D" uid="uid://dc42tvb8iytlu" path="res://addons/proton_control_animation/examples/theme/assets/panel-000.png" id="3_cs2f7"]
 [ext_resource type="Script" uid="uid://b4hvmk8t0qkgu" path="res://addons/proton_control_animation/src/proton_control_animation.gd" id="4_7ewq4"]
 [ext_resource type="Script" uid="uid://bsufjcw4lsn2a" path="res://addons/proton_control_animation/src/animations/slide.gd" id="5_0m421"]
@@ -35,15 +34,13 @@ to_local_offset = Vector2(0, -200)
 easing = 1
 metadata/_custom_type_script = "uid://bsufjcw4lsn2a"
 
-[node name="ParallelAnimations" type="MarginContainer" node_paths=PackedStringArray("parent")]
+[node name="ParallelAnimations" type="MarginContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_ehixa")
-script = ExtResource("2_8ht1s")
-parent = NodePath("HBoxContainer/MarginContainer/VBoxContainer")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 custom_minimum_size = Vector2(600, 0)
@@ -90,41 +87,45 @@ texture = ExtResource("3_cs2f7")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="SlideRight" type="Node" parent="HBoxContainer/MarginContainer/VBoxContainer/TextureRect" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="SlideRight" type="Node" parent="HBoxContainer/MarginContainer/VBoxContainer/TextureRect" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("4_7ewq4")
 target = NodePath("..")
 animation = SubResource("Resource_pe4tu")
 duration = 0.4000000000087311
-trigger_source = NodePath("../../../../VBoxContainer/Button")
-on_pressed = true
+start_trigger_source = NodePath("../../../../VBoxContainer/Button")
+start_on_pressed = true
+stop_trigger_source = NodePath("..")
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
-[node name="SlideDown" type="Node" parent="HBoxContainer/MarginContainer/VBoxContainer/TextureRect" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="SlideDown" type="Node" parent="HBoxContainer/MarginContainer/VBoxContainer/TextureRect" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("4_7ewq4")
 target = NodePath("..")
 animation = SubResource("Resource_d85cn")
 duration = 0.4000000000087311
-trigger_source = NodePath("../SlideRight")
-on_pressed = true
-on_animation_end = true
+start_trigger_source = NodePath("../SlideRight")
+start_on_pressed = true
+start_on_animation_end = true
+stop_trigger_source = NodePath("..")
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
-[node name="SlideLeft" type="Node" parent="HBoxContainer/MarginContainer/VBoxContainer/TextureRect" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="SlideLeft" type="Node" parent="HBoxContainer/MarginContainer/VBoxContainer/TextureRect" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("4_7ewq4")
 target = NodePath("..")
 animation = SubResource("Resource_rpq7j")
 duration = 0.4000000000087311
-trigger_source = NodePath("../SlideDown")
-on_pressed = true
-on_animation_end = true
+start_trigger_source = NodePath("../SlideDown")
+start_on_pressed = true
+start_on_animation_end = true
+stop_trigger_source = NodePath("..")
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
-[node name="SlideUp" type="Node" parent="HBoxContainer/MarginContainer/VBoxContainer/TextureRect" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="SlideUp" type="Node" parent="HBoxContainer/MarginContainer/VBoxContainer/TextureRect" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("4_7ewq4")
 target = NodePath("..")
 animation = SubResource("Resource_ehixa")
 duration = 0.4000000000087311
-trigger_source = NodePath("../SlideLeft")
-on_pressed = true
-on_animation_end = true
+start_trigger_source = NodePath("../SlideLeft")
+start_on_pressed = true
+start_on_animation_end = true
+stop_trigger_source = NodePath("..")
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"

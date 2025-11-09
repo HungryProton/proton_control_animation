@@ -1,7 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://v17fjjrttwj2"]
+[gd_scene load_steps=6 format=3 uid="uid://v17fjjrttwj2"]
 
 [ext_resource type="Theme" uid="uid://xjn6s723t6oi" path="res://addons/proton_control_animation/examples/theme/pca_theme.tres" id="1_lwrve"]
-[ext_resource type="Script" uid="uid://wxkjdt0qwf48" path="res://addons/proton_control_animation/examples/scripts/auto_center_pivots.gd" id="2_01li4"]
 [ext_resource type="Script" uid="uid://b4hvmk8t0qkgu" path="res://addons/proton_control_animation/src/proton_control_animation.gd" id="2_x1n5d"]
 [ext_resource type="Script" uid="uid://bi4omyv2xson" path="res://addons/proton_control_animation/src/animations/scale.gd" id="3_01li4"]
 
@@ -19,7 +18,7 @@ to_absolute_scale = Vector2(0.8, 0.8)
 easing = 1
 metadata/_custom_type_script = "uid://bi4omyv2xson"
 
-[node name="ScaleExample" type="Control" node_paths=PackedStringArray("parent")]
+[node name="ScaleExample" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -27,8 +26,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_lwrve")
-script = ExtResource("2_01li4")
-parent = NodePath("HBoxContainer")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 custom_minimum_size = Vector2(600, 0)
@@ -78,6 +75,7 @@ duration = 0.3
 start_trigger_source = NodePath("..")
 start_on_hover_start = true
 stop_trigger_source = NodePath("..")
+override_pivot = 2
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
 [node name="ScaleDown" type="Node" parent="HBoxContainer/PanelContainer" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]

@@ -1,7 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://c61o35vgxr87y"]
+[gd_scene load_steps=9 format=3 uid="uid://c61o35vgxr87y"]
 
 [ext_resource type="Theme" uid="uid://xjn6s723t6oi" path="res://addons/proton_control_animation/examples/theme/pca_theme.tres" id="1_3pka8"]
-[ext_resource type="Script" uid="uid://wxkjdt0qwf48" path="res://addons/proton_control_animation/examples/scripts/auto_center_pivots.gd" id="2_6sdpr"]
 [ext_resource type="Script" uid="uid://b4hvmk8t0qkgu" path="res://addons/proton_control_animation/src/proton_control_animation.gd" id="3_iaavb"]
 [ext_resource type="Script" uid="uid://bi4omyv2xson" path="res://addons/proton_control_animation/src/animations/scale.gd" id="4_3l0qa"]
 [ext_resource type="Texture2D" uid="uid://dc42tvb8iytlu" path="res://addons/proton_control_animation/examples/theme/assets/panel-000.png" id="5_6sdpr"]
@@ -29,15 +28,13 @@ easing = 1
 default_duration = 0.07000000000698492
 metadata/_custom_type_script = "uid://bsufjcw4lsn2a"
 
-[node name="Triggers" type="MarginContainer" node_paths=PackedStringArray("parent")]
+[node name="Triggers" type="MarginContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_3pka8")
-script = ExtResource("2_6sdpr")
-parent = NodePath("HBoxContainer")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 custom_minimum_size = Vector2(600, 0)

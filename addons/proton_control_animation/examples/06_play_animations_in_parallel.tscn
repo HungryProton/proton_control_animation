@@ -1,7 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://bids68j2851ci"]
+[gd_scene load_steps=10 format=3 uid="uid://bids68j2851ci"]
 
 [ext_resource type="Theme" uid="uid://xjn6s723t6oi" path="res://addons/proton_control_animation/examples/theme/pca_theme.tres" id="1_g74bu"]
-[ext_resource type="Script" uid="uid://wxkjdt0qwf48" path="res://addons/proton_control_animation/examples/scripts/auto_center_pivots.gd" id="2_teu7k"]
 [ext_resource type="Texture2D" uid="uid://dc42tvb8iytlu" path="res://addons/proton_control_animation/examples/theme/assets/panel-000.png" id="3_gq1br"]
 [ext_resource type="Script" uid="uid://b4hvmk8t0qkgu" path="res://addons/proton_control_animation/src/proton_control_animation.gd" id="4_8g6td"]
 [ext_resource type="Script" uid="uid://bsufjcw4lsn2a" path="res://addons/proton_control_animation/src/animations/slide.gd" id="5_ignvk"]
@@ -29,7 +28,7 @@ to = 2
 to_absolute_scale = Vector2(1.2, 1.2)
 metadata/_custom_type_script = "uid://bi4omyv2xson"
 
-[node name="ParallelAnimations" type="Control" node_paths=PackedStringArray("parent")]
+[node name="ParallelAnimations" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -37,8 +36,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_g74bu")
-script = ExtResource("2_teu7k")
-parent = NodePath("HBoxContainer/MarginContainer/VBoxContainer")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 custom_minimum_size = Vector2(600, 0)
@@ -80,32 +77,37 @@ texture = ExtResource("3_gq1br")
 expand_mode = 5
 stretch_mode = 5
 
-[node name="MoveDown" type="Node" parent="HBoxContainer/MarginContainer/VBoxContainer/TextureRect" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="MoveDown" type="Node" parent="HBoxContainer/MarginContainer/VBoxContainer/TextureRect" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("4_8g6td")
 target = NodePath("..")
 animation = SubResource("Resource_pe4tu")
 duration = 1.25
 loop_type = 2
-trigger_source = NodePath("../../Button")
-on_pressed = true
+start_trigger_source = NodePath("../../Button")
+start_on_pressed = true
+stop_trigger_source = NodePath("..")
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
-[node name="Rotate" type="Node" parent="HBoxContainer/MarginContainer/VBoxContainer/TextureRect" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="Rotate" type="Node" parent="HBoxContainer/MarginContainer/VBoxContainer/TextureRect" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("4_8g6td")
 target = NodePath("..")
 animation = SubResource("Resource_3losx")
 duration = 1.25
 loop_type = 2
-trigger_source = NodePath("../../Button")
-on_pressed = true
+start_trigger_source = NodePath("../../Button")
+start_on_pressed = true
+stop_trigger_source = NodePath("..")
+override_pivot = 2
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
-[node name="Scale" type="Node" parent="HBoxContainer/MarginContainer/VBoxContainer/TextureRect" node_paths=PackedStringArray("target", "trigger_source")]
+[node name="Scale" type="Node" parent="HBoxContainer/MarginContainer/VBoxContainer/TextureRect" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("4_8g6td")
 target = NodePath("..")
 animation = SubResource("Resource_hqg0c")
 duration = 1.25
 loop_type = 2
-trigger_source = NodePath("../../Button")
-on_pressed = true
+start_trigger_source = NodePath("../../Button")
+start_on_pressed = true
+stop_trigger_source = NodePath("..")
+override_pivot = 2
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
