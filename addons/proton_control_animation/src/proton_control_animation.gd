@@ -224,12 +224,12 @@ func _ready() -> void:
 
 	var _err: int
 
-	if start_trigger_source is Button:
-		var button: Button = start_trigger_source as Button
+	if start_trigger_source is BaseButton:
+		var button: BaseButton = start_trigger_source as BaseButton
 		_err = button.pressed.connect(_on_start_trigger_pressed)
 
-	if stop_trigger_source is Button:
-		var button: Button = stop_trigger_source as Button
+	if stop_trigger_source is BaseButton:
+		var button: BaseButton = stop_trigger_source as BaseButton
 		_err = button.pressed.connect(_on_stop_trigger_pressed)
 
 	if start_trigger_source is Control:
