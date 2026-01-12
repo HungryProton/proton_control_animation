@@ -69,3 +69,8 @@ It's exactly the same as going to the signals panel and connecting the relevant 
 ## Method
 
 + **start()**: Call this method to play the animation.
+
+## Signals
+
++ **animation_started:** Emitted when the animation starts. This is emitted after the delay (if any), when the tween actually starts moving the UI.
++ **animation_finished:** Emitted when the animation ends. This is emitted once after all the loops are complete (if any).

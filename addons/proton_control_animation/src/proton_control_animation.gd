@@ -35,6 +35,9 @@ signal animation_started
 
 ## Emitted when the animation ends. This is emitted once after all the loops
 ## are complete (if any).
+signal animation_finished
+
+## Alias for animation_finished (For backward compatibility purposes)
 signal animation_ended
 
 
@@ -251,12 +254,12 @@ func _ready() -> void:
 	if start_trigger_source is ProtonControlAnimation:
 		var source_animation: ProtonControlAnimation = start_trigger_source as ProtonControlAnimation
 		_err = source_animation.animation_started.connect(_on_start_trigger_parent_animation_started)
-		_err = source_animation.animation_ended.connect(_on_start_trigger_parent_animation_ended)
+		_err = source_animation.animation_finished.connect(_on_start_trigger_parent_animation_finished)
 
 	if stop_trigger_source is ProtonControlAnimation:
 		var source_animation: ProtonControlAnimation = stop_trigger_source as ProtonControlAnimation
 		_err = source_animation.animation_started.connect(_on_stop_trigger_parent_animation_started)
-		_err = source_animation.animation_ended.connect(_on_stop_trigger_parent_animation_ended)
+		_err = source_animation.animation_finished.connect(_on_stop_trigger_parent_animation_finished)
 
 	_connect_custom_signal(start_trigger_source, start_custom_signal, start)
 	_connect_custom_signal(stop_trigger_source, stop_custom_signal, stop)
@@ -397,7 +400,7 @@ func _update_custom_signal_export(property: Dictionary, trigger_source: Node) ->
 
 ## Plays the animation.
 ## Directly call this method or connect it to a signal.
-func start() -> void:
+func play() -> void:
 	if Engine.is_editor_hint():
 		return
 
@@ -408,6 +411,11 @@ func start() -> void:
 
 	_started = true
 	_start_deferred.call_deferred()
+
+
+## Alias for play() - For backward compatibility purposes
+func start() -> void:
+	play()
 
 
 func stop() -> void:
@@ -462,7 +470,8 @@ func _start_deferred() -> void:
 
 	clear()
 	_started = false
-	animation_ended.emit()
+	animation_finished.emit()
+	animation_ended.emit() # Backward compatibility
 
 	if _restart_queued:
 		_restart_queued = false
@@ -637,12 +646,12 @@ func _on_stop_trigger_parent_animation_started() -> void:
 		stop()
 
 
-func _on_start_trigger_parent_animation_ended() -> void:
+func _on_start_trigger_parent_animation_finished() -> void:
 	if start_on_animation_end:
 		start()
 
 
-func _on_stop_trigger_parent_animation_ended() -> void:
+func _on_stop_trigger_parent_animation_finished() -> void:
 	if stop_on_animation_end:
 		stop()
 
@@ -686,7 +695,7 @@ static func hide(control: Control) -> void:
 			else:
 				i += 1
 		if not hide_animations.is_empty():
-			await hide_animations[0].animation_ended
+			await hide_animations[0].animation_finished
 			hide_animations.pop_front()
 
 	# Actually hide the control
