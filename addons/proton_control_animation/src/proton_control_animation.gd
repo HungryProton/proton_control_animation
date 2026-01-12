@@ -60,12 +60,13 @@ enum StopBehavior {
 ## The control node that will be animated
 @export var target: Control:
 	set(val):
+		var old_target: Control = target
 		target = val
 		if not target:
 			target = get_parent()
-		if not start_trigger_source:
+		if not start_trigger_source or start_trigger_source == old_target:
 			start_trigger_source = target
-		if not stop_trigger_source:
+		if not stop_trigger_source or stop_trigger_source == old_target:
 			stop_trigger_source = target
 		notify_property_list_changed()
 

@@ -24,27 +24,40 @@ func _ready() -> void:
 	if not parent is ProtonControlAnimation:
 		return
 
+	# It's possible to manually connect signals to the start and stop functions
+	# on the animation node. If the original target has these kind of connections
+	# they need to be duplicated on the copies as well.
+	var animation_node: ProtonControlAnimation = parent
+	var original_target: Control = animation_node.target
+	var signals_to_duplicate: Array[Dictionary] = []
+
+	for signal_data: Dictionary in original_target.get_signal_list():
+		var signal_name: StringName = signal_data.name
+		for connection: Dictionary in original_target.get_signal_connection_list(signal_name):
+			var callable: Callable = connection["callable"]
+			var s: Signal = connection["signal"]
+			if callable.get_object() == animation_node:
+				signals_to_duplicate.push_back({"signal": s.get_name(), "method": callable.get_method()})
+
 	# For each extra target, duplicate the original animation node and assign.
 	for extra_target: Control in extra_targets:
 		if not is_instance_valid(extra_target):
 			push_warning("Extra target is not assigned")
 			continue
-		var copy: ProtonControlAnimation = parent.duplicate()
+		var copy: ProtonControlAnimation = animation_node.duplicate()
 		# Remove all the children in the duplicate, or this Copy node will be duplicated too
 		# and will run this logic again in an infinite loop on ready.
 		for child: Node in copy.get_children():
 			copy.remove_child(child)
 			child.queue_free()
 
-		# Make sure the events are fired from the extra targets instead
-		# of being fired from the original node, unless the trigger source is
-		# explicitely set as a different node from the original target.
-		if copy.target:
-			if copy.start_trigger_source == copy.target:
-				copy.start_trigger_source = extra_target
-			if copy.stop_trigger_source == copy.target:
-				copy.stop_trigger_source = extra_target
-
-		# Update the animation target
+		# Update the animation target & connections
 		copy.target = extra_target
+		for signal_data: Dictionary in signals_to_duplicate:
+			var signal_name: String = signal_data.signal
+			var method_name: String = signal_data.method
+			var err: Error = extra_target.connect(signal_name, copy.call.bind(method_name))
+			if err != OK:
+				printerr("Could not connect ", signal_name, " to ", method_name, " on object ", copy)
+
 		parent.add_child.call_deferred(copy)
