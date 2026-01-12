@@ -27,3 +27,12 @@ See `03_copies.tscn` and `04_copies_with_the_same_event_source.tscn` for example
 
 - An array of control nodes that will also be affected by the animation.
 - The `ProtonControlAnimation` node is duplicated for each of these nodes.
+
+## Methods
+
+- **play_all(include_original: bool = true):**
+	+ Play all the duplicated animations at once.
+	+ If include_original is true, the source animation is played as well.
+- **stop_all(include_original: bool = true):**
+	+ Stop all the duplicated animations at once
+	+ If include_original is true, the source animation is stopped as well.
