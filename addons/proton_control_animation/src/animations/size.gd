@@ -10,28 +10,42 @@ enum SizeType {CURRENT_SIZE, ORIGINAL_SIZE, ABSOLUTE_SIZE, RELATIVE_SIZE}
 	set(val):
 		from = val
 		notify_property_list_changed()
+		changed.emit()
 
 ## This will override the control's `size` property when the animation starts.
 ## Only applicable if `from == ABSOLUTE_SCALE`
-@export var from_absolute_size: Vector2
+@export var from_absolute_size: Vector2:
+	set(val):
+		from_absolute_size = val
+		changed.emit()
 
 ## The control's current size will be multiplied by `from_relative_size` when the animation starts.
 ## Only applicable if `from == RELATIVE_SIZE`
-@export var from_relative_size: Vector2
+@export var from_relative_size: Vector2:
+	set(val):
+		from_relative_size = val
+		changed.emit()
 
 ## The control's size at the end of the animation.
 @export var to: SizeType:
 	set(val):
 		to = val
 		notify_property_list_changed()
+		changed.emit()
 
 ## At the end of the animation, the control's size will be equal to `to_absolute_size`.
 ## Only applicable if `to == ABSOLUTE_SIZE`.
-@export var to_absolute_size: Vector2
+@export var to_absolute_size: Vector2:
+	set(val):
+		to_absolute_size = val
+		changed.emit()
 
 ## At the end of the animation, the control's `size` will be equal to `control.size * to_relative_size`.
 ## Only applicable if `to == RELATIVE_Size`
-@export var to_relative_size: Vector2
+@export var to_relative_size: Vector2:
+	set(val):
+		to_relative_size = val
+		changed.emit()
 
 
 ## Hide some exported variable when they are irrelevant to the current scale type.
@@ -102,3 +116,32 @@ func create_tween_reverse(animation: ProtonControlAnimation, target: Control) ->
 
 func reset(_animation: ProtonControlAnimation, target: Control) -> void:
 	target.size = target.get_meta(ProtonControlAnimation.META_ORIGINAL_SIZE, target.size)
+
+
+func get_warnings(target: Control) -> PackedStringArray:
+	var res: PackedStringArray = PackedStringArray()
+	var target_min_size: Vector2 = target.get_combined_minimum_size()
+
+	var start_size: Vector2 = -Vector2.ONE
+	if from == SizeType.ABSOLUTE_SIZE:
+		start_size = from_absolute_size
+	elif from == SizeType.RELATIVE_SIZE:
+		start_size = target.get_meta(ProtonControlAnimation.META_ORIGINAL_SIZE, target.size) * from_relative_size
+
+	if start_size != -Vector2.ONE:
+		if start_size.x < target_min_size.x or start_size.y < target_min_size.y:
+			@warning_ignore("return_value_discarded")
+			res.push_back("Size Animation: Starting size is smaller than the target control's minimum size")
+
+	var end_size: Vector2 = -Vector2.ONE
+	if to == SizeType.ABSOLUTE_SIZE:
+		end_size = to_absolute_size
+	elif to == SizeType.RELATIVE_SIZE:
+		end_size = target.get_meta(ProtonControlAnimation.META_ORIGINAL_SIZE, target.size) * to_relative_size
+
+	if end_size != -Vector2.ONE:
+		if start_size.x < target_min_size.x or start_size.y < target_min_size.y:
+			@warning_ignore("return_value_discarded")
+			res.push_back("Size Animation: End size is smaller than the target control's minimum size")
+
+	return res

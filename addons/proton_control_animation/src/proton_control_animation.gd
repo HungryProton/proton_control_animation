@@ -69,9 +69,19 @@ enum StopBehavior {
 		if not stop_trigger_source or stop_trigger_source == old_target:
 			stop_trigger_source = target
 		notify_property_list_changed()
+		update_configuration_warnings()
 
 ## The animation that plays on the target
-@export var animation: ProtonControlAnimationResource
+@export var animation: ProtonControlAnimationResource:
+	set(val):
+		if is_instance_valid(animation) and animation.changed.is_connected(_on_animation_changed):
+			animation.changed.disconnect(_on_animation_changed)
+		animation = val
+		if animation:
+			var err: int = animation.changed.connect(_on_animation_changed)
+			if err != OK:
+				push_error("PCA: Could not connect the animation changed signal")
+		update_configuration_warnings()
 
 ## How long the animation last, in seconds.
 ## This has priority over the `default_duration` property from the `animation` resource.
@@ -370,6 +380,22 @@ func _validate_property(property: Dictionary) -> void:
 	_update_inspector_visibility(property, "pivot_offset_override", override_pivot == PivotOverride.CUSTOM)
 
 
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings: PackedStringArray = PackedStringArray()
+	var _res: bool
+
+	if not target:
+		_res = warnings.push_back("No target control assigned ")
+
+	if not animation:
+		_res = warnings.push_back("This node requires an animation resource to work.")
+
+	if animation and target:
+		warnings.append_array(animation.get_warnings(target))
+
+	return warnings
+
+
 ## Call this from _validate_property() to quickly hide or show exported property depending on context.
 func _update_inspector_visibility(property: Dictionary, p_name: String, visible: bool) -> void:
 	if property.name == p_name:
@@ -562,6 +588,10 @@ func _validate_pivot() -> void:
 
 
 #region callbacks
+
+func _on_animation_changed() -> void:
+	update_configuration_warnings()
+
 
 func _on_start_trigger_visibility_changed() -> void:
 	if target.get_meta(META_IGNORE_VISIBILITY_TRIGGERS, false):

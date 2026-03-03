@@ -49,6 +49,12 @@ func get_duration(animation: ProtonControlAnimation) -> float:
 	return default_duration
 
 
+## Override in child classes
+## Returns a list of warnings if the animation is not properly set up
+func get_warnings(_target: Control) -> PackedStringArray:
+	return PackedStringArray()
+
+
 ## Call this from _validate_property() to quickly hide or show exported property depending on context.
 func _update_inspector_visibility(property: Dictionary, name: String, visible: bool) -> void:
 	if property.name == name:
