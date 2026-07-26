@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bids68j2851ci"]
+[gd_scene format=3 uid="uid://bids68j2851ci"]
 
 [ext_resource type="Theme" uid="uid://xjn6s723t6oi" path="res://addons/proton_control_animation/examples/theme/pca_theme.tres" id="1_g74bu"]
 [ext_resource type="Texture2D" uid="uid://dc42tvb8iytlu" path="res://addons/proton_control_animation/examples/theme/assets/panel-000.png" id="3_gq1br"]
@@ -28,7 +28,7 @@ to = 2
 to_absolute_scale = Vector2(1.2, 1.2)
 metadata/_custom_type_script = "uid://bi4omyv2xson"
 
-[node name="ParallelAnimations" type="Control"]
+[node name="ParallelAnimations" type="Control" unique_id=160516399]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -37,7 +37,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_g74bu")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1755159831]
 custom_minimum_size = Vector2(600, 0)
 layout_mode = 1
 anchors_preset = -1
@@ -50,7 +50,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 24
 
-[node name="RichTextLabel" type="RichTextLabel" parent="HBoxContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="HBoxContainer" unique_id=2055864070]
 layout_mode = 2
 size_flags_horizontal = 3
 bbcode_enabled = true
@@ -61,23 +61,23 @@ Here, the position, rotation and scale are modified through 3 different animatio
 If you were to add another animation that affects the position, the last one would take priority and override the first slide animation."
 vertical_alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer" unique_id=1161740874]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/MarginContainer" unique_id=1763314213]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="HBoxContainer/MarginContainer/VBoxContainer"]
+[node name="Button" type="Button" parent="HBoxContainer/MarginContainer/VBoxContainer" unique_id=1172839958]
 layout_mode = 2
 text = "Press me"
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/MarginContainer/VBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/MarginContainer/VBoxContainer" unique_id=39820986]
 layout_mode = 2
 texture = ExtResource("3_gq1br")
 expand_mode = 5
 stretch_mode = 5
 
-[node name="MoveDown" type="Node" parent="HBoxContainer/MarginContainer/VBoxContainer/TextureRect" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
+[node name="MoveDown" type="Node" parent="HBoxContainer/MarginContainer/VBoxContainer/TextureRect" unique_id=547961408 node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("4_8g6td")
 target = NodePath("..")
 animation = SubResource("Resource_pe4tu")
@@ -88,7 +88,7 @@ start_on_pressed = true
 stop_trigger_source = NodePath("..")
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
-[node name="Rotate" type="Node" parent="HBoxContainer/MarginContainer/VBoxContainer/TextureRect" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
+[node name="Rotate" type="Node" parent="HBoxContainer/MarginContainer/VBoxContainer/TextureRect" unique_id=2030287979 node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("4_8g6td")
 target = NodePath("..")
 animation = SubResource("Resource_3losx")
@@ -100,7 +100,7 @@ stop_trigger_source = NodePath("..")
 override_pivot = 2
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
-[node name="Scale" type="Node" parent="HBoxContainer/MarginContainer/VBoxContainer/TextureRect" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
+[node name="Scale" type="Node" parent="HBoxContainer/MarginContainer/VBoxContainer/TextureRect" unique_id=2117312788 node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("4_8g6td")
 target = NodePath("..")
 animation = SubResource("Resource_hqg0c")

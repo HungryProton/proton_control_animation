@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://c61o35vgxr87y"]
+[gd_scene format=3 uid="uid://c61o35vgxr87y"]
 
 [ext_resource type="Theme" uid="uid://xjn6s723t6oi" path="res://addons/proton_control_animation/examples/theme/pca_theme.tres" id="1_3pka8"]
 [ext_resource type="Script" uid="uid://b4hvmk8t0qkgu" path="res://addons/proton_control_animation/src/proton_control_animation.gd" id="3_iaavb"]
@@ -28,7 +28,7 @@ easing = 1
 default_duration = 0.07000000000698492
 metadata/_custom_type_script = "uid://bsufjcw4lsn2a"
 
-[node name="Triggers" type="MarginContainer"]
+[node name="Triggers" type="MarginContainer" unique_id=2019594967]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -36,18 +36,18 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_3pka8")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=334276674]
 custom_minimum_size = Vector2(600, 0)
 layout_mode = 2
 theme_override_constants/separation = 24
 alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=49477029]
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="RichTextLabel" type="RichTextLabel" parent="HBoxContainer/VBoxContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="HBoxContainer/VBoxContainer" unique_id=286142880]
 layout_mode = 2
 size_flags_horizontal = 3
 bbcode_enabled = true
@@ -58,17 +58,17 @@ These properties are simply shortcuts to the most common signals.
 fit_content = true
 vertical_alignment = 1
 
-[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/VBoxContainer" unique_id=2079033239]
 custom_minimum_size = Vector2(150, 120)
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/PanelContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/PanelContainer" unique_id=1793691469]
 layout_mode = 2
 text = "Hover me"
 horizontal_alignment = 1
 
-[node name="ScaleUp" type="Node" parent="HBoxContainer/VBoxContainer/PanelContainer" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
+[node name="ScaleUp" type="Node" parent="HBoxContainer/VBoxContainer/PanelContainer" unique_id=1110758236 node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("3_iaavb")
 target = NodePath("..")
 animation = SubResource("Resource_irfdr")
@@ -79,7 +79,7 @@ stop_trigger_source = NodePath("..")
 override_pivot = 2
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
-[node name="ScaleDown" type="Node" parent="HBoxContainer/VBoxContainer/PanelContainer" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
+[node name="ScaleDown" type="Node" parent="HBoxContainer/VBoxContainer/PanelContainer" unique_id=9017294 node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("3_iaavb")
 target = NodePath("..")
 animation = SubResource("Resource_k4ckn")
@@ -90,16 +90,16 @@ stop_trigger_source = NodePath("..")
 override_pivot = 2
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
-[node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer" unique_id=234954765]
 layout_mode = 2
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer" unique_id=610277015]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 24
 alignment = 1
 
-[node name="RichTextLabel" type="RichTextLabel" parent="HBoxContainer/VBoxContainer2"]
+[node name="RichTextLabel" type="RichTextLabel" parent="HBoxContainer/VBoxContainer2" unique_id=524796693]
 layout_mode = 2
 size_flags_horizontal = 3
 bbcode_enabled = true
@@ -114,11 +114,11 @@ Whenever this signal is emitted, the animation will play."
 fit_content = true
 vertical_alignment = 1
 
-[node name="LineEdit" type="LineEdit" parent="HBoxContainer/VBoxContainer2"]
+[node name="LineEdit" type="LineEdit" parent="HBoxContainer/VBoxContainer2" unique_id=1440174106]
 layout_mode = 2
 placeholder_text = "Type in here!"
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer2"]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer2" unique_id=359448612]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -126,7 +126,7 @@ texture = ExtResource("5_6sdpr")
 expand_mode = 1
 stretch_mode = 4
 
-[node name="ShakeAnimation" type="Node" parent="HBoxContainer/VBoxContainer2/TextureRect" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
+[node name="ShakeAnimation" type="Node" parent="HBoxContainer/VBoxContainer2/TextureRect" unique_id=1609425010 node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("3_iaavb")
 target = NodePath("..")
 animation = SubResource("Resource_3l0qa")
@@ -137,7 +137,7 @@ start_trigger_source = NodePath("..")
 stop_trigger_source = NodePath("..")
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
-[node name="RichTextLabel2" type="RichTextLabel" parent="HBoxContainer/VBoxContainer2"]
+[node name="RichTextLabel2" type="RichTextLabel" parent="HBoxContainer/VBoxContainer2" unique_id=534436350]
 layout_mode = 2
 size_flags_horizontal = 3
 bbcode_enabled = true

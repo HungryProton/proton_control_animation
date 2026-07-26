@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://1skehu7cnue7"]
+[gd_scene format=3 uid="uid://1skehu7cnue7"]
 
 [ext_resource type="Theme" uid="uid://xjn6s723t6oi" path="res://addons/proton_control_animation/examples/theme/pca_theme.tres" id="1_ehixa"]
 [ext_resource type="Texture2D" uid="uid://dc42tvb8iytlu" path="res://addons/proton_control_animation/examples/theme/assets/panel-000.png" id="3_cs2f7"]
@@ -34,7 +34,7 @@ to_local_offset = Vector2(0, -200)
 easing = 1
 metadata/_custom_type_script = "uid://bsufjcw4lsn2a"
 
-[node name="ParallelAnimations" type="MarginContainer"]
+[node name="ParallelAnimations" type="MarginContainer" unique_id=1009381231]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -42,17 +42,17 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_ehixa")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=662905963]
 custom_minimum_size = Vector2(600, 0)
 layout_mode = 2
 theme_override_constants/separation = 24
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=898545396]
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="RichTextLabel" type="RichTextLabel" parent="HBoxContainer/VBoxContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="HBoxContainer/VBoxContainer" unique_id=1858096066]
 layout_mode = 2
 size_flags_horizontal = 3
 bbcode_enabled = true
@@ -66,19 +66,19 @@ I need to make a proper chain node for that use case later."
 fit_content = true
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer"]
+[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer" unique_id=2047680361]
 layout_mode = 2
 text = "Press me"
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer" unique_id=667888614]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/MarginContainer" unique_id=387692545]
 layout_mode = 2
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/MarginContainer/VBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/MarginContainer/VBoxContainer" unique_id=873411505]
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -87,7 +87,7 @@ texture = ExtResource("3_cs2f7")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="SlideRight" type="Node" parent="HBoxContainer/MarginContainer/VBoxContainer/TextureRect" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
+[node name="SlideRight" type="Node" parent="HBoxContainer/MarginContainer/VBoxContainer/TextureRect" unique_id=1153514628 node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("4_7ewq4")
 target = NodePath("..")
 animation = SubResource("Resource_pe4tu")
@@ -97,7 +97,7 @@ start_on_pressed = true
 stop_trigger_source = NodePath("..")
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
-[node name="SlideDown" type="Node" parent="HBoxContainer/MarginContainer/VBoxContainer/TextureRect" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
+[node name="SlideDown" type="Node" parent="HBoxContainer/MarginContainer/VBoxContainer/TextureRect" unique_id=672865651 node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("4_7ewq4")
 target = NodePath("..")
 animation = SubResource("Resource_d85cn")
@@ -108,7 +108,7 @@ start_on_animation_end = true
 stop_trigger_source = NodePath("..")
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
-[node name="SlideLeft" type="Node" parent="HBoxContainer/MarginContainer/VBoxContainer/TextureRect" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
+[node name="SlideLeft" type="Node" parent="HBoxContainer/MarginContainer/VBoxContainer/TextureRect" unique_id=1024398345 node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("4_7ewq4")
 target = NodePath("..")
 animation = SubResource("Resource_rpq7j")
@@ -119,7 +119,7 @@ start_on_animation_end = true
 stop_trigger_source = NodePath("..")
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
-[node name="SlideUp" type="Node" parent="HBoxContainer/MarginContainer/VBoxContainer/TextureRect" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
+[node name="SlideUp" type="Node" parent="HBoxContainer/MarginContainer/VBoxContainer/TextureRect" unique_id=34421109 node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("4_7ewq4")
 target = NodePath("..")
 animation = SubResource("Resource_ehixa")

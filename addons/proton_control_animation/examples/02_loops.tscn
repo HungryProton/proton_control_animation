@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dyqoum2s8vjtd"]
+[gd_scene format=3 uid="uid://dyqoum2s8vjtd"]
 
 [ext_resource type="Theme" uid="uid://xjn6s723t6oi" path="res://addons/proton_control_animation/examples/theme/pca_theme.tres" id="1_jh8lk"]
 [ext_resource type="Script" uid="uid://b4hvmk8t0qkgu" path="res://addons/proton_control_animation/src/proton_control_animation.gd" id="2_07bcj"]
@@ -40,7 +40,7 @@ to_absolute_rotation = 360.0
 transition = 0
 metadata/_custom_type_script = "uid://ciccapc76ic3k"
 
-[node name="LoopExample" type="Control"]
+[node name="LoopExample" type="Control" unique_id=2104871903]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -49,7 +49,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_jh8lk")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=805965146]
 layout_mode = 1
 anchors_preset = 13
 anchor_left = 0.5
@@ -60,7 +60,7 @@ grow_vertical = 2
 theme_override_constants/separation = 24
 alignment = 1
 
-[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer" unique_id=341009164]
 layout_mode = 2
 bbcode_enabled = true
 text = "If  [b]LoopType [/b] is set to something other than `None`, the animation will play again automatically for as many times as defined by [b]LoopCount[/b].
@@ -74,21 +74,21 @@ text = "If  [b]LoopType [/b] is set to something other than `None`, the animatio
 If [b]Infinite Loop[/b] is enabled, the animation will play forever until a [i]Stop Trigger[/i] is activated."
 fit_content = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=680361371]
 layout_mode = 2
 theme_override_constants/separation = 64
 
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/HBoxContainer" unique_id=2123139744]
 custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer" unique_id=1920416805]
 layout_mode = 2
 text = "Slide"
 horizontal_alignment = 1
 
-[node name="SlideAnimation" type="Node" parent="VBoxContainer/HBoxContainer/PanelContainer" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
+[node name="SlideAnimation" type="Node" parent="VBoxContainer/HBoxContainer/PanelContainer" unique_id=951546631 node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("2_07bcj")
 target = NodePath("..")
 animation = SubResource("Resource_j6uly")
@@ -100,17 +100,17 @@ start_on_hover_start = true
 stop_trigger_source = NodePath("..")
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
-[node name="PanelContainer2" type="PanelContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="PanelContainer2" type="PanelContainer" parent="VBoxContainer/HBoxContainer" unique_id=1213230130]
 custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer2"]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer2" unique_id=1161536634]
 layout_mode = 2
 text = "Fade"
 horizontal_alignment = 1
 
-[node name="FadeAnimation" type="Node" parent="VBoxContainer/HBoxContainer/PanelContainer2" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
+[node name="FadeAnimation" type="Node" parent="VBoxContainer/HBoxContainer/PanelContainer2" unique_id=788951931 node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("2_07bcj")
 target = NodePath("..")
 animation = SubResource("Resource_u2rf8")
@@ -122,16 +122,16 @@ start_on_hover_start = true
 stop_trigger_source = NodePath("..")
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
-[node name="PanelContainer3" type="PanelContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="PanelContainer3" type="PanelContainer" parent="VBoxContainer/HBoxContainer" unique_id=1372441349]
 custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer3"]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer3" unique_id=821054561]
 layout_mode = 2
 text = "Scale"
 horizontal_alignment = 1
 
-[node name="ScaleAnimation" type="Node" parent="VBoxContainer/HBoxContainer/PanelContainer3" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
+[node name="ScaleAnimation" type="Node" parent="VBoxContainer/HBoxContainer/PanelContainer3" unique_id=1165873059 node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("2_07bcj")
 target = NodePath("..")
 animation = SubResource("Resource_x8am6")
@@ -143,7 +143,7 @@ stop_trigger_source = NodePath("..")
 override_pivot = 2
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer" unique_id=776807273]
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -152,7 +152,7 @@ texture = ExtResource("6_u2rf8")
 expand_mode = 2
 stretch_mode = 5
 
-[node name="SpinAnimation" type="Node" parent="VBoxContainer/TextureRect" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
+[node name="SpinAnimation" type="Node" parent="VBoxContainer/TextureRect" unique_id=839899152 node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("2_07bcj")
 target = NodePath("..")
 animation = SubResource("Resource_ca07r")
@@ -167,7 +167,7 @@ stop_on_hover_start = true
 override_pivot = 2
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=1806226978]
 layout_mode = 2
 text = "Hover me!"
 horizontal_alignment = 1

@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=10 format=3 uid="uid://xjn6s723t6oi"]
+[gd_resource type="Theme" format=3 uid="uid://xjn6s723t6oi"]
 
 [ext_resource type="Texture2D" uid="uid://bw2tyff1dwdtt" path="res://addons/proton_control_animation/examples/theme/assets/panel-border-013.png" id="1_j60tx"]
 [ext_resource type="Texture2D" uid="uid://b32bfsv75aw25" path="res://addons/proton_control_animation/examples/theme/assets/panel-transparent-border-000.png" id="1_o0f4b"]

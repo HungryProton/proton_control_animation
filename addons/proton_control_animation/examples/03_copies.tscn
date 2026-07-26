@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cb6du2j8deuwl"]
+[gd_scene format=3 uid="uid://cb6du2j8deuwl"]
 
 [ext_resource type="Theme" uid="uid://xjn6s723t6oi" path="res://addons/proton_control_animation/examples/theme/pca_theme.tres" id="1_6hoxo"]
 [ext_resource type="Script" uid="uid://b4hvmk8t0qkgu" path="res://addons/proton_control_animation/src/proton_control_animation.gd" id="2_mmri4"]
@@ -22,7 +22,7 @@ easing = 1
 default_duration = 0.25
 metadata/_custom_type_script = "uid://bi4omyv2xson"
 
-[node name="CopyExample" type="Control"]
+[node name="CopyExample" type="Control" unique_id=2094576472]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -31,7 +31,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_6hoxo")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1554720055]
 custom_minimum_size = Vector2(700, 0)
 layout_mode = 1
 anchors_preset = -1
@@ -46,7 +46,7 @@ offset_bottom = 213.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="RichTextLabel" parent="HBoxContainer"]
+[node name="Label" type="RichTextLabel" parent="HBoxContainer" unique_id=1137878328]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.5
@@ -59,53 +59,52 @@ The Copy node below the animation defines additional targets (the other buttons)
 autowrap_mode = 2
 vertical_alignment = 1
 
-[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer" unique_id=537683985]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PanelContainer" unique_id=893525882]
 layout_mode = 2
 
-[node name="Button1" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer"]
-layout_mode = 2
-text = "Button"
-
-[node name="Button2" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="Button1" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=2036047930]
 layout_mode = 2
 text = "Button"
 
-[node name="Button3" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="Button2" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=1661993226]
 layout_mode = 2
 text = "Button"
 
-[node name="Button4" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="Button3" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=165294608]
 layout_mode = 2
 text = "Button"
 
-[node name="Button5" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="Button4" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=1861123841]
 layout_mode = 2
 text = "Button"
 
-[node name="Button6" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="Button5" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=1298690758]
 layout_mode = 2
 text = "Button"
 
-[node name="ScaleButtonUpAnimation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
+[node name="Button6" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=422997285]
+layout_mode = 2
+text = "Button"
+
+[node name="ScaleButtonUpAnimation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=1829791496 node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("2_mmri4")
 target = NodePath("../Button1")
 animation = SubResource("Resource_mtifd")
 start_trigger_source = NodePath("../Button1")
-start_on_hover_start = true
 stop_trigger_source = NodePath("../Button1")
 override_pivot = 2
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
-[node name="ProtonControlCopyAnimation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer/ScaleButtonUpAnimation" node_paths=PackedStringArray("extra_targets")]
+[node name="ProtonControlCopyAnimation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer/ScaleButtonUpAnimation" unique_id=127891772 node_paths=PackedStringArray("extra_targets")]
 script = ExtResource("4_aybf1")
 extra_targets = [NodePath("../../Button2"), NodePath("../../Button3"), NodePath("../../Button4"), NodePath("../../Button5"), NodePath("../../Button6")]
 metadata/_custom_type_script = "uid://p8liavl4kvv8"
 
-[node name="ScaleButtonDownAnimation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
+[node name="ScaleButtonDownAnimation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=610438286 node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("2_mmri4")
 target = NodePath("../Button1")
 animation = SubResource("Resource_aybf1")
@@ -116,7 +115,9 @@ stop_trigger_source = NodePath("../Button1")
 override_pivot = 2
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
-[node name="ProtonControlCopyAnimation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer/ScaleButtonDownAnimation" node_paths=PackedStringArray("extra_targets")]
+[node name="ProtonControlCopyAnimation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer/ScaleButtonDownAnimation" unique_id=1259572870 node_paths=PackedStringArray("extra_targets")]
 script = ExtResource("4_aybf1")
 extra_targets = [NodePath("../../Button2"), NodePath("../../Button3"), NodePath("../../Button4"), NodePath("../../Button5"), NodePath("../../Button6")]
 metadata/_custom_type_script = "uid://p8liavl4kvv8"
+
+[connection signal="button_down" from="HBoxContainer/PanelContainer/VBoxContainer/Button1" to="HBoxContainer/PanelContainer/VBoxContainer/ScaleButtonUpAnimation" method="start"]

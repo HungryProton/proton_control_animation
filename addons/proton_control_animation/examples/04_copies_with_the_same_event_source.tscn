@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://glmo1tjc7a2q"]
+[gd_scene format=3 uid="uid://glmo1tjc7a2q"]
 
 [ext_resource type="Theme" uid="uid://xjn6s723t6oi" path="res://addons/proton_control_animation/examples/theme/pca_theme.tres" id="1_7k0r8"]
 [ext_resource type="Script" uid="uid://b4hvmk8t0qkgu" path="res://addons/proton_control_animation/src/proton_control_animation.gd" id="2_cna2p"]
@@ -28,7 +28,7 @@ easing = 1
 default_duration = 0.10000000000582077
 metadata/_custom_type_script = "uid://ciccapc76ic3k"
 
-[node name="CopyExample" type="Control"]
+[node name="CopyExample" type="Control" unique_id=1071924894]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -37,7 +37,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_7k0r8")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=2096454565]
 custom_minimum_size = Vector2(700, 0)
 layout_mode = 1
 anchors_preset = -1
@@ -52,7 +52,7 @@ offset_bottom = 213.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="RichTextLabel" parent="HBoxContainer"]
+[node name="Label" type="RichTextLabel" parent="HBoxContainer" unique_id=2113956400]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.5
@@ -65,78 +65,82 @@ Hover the button and notice how every label moves at once, unlike the previous e
 autowrap_mode = 2
 vertical_alignment = 1
 
-[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer" unique_id=1088508862]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PanelContainer" unique_id=1617152544]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 24
 alignment = 1
 
-[node name="Button" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="Button" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=1163256419]
 layout_mode = 2
 text = "Hover me"
 
-[node name="HSeparator" type="HSeparator" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="Button2" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=188603231]
+layout_mode = 2
+text = "Stop"
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=1627930022]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer"]
-layout_mode = 2
-text = "Dummy label"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label2" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=151556946]
 layout_mode = 2
 text = "Dummy label"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label3" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="Label2" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=191008138]
 layout_mode = 2
 text = "Dummy label"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label4" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="Label3" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=704080409]
 layout_mode = 2
 text = "Dummy label"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label5" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="Label4" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=44288538]
 layout_mode = 2
 text = "Dummy label"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label6" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="Label5" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=578161300]
 layout_mode = 2
 text = "Dummy label"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="WiggleTextAnimation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
+[node name="Label6" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=1813914393]
+layout_mode = 2
+text = "Dummy label"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WiggleTextAnimation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=97707699 node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("2_cna2p")
 target = NodePath("../Label")
 animation = SubResource("Resource_cna2p")
 loop_type = 2
-loop_count = 4
+loop_count = 40
 start_trigger_source = NodePath("../Button")
 start_on_hover_start = true
 stop_trigger_source = NodePath("../Label")
 override_pivot = 2
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
-[node name="ProtonControlCopyAnimation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer/WiggleTextAnimation" node_paths=PackedStringArray("extra_targets")]
+[node name="ProtonControlCopyAnimation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer/WiggleTextAnimation" unique_id=358122025 node_paths=PackedStringArray("extra_targets")]
 script = ExtResource("4_h6wfi")
 extra_targets = [NodePath("../../Label2"), NodePath("../../Label3"), NodePath("../../Label4"), NodePath("../../Label5"), NodePath("../../Label6")]
 metadata/_custom_type_script = "uid://p8liavl4kvv8"
 
-[node name="RestoreRotation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer" node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
+[node name="RestoreRotation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=282199747 node_paths=PackedStringArray("target", "start_trigger_source", "stop_trigger_source")]
 script = ExtResource("2_cna2p")
 target = NodePath("../Label")
 animation = SubResource("Resource_fgtbd")
@@ -148,7 +152,9 @@ start_on_animation_end = true
 stop_trigger_source = NodePath("../Label")
 metadata/_custom_type_script = "uid://b4hvmk8t0qkgu"
 
-[node name="ProtonControlCopyAnimation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer/RestoreRotation" node_paths=PackedStringArray("extra_targets")]
+[node name="ProtonControlCopyAnimation" type="Node" parent="HBoxContainer/PanelContainer/VBoxContainer/RestoreRotation" unique_id=1887318504 node_paths=PackedStringArray("extra_targets")]
 script = ExtResource("4_h6wfi")
 extra_targets = [NodePath("../../Label2"), NodePath("../../Label3"), NodePath("../../Label4"), NodePath("../../Label5"), NodePath("../../Label6")]
 metadata/_custom_type_script = "uid://p8liavl4kvv8"
+
+[connection signal="pressed" from="HBoxContainer/PanelContainer/VBoxContainer/Button2" to="HBoxContainer/PanelContainer/VBoxContainer/WiggleTextAnimation/ProtonControlCopyAnimation" method="stop_all"]
