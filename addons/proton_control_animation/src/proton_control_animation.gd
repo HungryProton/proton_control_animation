@@ -27,6 +27,10 @@ const META_ANIMATION_IN_PROGRESS: String = "pca_animation_in_progress"
 const META_HAS_UPDATER: String = "pca_metadata_updater"
 const META_HIDE_ANIMATIONS: String = "pca_hide_animations"
 const META_IGNORE_VISIBILITY_TRIGGERS: String = "pca_ignore_visibility_triggers"
+const META_ORIGINAL_OFFSET_TRANSFORM_POSITION: String = "pca_original_offset_transform_position"
+const META_ORIGINAL_OFFSET_TRANSFORM_POSITION_RATIO: String = "pca_original_offset_transform_position_ratio"
+const META_ORIGINAL_OFFSET_TRANSFORM_ROTATION: String = "pca_original_offset_transform_rotation"
+const META_ORIGINAL_OFFSET_TRANSFORM_SCALE: String = "pca_original_offset_transform_scale"
 
 
 ## Emitted when the animation starts. This is emitted after the delay (if any),
@@ -47,7 +51,7 @@ enum LoopType {
 	PING_PONG
 }
 
-enum PivotOverride {NONE, CUSTOM, CENTER,
+enum PivotOverride {NONE, CUSTOM, OFFSET_TRANSFORM, OFFSET_TRANSFORM_RATIO, CENTER,
 		CENTER_TOP, CENTER_BOTTOM, CENTER_LEFT, CENTER_RIGHT,
 		TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT}
 
@@ -222,7 +226,7 @@ enum StopBehavior {
 		notify_property_list_changed()
 
 ## Replaces the `pivot_offset` value in the target control.
-## Only applicable if `override_pivot == CUSTOM`
+## Only applicable if `override_pivot == CUSTOM` or 'OFFSET_TRANSFORM' or 'OFFSET_TRANSFORM_RATIO'
 @export var pivot_offset_override: Vector2 = Vector2.ZERO
 
 var _tween: Tween
@@ -377,7 +381,12 @@ func _validate_property(property: Dictionary) -> void:
 	_update_inspector_visibility(property, "stop_on_animation_end", stop_trigger_source is ProtonControlAnimation)
 
 	# Pivot
-	_update_inspector_visibility(property, "pivot_offset_override", override_pivot == PivotOverride.CUSTOM)
+	var is_pivot_offset_override_enabled = (
+		override_pivot == PivotOverride.CUSTOM
+		|| override_pivot == PivotOverride.OFFSET_TRANSFORM
+		|| override_pivot == PivotOverride.OFFSET_TRANSFORM_RATIO
+	)
+	_update_inspector_visibility(property, "pivot_offset_override", is_pivot_offset_override_enabled)
 
 
 func _get_configuration_warnings() -> PackedStringArray:
@@ -585,6 +594,16 @@ func _validate_pivot() -> void:
 
 		PivotOverride.BOTTOM_RIGHT:
 			target.pivot_offset = target.size
+
+		PivotOverride.OFFSET_TRANSFORM:
+			if ("offset_transform_enabled" in target && !target.offset_transform_enabled):
+				target.offset_transform_enabled = true
+			target.offset_transform_pivot = pivot_offset_override
+
+		PivotOverride.OFFSET_TRANSFORM_RATIO:
+			if ("offset_transform_enabled" in target && !target.offset_transform_enabled):
+				target.offset_transform_enabled = true
+			target.offset_transform_pivot_ratio = pivot_offset_override
 
 
 #region callbacks

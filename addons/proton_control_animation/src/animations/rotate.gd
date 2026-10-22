@@ -3,7 +3,7 @@ class_name PCA_RotateAnimation
 extends ProtonControlAnimationResource
 
 
-enum RotationType {CURRENT_ROTATION, ORIGINAL_ROTATION, ABSOLUTE_ROTATION, RELATIVE_ROTATION}
+enum RotationType {CURRENT_ROTATION, ORIGINAL_ROTATION, ABSOLUTE_ROTATION, RELATIVE_ROTATION, OFFSET_TRANSFORM}
 
 ## The control's rotation at the start of the animation.
 @export var from: RotationType:
@@ -19,6 +19,10 @@ enum RotationType {CURRENT_ROTATION, ORIGINAL_ROTATION, ABSOLUTE_ROTATION, RELAT
 ## Only applicable if `from == RELATIVE_ROTATION`
 @export var from_relative_rotation: float
 
+## Adds the value of `from_offset_transform_rotation` to the control's current offset_transform_rotation when the animation starts.
+## Only applicable if `from == OFFSET_TRANSFORM`
+@export var from_offset_transform_rotation: float
+
 ## The control's rotation at the end of the animation
 @export var to: RotationType:
 	set(val):
@@ -33,6 +37,10 @@ enum RotationType {CURRENT_ROTATION, ORIGINAL_ROTATION, ABSOLUTE_ROTATION, RELAT
 ## Only applicable if `to == RELATIVE_ROTATION`
 @export var to_relative_rotation: float
 
+## The control's `offset_transform_rotation` will be equal to `to_offset_transform_rotation` when the animation ends.
+## Only applicable if `to == OFFSET_TRANSFORM`
+@export var to_offset_transform_rotation: float
+
 ## If true, the values `from_absolute_rotation`, `from_relative_rotation`, `to_absolute_rotation` and `to_relative_rotation` are expressed in degrees.
 ## If false, they are expressed in radians.
 @export var rotation_in_degrees: bool = true
@@ -42,15 +50,18 @@ enum RotationType {CURRENT_ROTATION, ORIGINAL_ROTATION, ABSOLUTE_ROTATION, RELAT
 func _validate_property(property: Dictionary) -> void:
 	_update_inspector_visibility(property, "from_absolute_rotation", from == RotationType.ABSOLUTE_ROTATION)
 	_update_inspector_visibility(property, "from_relative_rotation", from == RotationType.RELATIVE_ROTATION)
+	_update_inspector_visibility(property, "from_offset_transform_rotation", from == RotationType.OFFSET_TRANSFORM)
 	_update_inspector_visibility(property, "to_absolute_rotation", to == RotationType.ABSOLUTE_ROTATION)
 	_update_inspector_visibility(property, "to_relative_rotation", to == RotationType.RELATIVE_ROTATION)
+	_update_inspector_visibility(property, "to_offset_transform_rotation", to == RotationType.OFFSET_TRANSFORM)
 
 	# Hide the rotation_in_degrees if no angle field is visible
-	var keys: Array = [RotationType.ABSOLUTE_ROTATION, RotationType.RELATIVE_ROTATION]
+	var keys: Array = [RotationType.ABSOLUTE_ROTATION, RotationType.RELATIVE_ROTATION, RotationType.OFFSET_TRANSFORM]
 	_update_inspector_visibility(property, "rotation_in_degrees", from in keys or to in keys)
 
 
 func create_tween(animation: ProtonControlAnimation, target: Control) -> Tween:
+	var property: String = &"rotation"
 	var original_rotation: float = target.get_meta(ProtonControlAnimation.META_ORIGINAL_ROTATION, target.rotation)
 
 	# Set the target rotation
@@ -70,7 +81,14 @@ func create_tween(animation: ProtonControlAnimation, target: Control) -> Tween:
 				final_rotation = target.rotation + deg_to_rad(to_relative_rotation)
 			else:
 				final_rotation = target.rotation + to_relative_rotation
+		RotationType.OFFSET_TRANSFORM:
+			property = &"offset_transform_rotation"
+			if rotation_in_degrees:
+				final_rotation = deg_to_rad(to_offset_transform_rotation)
+			else:
+				final_rotation = to_offset_transform_rotation
 
+	var start_rotation: float = target.rotation
 	# Set the initial control position
 	match from:
 		RotationType.CURRENT_ROTATION:
@@ -87,23 +105,38 @@ func create_tween(animation: ProtonControlAnimation, target: Control) -> Tween:
 				target.rotation = target.rotation + deg_to_rad(from_relative_rotation)
 			else:
 				target.rotation = target.rotation + from_relative_rotation
+		RotationType.OFFSET_TRANSFORM:
+			property = &"offset_transform_rotation"
+			if rotation_in_degrees:
+				target.offset_transform_rotation = deg_to_rad(from_offset_transform_rotation)
+			else:
+				target.offset_transform_rotation = from_offset_transform_rotation
+			start_rotation = target.offset_transform_rotation
 
-	_cache(target, "start_rotation", target.rotation)
+	_cache(target, "start_rotation", start_rotation)
 	var tween: Tween = animation.create_tween().set_ease(easing).set_trans(transition)
 	@warning_ignore("return_value_discarded")
-	tween.tween_property(target, "rotation", final_rotation, get_duration(animation))
+	tween.tween_property(target, property, final_rotation, get_duration(animation))
 
 	return tween
 
 
 func create_tween_reverse(animation: ProtonControlAnimation, target: Control) -> Tween:
-	var start_rotation: float = _get_cached(target, "start_rotation", target.rotation)
+	var default_fallback: float = target.rotation
+	var property: String = &"rotation"
+	if from == RotationType.OFFSET_TRANSFORM || to == RotationType.OFFSET_TRANSFORM:
+		default_fallback = target.offset_transform_rotation
+		property = &"offset_transform_rotation"
+	
+	var start_rotation: float = _get_cached(target, "start_rotation", default_fallback)
 	var tween: Tween = animation.create_tween().set_ease(easing).set_trans(transition)
 	@warning_ignore("return_value_discarded")
-	tween.tween_property(target, "rotation", start_rotation, get_duration(animation))
+	tween.tween_property(target, property, start_rotation, get_duration(animation))
 
 	return tween
 
 
 func reset(_animation: ProtonControlAnimation, target: Control) -> void:
 	target.rotation = target.get_meta(ProtonControlAnimation.META_ORIGINAL_ROTATION, target.rotation)
+	if "offset_transform_rotation" in target:
+		target.offset_transform_rotation = target.get_meta(ProtonControlAnimation.META_ORIGINAL_OFFSET_TRANSFORM_ROTATION, target.offset_transform_rotation)

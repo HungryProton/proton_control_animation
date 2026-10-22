@@ -51,6 +51,11 @@ func _update_metadata(full_state: bool = false) -> void:
 		target.set_meta(ProtonControlAnimation.META_ORIGINAL_MODULATE, target.modulate)
 		target.set_meta(ProtonControlAnimation.META_ORIGINAL_SELF_MODULATE, target.self_modulate)
 		target.set_meta(ProtonControlAnimation.META_ORIGINAL_SIZE, target.size)
+		target.set_meta(ProtonControlAnimation.META_ORIGINAL_OFFSET_TRANSFORM_POSITION, target.offset_transform_position)
+		target.set_meta(ProtonControlAnimation.META_ORIGINAL_OFFSET_TRANSFORM_POSITION_RATIO, target.offset_transform_position_ratio)
+		target.set_meta(ProtonControlAnimation.META_ORIGINAL_OFFSET_TRANSFORM_ROTATION, target.offset_transform_rotation)
+		target.set_meta(ProtonControlAnimation.META_ORIGINAL_OFFSET_TRANSFORM_SCALE, target.offset_transform_scale)
+
 	updated.emit()
 
 
